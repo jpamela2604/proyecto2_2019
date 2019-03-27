@@ -1,5 +1,6 @@
 const ts_manager = require("./mng_ts/ts_manager.js");
 const traducir=require("./coline/traducir.js");
+const dibujar =require("./coline/dibujar.js");
 //const oa_suma=require("./coline/compilador/oa_suma.js");
 //const o_valorPuntual=require("./coline/compilador/o_valorPuntual.js");
 const vari = require("./var.js");
@@ -31,3 +32,5 @@ for (x=0;x<lista.length;x++)
 {
     lista[x].traducir(tabla,trad);
 }
+
+dibujar.GenerarArbol(lista[0].getTree());

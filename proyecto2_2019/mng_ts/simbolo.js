@@ -1,11 +1,15 @@
+
 class simbolo{
-    constructor(descripcion,linea,columna,archivo,tipo)
+    constructor(id,rol,posicion,ambito,size,dimensiones,tipo,visibilidad)
     {
-        this.descripcion=descripcion;
-        this.linea=linea;
-        this.columna=columna;
-        this.archivo=archivo;
+        this.id=id;
+        this.rol=rol;
+        this.posicion=posicion;
+        this.ambito=ambito;
+        this.size=size;
+        this.dimensiones=dimensiones;
         this.tipo=tipo;
+        this.visibilidad=visibilidad;
     }
 }
 

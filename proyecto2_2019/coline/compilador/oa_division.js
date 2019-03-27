@@ -1,4 +1,5 @@
 const valores = require("../values_manager.js");
+var nodoArbol =require("../nodoArbol.js");
 class oa_division{
     constructor(op1,op2,linea,columna,archivo,hash) 
     {
@@ -9,7 +10,13 @@ class oa_division{
         this.archivo=archivo;
         this.hash=hash;
     }
-
+    getTree()
+    {
+        var raiz =new nodoArbol("/",this.hash);
+        raiz.agregarHijo(this.op1.getTree());
+        raiz.agregarHijo(this.op2.getTree());
+        return raiz;
+    }
     traducir(ts,traductor)
     {
         var temporal=valores.getTemporal();

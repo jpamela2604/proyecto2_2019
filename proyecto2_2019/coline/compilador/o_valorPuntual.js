@@ -1,3 +1,4 @@
+var nodoArbol =require("../nodoArbol.js");
 class o_valorPuntual{
     constructor(valor,linea,columna,archivo,hash) 
     {
@@ -7,7 +8,10 @@ class o_valorPuntual{
         this.archivo=archivo;
         this.hash=hash;
     }
-
+    getTree()
+    {
+        return new nodoArbol(this.valor,this.hash);
+    }
     traducir(ts,traductor)
     {
         return this.valor;

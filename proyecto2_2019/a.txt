@@ -1,0 +1,14 @@
+digraph lista{ rankdir=TB;node [shape = box, style=rounded]; nodo7[label="+ ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo3[label="- ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo1[label="2 ", fillcolor="orange", style ="filled", shape="circle"]; 
+"nodo3"-> "nodo1" 
+nodo2[label="8 ", fillcolor="orange", style ="filled", shape="circle"]; 
+"nodo3"-> "nodo2" 
+"nodo7"-> "nodo3" 
+nodo6[label="* ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo4[label="5 ", fillcolor="orange", style ="filled", shape="circle"]; 
+"nodo6"-> "nodo4" 
+nodo5[label="3 ", fillcolor="orange", style ="filled", shape="circle"]; 
+"nodo6"-> "nodo5" 
+"nodo7"-> "nodo6" 
+}
