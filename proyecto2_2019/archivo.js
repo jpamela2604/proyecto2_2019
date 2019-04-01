@@ -1,12 +1,13 @@
 const ts_manager = require("./mng_ts/ts_manager.js");
 const traducir=require("./coline/traducir.js");
 const dibujar =require("./coline/dibujar.js");
+const error_manager=require("./mng_error/error_manager.js");
 //const oa_suma=require("./coline/compilador/oa_suma.js");
 //const o_valorPuntual=require("./coline/compilador/o_valorPuntual.js");
 const vari = require("./var.js");
 var parser = require("./coline/gramatica_coline/gramatica").parser;
 var fs = require("fs");
-
+var err=new error_manager();
 var tabla= new ts_manager();
 var trad = new traducir();
 /*
@@ -30,7 +31,16 @@ vari.archivo="new file";
 var lista = exec(bnf);
 for (x=0;x<lista.length;x++)
 {
-    lista[x].traducir(tabla,trad);
+    lista[x].comprobacion(tabla,err);
+}
+err.imprimir();
+if(err.size()==0)
+{
+    for (x=0;x<lista.length;x++)
+    {
+        lista[x].traducir(tabla,trad);
+    }
 }
 
-dibujar.GenerarArbol(lista[0].getTree());
+//dibujar.GenerarArbol(lista[0].getTree());
+

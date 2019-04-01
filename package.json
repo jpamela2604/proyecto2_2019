@@ -1,0 +1,26 @@
+{
+  "name": "proyecto2_2019",
+  "version": "1.0.0",
+  "description": "proyecto CAAS / COLINE",
+  "main": "archivo.js",
+  "scripts": {
+    "test": "node archivo.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/jpamela.palacios2604/proyecto2_2019.git"
+  },
+  "keywords": [
+    "coline"
+  ],
+  "author": "PamelaPalacios",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/jpamela.palacios2604/proyecto2_2019/issues"
+  },
+  "homepage": "https://gitlab.com/jpamela.palacios2604/proyecto2_2019#readme",
+  "dependencies": {
+    "aws-sdk": "^2.429.0",
+    "uuid": "^3.3.2"
+  }
+}

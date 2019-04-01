@@ -19,6 +19,10 @@ class error_manager{
             "| Archivo: "+this.errores[x].archivo+"| tipo: "+this.errores[x].tipo);
         }
     }
+    size()
+    {
+        return this.errores.length;
+    }
 }
 
 module.exports = error_manager;

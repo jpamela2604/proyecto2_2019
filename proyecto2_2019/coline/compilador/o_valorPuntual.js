@@ -1,7 +1,9 @@
 var nodoArbol =require("../nodoArbol.js");
+var simbolo = require("../../mng_ts/simbolo.js");
 class o_valorPuntual{
-    constructor(valor,linea,columna,archivo,hash) 
+    constructor(tipo,valor,linea,columna,archivo,hash) 
     {
+        this.tipo=tipo;
         this.valor=valor;
         this.linea=linea; 
         this.columna=columna;
@@ -12,9 +14,13 @@ class o_valorPuntual{
     {
         return new nodoArbol(this.valor,this.hash);
     }
+    comprobacion(ts,er)
+    {  
+        return new simbolo(this.tipo);
+    }
     traducir(ts,traductor)
     {
-        return this.valor;
+        return new simbolo(this.tipo,this.valor);
     }
 }
 

@@ -1,4 +1,4 @@
 git add .
-git commit -m "Initial commit"
+git commit -m "un poco de todo"
 git push -u origin master
 PAUSE

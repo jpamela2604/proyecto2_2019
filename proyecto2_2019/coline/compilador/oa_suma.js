@@ -1,5 +1,7 @@
 const valores = require("../values_manager.js");
 var nodoArbol =require("../nodoArbol.js");
+const tablaTipos= require("../tablaTipos.js");
+var simbolo = require("../../mng_ts/simbolo.js");
 class oa_suma{
     constructor(op1,op2,linea,columna,archivo,hash) 
     {
@@ -17,11 +19,49 @@ class oa_suma{
         raiz.agregarHijo(this.op2.getTree());
         return raiz;
     }
+    comprobacion(ts,er)
+    {
+        var respuesta=new simbolo(tablaTipos.tipo_error);   
+        var o1=this.op1.comprobacion(ts,er);
+        var o2=this.op2.comprobacion(ts,er);
+        var ope=tablaTipos.suma[o1.tipo.indice][o2.tipo.indice];
+        if(ope==tablaTipos.entero)
+        {
+            respuesta = new simbolo(tablaTipos.tipo_entero);   
+        }else if(ope==tablaTipos.doble)
+        {
+            respuesta = new simbolo(tablaTipos.tipo_doble);   
+        }else if(ope==tablaTipos.cadena)
+        {
+            respuesta = new simbolo(tablaTipos.tipo_cadena);   
+        }else if(ope==tablaTipos.error)
+        {
+            er.addError("Tipos incompatibles: "+o1.tipo.nombre+" + "+o2.tipo.nombre,this.linea,this.columna,this.archivo,
+            "SEMANTICO");
+        }
+        return respuesta;
+    }
     traducir(ts,traductor)
     {
-        var temporal=valores.getTemporal();
-        traductor.imprimir(temporal+"="+this.op1.traducir(ts,traductor)+"+"+this.op2.traducir(ts,traductor));
-        return temporal;
+        var o1=this.op1.traducir(ts,traductor);
+        var o2=this.op2.traducir(ts,traductor);
+        var ope=tablaTipos.suma[o1.tipo.indice][o2.tipo.indice];
+        if(ope==tablaTipos.entero)
+        {
+            var temporal=valores.getTemporal();
+            traductor.imprimir(temporal+"="+o1.aux+"+"+o2.aux);
+            return  new simbolo(tablaTipos.tipo_entero,temporal);   
+        }else if(ope==tablaTipos.doble)
+        {
+            var temporal=valores.getTemporal();
+            traductor.imprimir(temporal+"="+o1.aux+"+"+o2.aux);
+            return  new simbolo(tablaTipos.tipo_doble,temporal);   
+        }
+        else
+        {//es cadena
+
+        } 
+        
     }
 }
 
