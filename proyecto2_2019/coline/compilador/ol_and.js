@@ -44,14 +44,14 @@ class ol_and{
             var temporal=new etiqueta();
             temporal.verdadero.push(valores.getEtiqueta());
             temporal.falso.push(valores.getEtiqueta());
-            traductor.imprimir("if ("+o1.aux+"==1) then goto "+temporal.verdadero[0]);
-            traductor.imprimir("goto "+temporal.falso[0]);
+            traductor.imprimir("if ("+o1.aux+"==1) then goto "+temporal.verdadero[0]+";");
+            traductor.imprimir("goto "+temporal.falso[0]+";");
             o1= new simbolo(tablaTipos.tipo_booleano,temporal);
         }
         
         for(var i=0;i<o1.aux.verdadero.length;i++)
         {
-            traductor.imprimir(o1.aux.verdadero[i]+":");
+            traductor.imprimir_L(o1.aux.verdadero[i]+":");
         }
         
         var o2=this.op2.traducir(ts,traductor);
@@ -60,8 +60,8 @@ class ol_and{
             var temporal=new etiqueta();
             temporal.verdadero.push(valores.getEtiqueta());
             temporal.falso.push(valores.getEtiqueta());
-            traductor.imprimir("if ("+o2.aux+"==1) then goto "+temporal.verdadero[0]);
-            traductor.imprimir("goto "+temporal.falso[0]);
+            traductor.imprimir("if ("+o2.aux+"==1) then goto "+temporal.verdadero[0]+";");
+            traductor.imprimir("goto "+temporal.falso[0]+";");
             o2= new simbolo(tablaTipos.tipo_booleano,temporal);
         }
         

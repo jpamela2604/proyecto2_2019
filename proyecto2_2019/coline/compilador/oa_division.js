@@ -44,7 +44,7 @@ class oa_division{
         var o2=this.op2.traducir(ts,traductor);
         var ope=tablaTipos.suma[o1.tipo.indice][o2.tipo.indice];
         var temporal=valores.getTemporal();
-        traductor.imprimir(temporal+"="+o1.aux+"/"+o2.aux);
+        traductor.imprimir(temporal+"="+o1.aux+"/"+o2.aux+";");
         if(ope==tablaTipos.entero)
         {            
             return  new simbolo(tablaTipos.tipo_entero,temporal);   

@@ -7,6 +7,10 @@ class s_etiqueta{
         this.archivo=archivo;
         this.correlativo=correlativo;
     }
+    guardarValores(exec,er)
+    {
+        exec.guardarEtiqueta(this.id,exec.posicionAux);
+    }
     ejecutar(exec,er)
     {
         

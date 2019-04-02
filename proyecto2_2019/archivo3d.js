@@ -11,10 +11,7 @@ function exec (input) {
     return parser.parse(input);
 }
 vari.archivo="new file";
-var lista = exec(bnf);
-for (x=0;x<lista.length;x++)
-{
-    lista[x].ejecutar(execute,err);
-}
-
+var raiz = exec(bnf);
+raiz.guardarValores(execute,err);
+raiz.ejecutar(execute,err);
 

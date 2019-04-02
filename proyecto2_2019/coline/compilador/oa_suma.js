@@ -49,12 +49,12 @@ class oa_suma{
         if(ope==tablaTipos.entero)
         {
             var temporal=valores.getTemporal();
-            traductor.imprimir(temporal+"="+o1.aux+"+"+o2.aux);
+            traductor.imprimir(temporal+"="+o1.aux+"+"+o2.aux+";");
             return  new simbolo(tablaTipos.tipo_entero,temporal);   
         }else if(ope==tablaTipos.doble)
         {
             var temporal=valores.getTemporal();
-            traductor.imprimir(temporal+"="+o1.aux+"+"+o2.aux);
+            traductor.imprimir(temporal+"="+o1.aux+"+"+o2.aux+";");
             return  new simbolo(tablaTipos.tipo_doble,temporal);   
         }
         else

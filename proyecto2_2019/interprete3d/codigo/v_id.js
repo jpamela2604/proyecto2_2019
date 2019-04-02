@@ -7,6 +7,10 @@ class v_id{
         this.archivo=archivo;
         this.correlativo=correlativo;
     }
+    guardarValores(exec,er)
+    {
+
+    }
     ejecutar(exec,er)
     {
         return exec.getTemp(this.id);

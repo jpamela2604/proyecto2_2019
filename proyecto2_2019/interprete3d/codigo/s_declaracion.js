@@ -8,6 +8,11 @@ class s_declaracion{
         this.archivo=archivo;
         this.correlativo=correlativo;
     }
+    guardarValores(exec,er)
+    {
+        var v=this.valor. ejecutar(exec,er);
+        exec.agregarTemp(this.id,v);
+    }
     ejecutar(exec,er)
     {
         

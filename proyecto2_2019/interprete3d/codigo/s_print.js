@@ -8,6 +8,10 @@ class s_print{
         this.archivo=archivo;
         this.correlativo=correlativo;
     }
+    guardarValores(exec,er)
+    {
+
+    }
     ejecutar(exec,er)
     {
         var v=this.valor.ejecutar(exec,er);

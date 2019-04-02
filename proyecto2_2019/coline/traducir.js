@@ -3,17 +3,21 @@ class traducir{
     {
 
     }
-    imprimir_t(cadena)
+    imprimir(cadena)
     {
-        console.log(cadena);
+        console.log("       "+cadena);
     }
     imprimir_L(cadena)
     {
-        console.log(cadena);
+        console.log("   "+cadena);
+    }
+    comentarioSimple(cadena)
+    {
+        console.log("//"+cadena);
     }
     comentario(cadena)
     {
-        console.log(cadena);
+        console.log("/********"+cadena+"********/");
     }  
 }
 

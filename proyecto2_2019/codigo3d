@@ -1,5 +1,21 @@
-t1=5+6;
-t2=t1*2;
-print("%e",t2);
-t3=97;
-print("%c",t3);
+void mi(){
+
+t1=P+0;
+stack[t1]=10;//guardo c
+t2=P+1;
+stack[t2]=5;//guardo a
+t3=P+2;//pos b
+t4=P+1;
+t5=stack[t4];//val a
+t6=P+0;
+t7=stack[t6];//val c
+t9=t7*2;
+t10=t5+t9;
+stack[t3]=t10;
+t11=P+2;
+t12=stack[t11];
+print("%e",t12);
+}
+var P=0;
+var H=0;
+call mi();

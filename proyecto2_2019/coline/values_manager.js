@@ -14,6 +14,8 @@ function getEtiqueta()
     return "L"+contadorEtiqueta;
 }
 
+
+
 module.exports.contadorTemporal = contadorTemporal;
 module.exports.getTemporal = getTemporal;
 module.exports.contadorEtiqueta =contadorEtiqueta;

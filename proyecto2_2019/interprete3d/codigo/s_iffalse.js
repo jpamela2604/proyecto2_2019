@@ -10,9 +10,60 @@ class s_iffalse{
         this.archivo=archivo;
         this.correlativo=correlativo;
     }
+    guardarValores(exec,er)
+    {
+
+    }
     ejecutar(exec,er)
     {
-        
+        var o1=this.op1.ejecutar(exec,er);
+        var o2=this.op2.ejecutar(exec,er);
+        switch(this.oprel)
+        {
+            case ">":
+            {
+                if(!(o1 > o2))
+                {
+                    return parseInt(exec.getEtiqueta(this.etiqueta)-1);
+                }
+            }break;
+            case "<":
+            {
+                if(!(o1 < o2))
+                {
+                    return parseInt(exec.getEtiqueta(this.etiqueta)-1);
+                }
+            }break;
+            case ">=":
+            {
+                if(!(o1 >= o2))
+                {
+                    return parseInt(exec.getEtiqueta(this.etiqueta)-1);
+                }
+            }break;
+            case "<=":
+            {
+                if(!(o1 <= o2))
+                {
+                    return parseInt(exec.getEtiqueta(this.etiqueta)-1);
+                }
+            }break;
+            case "==":
+            {
+                if(!(o1 == o2))
+                {
+                    return parseInt(exec.getEtiqueta(this.etiqueta)-1);
+                }
+            }break;
+            case "!=":
+            {
+                if(!(o1 != o2))
+                {
+                    return parseInt(exec.getEtiqueta(this.etiqueta)-1);
+                }
+            }break;
+
+        }
     }
 }
 

@@ -7,6 +7,10 @@ class v_numerico{
         this.archivo=archivo;
         this.correlativo=correlativo;
     }
+    guardarValores(exec,er)
+    {
+
+    }
     ejecutar(exec,er)
     {
         return parseFloat(this.valor.replace(",", "."));

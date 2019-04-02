@@ -7,9 +7,15 @@ class v_accesoStack{
         this.archivo=archivo;
         this.correlativo=correlativo;
     }
+    guardarValores(exec,er)
+    {
+
+    }
     ejecutar(exec,er)
     {
-        
+       
+        var pos=this.posicion.ejecutar(exec,er);
+        return exec.getFromStack(pos);
     }
 }
 

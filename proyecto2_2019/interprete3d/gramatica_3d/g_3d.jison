@@ -25,6 +25,7 @@ cmulti						"/*" [^*]* "*/"
 "print"                         return 'print_';
 "ifFalse"                       return 'ifFalse_';
 "void"                          return 'void_';
+"=="                            return 'igual';
 "+"                             return 'mas';
 "-"                             return 'menos';
 "*"                             return 'por';
@@ -34,7 +35,6 @@ cmulti						"/*" [^*]* "*/"
 ","                             return 'coma';
 "="                             return 'is';
 "!="                            return 'dif';
-"=="                            return 'igual';
 ">="                            return 'mayori';
 ">"                             return 'mayor';
 "<="                            return 'menori';
@@ -87,7 +87,8 @@ cmulti						"/*" [^*]* "*/"
         const v_negativo = require("../codigo/v_negativo.js");
         const v_numerico = require("../codigo/v_numerico.js");
         const v_resta = require("../codigo/v_resta.js");
-        const v_suma = require("../codigo/v_suma.js");        
+        const v_suma = require("../codigo/v_suma.js"); 
+        const raiz=  require("../codigo/raiz.js");     
         const vari = require("../../var.js");
 %}
 
@@ -103,20 +104,29 @@ INICIO :        S ENDOFFILE
 					return $1;
 				}
 				;
-S               : L
+S               : LM
                 {
-                    $$=$1;
+                    $$=new raiz($1);
                 }
                 ;
-LMET            :LMET MET
+LM              :LM OMET
                 {
                     $$=$1;
                     $$.push($2);
                 }
-                |MET
+                |OMET
                 {
                     $$=new Array();
                     $$.push($1);
+                }
+                ;
+OMET            :MET
+                {
+                    $$=$1;
+                }
+                |SENT
+                {
+                    $$=$1;
                 }
                 ;
 MET             : void_ er_id para parc llava L llavc

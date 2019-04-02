@@ -7,9 +7,21 @@ class s_llamada{
         this.archivo=archivo;
         this.correlativo=correlativo;
     }
+    guardarValores(exec,er)
+    {
+
+    }
     ejecutar(exec,er)
     {
-        
+        var sentencias=exec.getMetodo(this.id);
+        for(var x=0;x<sentencias.length;x++)
+        {
+            var aux=sentencias[x].ejecutar(exec,er);
+            if(Number.isInteger(aux))
+            {
+                x=aux;
+            }
+        }
     }
 }
 

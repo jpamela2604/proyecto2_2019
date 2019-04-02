@@ -8,6 +8,10 @@ class v_negativo{
         this.archivo=archivo;
         this.correlativo=correlativo;
     }
+    guardarValores(exec,er)
+    {
+
+    }
     ejecutar(exec,er)
     {
         var o1=this.op1.ejecutar(exec,er);

@@ -38,25 +38,25 @@ class ol_or{
     traducir(ts,traductor)
     {
         var tx=valores.getTemporal();
-        traductor.imprimir(tx+"=-1");
+        traductor.imprimir(tx+"=-1;");
         var o1=this.op1.traducir(ts,traductor);
         if(!(o1.aux instanceof etiqueta))
         {
             var temporal=new etiqueta();
             temporal.verdadero.push(valores.getEtiqueta());
             temporal.falso.push(valores.getEtiqueta());
-            traductor.imprimir("if ("+o1.aux+"==1) then goto "+temporal.verdadero[0]);
-            traductor.imprimir("goto "+temporal.falso[0]);
+            traductor.imprimir("if ("+o1.aux+"==1) then goto "+temporal.verdadero[0]+";");
+            traductor.imprimir("goto "+temporal.falso[0]+";");
             o1= new simbolo(tablaTipos.tipo_booleano,temporal);
         }
         for(var i=0;i<o1.aux.verdadero.length;i++)
         {
-            traductor.imprimir(o1.aux.verdadero[i]+":");
+            traductor.imprimir_L(o1.aux.verdadero[i]+":");
         }
-        traductor.imprimir(tx+"=1");
+        traductor.imprimir(tx+"=1;");
         for(var i=0;i<o1.aux.falso.length;i++)
         {
-            traductor.imprimir(o1.aux.falso[i]+":");
+            traductor.imprimir_L(o1.aux.falso[i]+":");
         }
         
         var o2=this.op2.traducir(ts,traductor);
@@ -65,26 +65,26 @@ class ol_or{
             var temporal=new etiqueta();
             temporal.verdadero.push(valores.getEtiqueta());
             temporal.falso.push(valores.getEtiqueta());
-            traductor.imprimir("if ("+o2.aux+"==1) then goto "+temporal.verdadero[0]);
-            traductor.imprimir("goto "+temporal.falso[0]);
+            traductor.imprimir("if ("+o2.aux+"==1) then goto "+temporal.verdadero[0]+";");
+            traductor.imprimir("goto "+temporal.falso[0]+";");
             o2= new simbolo(tablaTipos.tipo_booleano,temporal);
         }
 
         for(var i=0;i<o2.aux.verdadero.length;i++)
         {
-            traductor.imprimir(o2.aux.verdadero[i]+":");
+            traductor.imprimir_L(o2.aux.verdadero[i]+":");
         }
-        traductor.imprimir(tx+"="+tx+"+2");
+        traductor.imprimir(tx+"="+tx+"+2;");
         for(var i=0;i<o2.aux.falso.length;i++)
         {
-            traductor.imprimir(o2.aux.falso[i]+":");
+            traductor.imprimir_L(o2.aux.falso[i]+":");
         }
-        traductor.imprimir(tx+"="+tx+"-1");
+        traductor.imprimir(tx+"="+tx+"-1;");
         var miaux=new etiqueta();
         miaux.verdadero.push(valores.getEtiqueta());
         miaux.falso.push(valores.getEtiqueta());
-        traductor.imprimir("if ("+tx+"==0) goto "+miaux.verdadero[0]);
-        traductor.imprimir("goto "+miaux.falso[0]);
+        traductor.imprimir("if ("+tx+"==0) goto "+miaux.verdadero[0]+";");
+        traductor.imprimir("goto "+miaux.falso[0]+";");
         return  new simbolo(tablaTipos.tipo_booleano,miaux);   
     }
 }

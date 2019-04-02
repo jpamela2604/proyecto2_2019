@@ -63,7 +63,8 @@ cmulti						"/*" [^*]* "*/"
         const ol_xor=require("../compilador/ol_xor.js");
         const s_print=require("../compilador/s_print.js");
         const s_println=require("../compilador/s_println.js");
-
+        const s_if=require("../compilador/s_if.js");
+        const s_bloque=require("../compilador/s_bloque.js");
         const vari = require("../../var.js");
         const tablaTipos = require("../tablaTipos.js");
 %}
@@ -107,6 +108,50 @@ L               : L SENT
 SENT            : IMPRIMIR ptocoma
                 {
                     $$=$1;
+                }
+                |S_IF
+                {
+                    $$=$1;
+                }
+                ;
+S_IF            :BS_IF else llava L llavc
+                {
+
+                }
+                |BS_IF else llava  llavc
+                {
+
+                }
+                |BS_IF
+                {
+
+                }
+                ;
+BS_IF           :BS_IF SINO
+                {
+
+                }
+                |SI
+                {
+
+                }
+                ;
+SI              : if_  para COND parc llava llavc
+                {
+
+                }
+                |if_  para COND parc llava L llavc
+                {
+
+                }
+                ;
+SINO            : else_ if_ para COND parc llava llavc
+                {
+
+                }
+                | else_ if_ para COND parc llava L llavc
+                {
+
                 }
                 ;
 IMPRIMIR        : print_ para COND parc

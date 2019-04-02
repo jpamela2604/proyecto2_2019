@@ -1,4 +1,5 @@
 git add .
-git commit -m "un poco de todo"
+git commit -m "PRIMERA version del interprete \n empece el if"
 git push -u origin master
 PAUSE
+

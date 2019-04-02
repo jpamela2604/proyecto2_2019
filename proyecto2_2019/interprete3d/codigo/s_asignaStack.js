@@ -8,9 +8,16 @@ class s_asignaStack{
         this.archivo=archivo;
         this.correlativo=correlativo;
     }
+    guardarValores(exec,er)
+    {
+
+    }
     ejecutar(exec,er)
     {
+        var pos=this.posicion.ejecutar(exec,er);
+        var val=this.valor.ejecutar(exec,er);
         
+        exec.SetStack(pos,val);
     }
 }
 

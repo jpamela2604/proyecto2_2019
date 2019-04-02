@@ -31,12 +31,12 @@ class s_println{
                 {
                     traductor.imprimir(va.aux.verdadero[i]+":");
                 }
-                traductor.imprimir(mitemp+"=1");
+                traductor.imprimir(mitemp+"=1;");
                 for(var i=0;i<va.aux.falso.length;i++)
                 {
                     traductor.imprimir(va.aux.falso[i]+":");
                 }
-                traductor.imprimir(mitemp+"=0");
+                traductor.imprimir(mitemp+"=0;");
                 va.aux=mitemp;
             }
         }
@@ -50,25 +50,29 @@ class s_println{
     }
     traducir(ts,traductor)
     {
+        traductor.comentario("sentencia imprimir");
         var va=this.valor.traducir(ts,traductor);
         if(va.tipo.indice==tablaTipos.booleano)
         {
 
         }else if(va.tipo.indice==tablaTipos.entero)
         {
-            traductor.imprimir("print(\"%e\","+va.aux+")");
+            traductor.imprimir("print(\"%e\","+va.aux+");");
         }else if(va.tipo.indice==tablaTipos.doble)
         {
-            traductor.imprimir("print(\"%d\","+va.aux+")");
+            traductor.imprimir("print(\"%d\","+va.aux+");");
         }else if(va.tipo.indice==tablaTipos.caracter)
         {
-            traductor.imprimir("print(\"%c\","+va.aux+")");
+            traductor.imprimir("print(\"%c\","+va.aux+");");
         }else if(va.tipo.indice==tablaTipos.cadena)
         {
 
         }
-        traductor.imprimir("print(\"%c\",10)");
+        traductor.imprimir("print(\"%c\",10)");  
+        return null;      
     }
+        
+    
 }
 
 module.exports = s_println;

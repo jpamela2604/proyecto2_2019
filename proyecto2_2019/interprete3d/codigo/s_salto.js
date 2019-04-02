@@ -7,9 +7,13 @@ class s_salto{
         this.archivo=archivo;
         this.correlativo=correlativo;
     }
+    guardarValores(exec,er)
+    {
+
+    }
     ejecutar(exec,er)
     {
-        
+        return parseInt(exec.getEtiqueta(this.id)-1);
     }
 }
 
