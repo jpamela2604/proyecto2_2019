@@ -59,7 +59,20 @@ class oa_suma{
         }
         else
         {//es cadena
-
+            var t1=valores.getTemporal();
+            var t2=valores.getTemporal();
+            var t3=valores.getTemporal();
+            var t4=valores.getTemporal();
+            traductor.imprimir(t1+"=p+"+ts.getTamActual()+";");
+            traductor.imprimir(t2+"="+t1+"+1;");
+            traductor.imprimir("stack["+t2+"]="+o1.aux+";//apuntador o1 heap");
+            traductor.imprimir(t3+"="+t1+"+2;");
+            traductor.imprimir("stack["+t3+"]="+o2.aux+";//apuntador o2 heap");
+            traductor.imprimir("p=p+"+ts.getTamActual()+";");
+            traductor.imprimir("call concat_olcp2jjps();");
+            traductor.imprimir(t4+"=stack[p];");
+            traductor.imprimir("p=p-"+ts.getTamActual()+";");
+            return  new simbolo(tablaTipos.tipo_cadena,t4);
         } 
         
     }

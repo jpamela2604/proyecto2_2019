@@ -14,4 +14,5 @@ vari.archivo="new file";
 var raiz = exec(bnf);
 raiz.guardarValores(execute,err);
 raiz.ejecutar(execute,err);
+console.log(execute.cadena);
 

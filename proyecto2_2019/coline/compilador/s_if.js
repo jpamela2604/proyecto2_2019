@@ -4,12 +4,9 @@ const tablaTipos= require("../tablaTipos.js");
 var simbolo = require("../../mng_ts/simbolo.js");
 const vari=require("../../var.js");
 class s_if{
-    constructor(bloques,linea,columna,archivo,hash) 
+    constructor(bloques,hash) 
     {
         this.bloques=bloques;
-        this.linea=linea; 
-        this.columna=columna;
-        this.archivo=archivo;
         this.hash=hash;
     }
     getTree()
@@ -38,8 +35,10 @@ class s_if{
         var salida=valores.getEtiqueta();
         for(var i=0;i<this.bloques.length;i++)
         {
-            respuesta=this.bloques[i].traducir(ts,traductor);
-            traductor.imprimir("goto "+salida);
+            var bl=this.bloques[i];
+            bl.salida=salida;
+            respuesta=bl.traducir(ts,traductor);
+            
         }
         traductor.imprimir_L(salida+":");
         return respuesta;

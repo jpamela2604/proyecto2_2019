@@ -42,5 +42,7 @@ if(err.size()==0)
     }
 }
 
+trad.save();
+
 //dibujar.GenerarArbol(lista[0].getTree());
 

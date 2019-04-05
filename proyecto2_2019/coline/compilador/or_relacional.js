@@ -59,7 +59,7 @@ class or_relacional{
             var temporal=new etiqueta();
             temporal.verdadero.push(valores.getEtiqueta());
             temporal.falso.push(valores.getEtiqueta());
-            traductor.imprimir("if ("+o1.aux+this.oprel+o2.aux+") then goto "+temporal.verdadero[0]+";");
+            traductor.imprimir("if ("+o1.aux+this.oprel+o2.aux+")  goto "+temporal.verdadero[0]+";");
             traductor.imprimir("goto "+temporal.falso[0]+";");
             return  new simbolo(tablaTipos.tipo_booleano,temporal);   
         }else if(ope==tablaTipos.igual_booleano)
@@ -70,37 +70,43 @@ class or_relacional{
             //viene con etiquetas
             if(o1.aux instanceof etiqueta)
             {
+                var aux=valores.getEtiqueta();
                 var mitemp=valores.getTemporal();
                 for(var i=0;i<o1.aux.verdadero.length;i++)
                 {
                     traductor.imprimir_L(o1.aux.verdadero[i]+":");
                 }
                 traductor.imprimir(mitemp+"=1;");
+                traductor.imprimir("goto "+aux+";");
                 for(var i=0;i<o1.aux.falso.length;i++)
                 {
                     traductor.imprimir_L(o1.aux.falso[i]+":");
                 }
                 traductor.imprimir(mitemp+"=0;");
+                traductor.imprimir_L(aux+":");
                 o1.aux=mitemp;
             }
 
             if(o2.aux instanceof etiqueta)
             {
+                var aux=valores.getEtiqueta();
                 var mitemp=valores.getTemporal();
                 for(var i=0;i<o2.aux.verdadero.length;i++)
                 {
                     traductor.imprimir_L(o2.aux.verdadero[i]+":");
                 }
                 traductor.imprimir(mitemp+"=1;");
+                traductor.imprimir("goto "+aux+";");
                 for(var i=0;i<o2.aux.falso.length;i++)
                 {
                     traductor.imprimir_L(o2.aux.falso[i]+":");
                 }
                 traductor.imprimir(mitemp+"=0;");
+                traductor.imprimir_L(aux+":");
                 o2.aux=mitemp;
             }
 
-            traductor.imprimir("if ("+o1.aux+this.oprel+o2.aux+") then goto "+temporal.verdadero[0]+";");
+            traductor.imprimir("if ("+o1.aux+this.oprel+o2.aux+")  goto "+temporal.verdadero[0]+";");
             traductor.imprimir("goto "+temporal.falso[0]+";");
             return  new simbolo(tablaTipos.tipo_booleano,temporal);  
         }else if(ope==tablaTipos.igual_cadena)

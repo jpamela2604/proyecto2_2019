@@ -24,6 +24,7 @@ class s_print{
             va.tipo.indice==tablaTipos.entero||va.tipo.indice==tablaTipos.doble||
             va.tipo.indice==tablaTipos.caracter||va.tipo.indice==tablaTipos.cadena)
         {
+            /*
             if(va.aux instanceof etiqueta)
             {
                 var mitemp=valores.getTemporal();
@@ -39,6 +40,7 @@ class s_print{
                 traductor.imprimir(mitemp+"=0;");
                 va.aux=mitemp;
             }
+            */
         }
         else
         {
@@ -55,6 +57,38 @@ class s_print{
         if(va.tipo.indice==tablaTipos.booleano)
         {
 
+            if(!(va.aux instanceof etiqueta))
+            {
+                var temporal=new etiqueta();
+                temporal.verdadero.push(valores.getEtiqueta());
+                temporal.falso.push(valores.getEtiqueta());
+                traductor.imprimir("if ("+va.aux+"==1)  goto "+temporal.verdadero[0]+";");
+                traductor.imprimir("goto "+temporal.falso[0]+";");
+                va= new simbolo(tablaTipos.tipo_booleano,temporal);
+            }
+            var salida=valores.getEtiqueta();
+            for(var i=0;i<va.aux.verdadero.length;i++)
+            {
+                traductor.imprimir_L(va.aux.verdadero[i]+":");
+            }
+            
+            traductor.imprimir("print(\"%c\",116);");
+            traductor.imprimir("print(\"%c\",114);");
+            traductor.imprimir("print(\"%c\",117);");
+            traductor.imprimir("print(\"%c\",101);");
+            traductor.imprimir("goto "+salida+";");
+            for(var i=0;i<va.aux.falso.length;i++)
+            {
+                traductor.imprimir_L(va.aux.falso[i]+":");
+            }
+            traductor.imprimir("print(\"%c\",102);");
+            traductor.imprimir("print(\"%c\",97);");
+            traductor.imprimir("print(\"%c\",108);");
+            traductor.imprimir("print(\"%c\",115);");
+            traductor.imprimir("print(\"%c\",101);");
+            traductor.imprimir_L(salida+":")
+
+
         }else if(va.tipo.indice==tablaTipos.entero)
         {
             traductor.imprimir("print(\"%e\","+va.aux+");");
@@ -66,6 +100,16 @@ class s_print{
             traductor.imprimir("print(\"%c\","+va.aux+");");
         }else if(va.tipo.indice==tablaTipos.cadena)
         {
+            //cambio de ambito simulado
+            var t1=valores.getTemporal();
+            traductor.imprimir(t1+"=p+"+ts.getTamActual()+";");
+            //paso de parametro
+            var t2=valores.getTemporal();
+            traductor.imprimir(t2+"="+t1+"+1;");
+            traductor.imprimir("stack["+t2+"]="+va.aux+";");
+            traductor.imprimir("p=p+"+ts.getTamActual()+";");
+            traductor.imprimir("call print_olcp2jjps();");
+            traductor.imprimir("p=p-"+ts.getTamActual()+";");
 
         }
         return null;

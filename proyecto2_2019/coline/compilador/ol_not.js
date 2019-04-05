@@ -42,7 +42,7 @@ class ol_not{
             var temporal=new etiqueta();
             temporal.verdadero.push(valores.getEtiqueta());
             temporal.falso.push(valores.getEtiqueta());
-            traductor.imprimir("if ("+o1.aux+"==1) then goto "+temporal.verdadero[0]+";");
+            traductor.imprimir("if ("+o1.aux+"==1)  goto "+temporal.verdadero[0]+";");
             traductor.imprimir("goto "+temporal.falso[0]+";");
             o1= new simbolo(tablaTipos.tipo_booleano,temporal);
         }

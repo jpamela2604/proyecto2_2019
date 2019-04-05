@@ -12,6 +12,16 @@ class simbolo{
         this.dimensiones=dimensiones;        
         this.visibilidad=visibilidad;
     }
+
+    getNombre()
+    {
+        return this.id;
+    }
+    getRol()
+    {
+
+    }
+    
 }
 
 module.exports = simbolo;
