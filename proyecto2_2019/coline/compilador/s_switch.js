@@ -15,6 +15,14 @@ class s_switch{
         this.archivo=archivo;
         this.hash=hash;
     }
+    comprobacion_global(ts,er)
+    {
+
+    }
+    traduccion_global(ts,traductor)
+    {
+        
+    }
     getTree()
     {
         var raiz =new nodoArbol("SWITCH",this.hash);

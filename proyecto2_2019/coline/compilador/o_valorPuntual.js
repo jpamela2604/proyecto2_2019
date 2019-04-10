@@ -12,31 +12,57 @@ class o_valorPuntual{
         this.archivo=archivo;
         this.hash=hash;
     }
+    comprobacion_global(ts,er)
+    {
+
+    }
+    traduccion_global(ts,traductor)
+    {
+        
+    }
     getTree()
     {
+        if(tipo==null)
+        {
+            return this.valor.getTree();
+        }
         return new nodoArbol(this.valor,this.hash);
     }
     comprobacion(ts,er)
-    {  
-        return new simbolo(this.tipo);
+    {   if(this.tipo!=null)
+        {
+            return new simbolo(this.tipo);
+        }else
+        {
+            this.valor.IsExp=true;
+            var r=this.valor.comprobacion(ts,er);
+           // console.log(r);
+            return r;
+        }
     }
     traducir(ts,traductor)
     {
-        if(this.tipo.indice==tablaTipos.cadena)
+        if(this.tipo!=null)
         {
-            var aux=valores.getTemporal();
-            traductor.imprimir(aux+"=h;")
-            for(var x=0;x<this.valor.length;x++)
+            if(this.tipo.indice==tablaTipos.cadena)
             {
-                traductor.imprimir("heap[h]="+this.valor.charCodeAt(x)+";");
+                var aux=valores.getTemporal();
+                traductor.imprimir(aux+"=h;")
+                for(var x=0;x<this.valor.length;x++)
+                {
+                    traductor.imprimir("heap[h]="+this.valor.charCodeAt(x)+";");
+                    traductor.imprimir("h=h+1;");
+                }
+                traductor.imprimir("heap[h]="+tablaTipos.fin_cadena+";");
                 traductor.imprimir("h=h+1;");
-            }
-            traductor.imprimir("heap[h]="+tablaTipos.fin_cadena+";");
-            traductor.imprimir("h=h+1;");
 
-            return new simbolo(this.tipo,aux);
+                return new simbolo(this.tipo,aux);
+            }
+        }else
+        {
+            return this.valor.traducir(ts,traductor);
+            
         }
-        
         return new simbolo(this.tipo,this.valor);
     }
 }

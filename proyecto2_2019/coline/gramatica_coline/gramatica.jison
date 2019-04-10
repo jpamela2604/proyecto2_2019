@@ -10,11 +10,12 @@ cmulti						"/*" [^*]* "*/"
 %%
 {cmulti}					/* ignore comment */
 {clinea}                    /* ignore comment */
-">"								return 'mayor';
 ">="							return 'mayori';
-"<"								return 'menor';
 "<="							return 'menori';
+">"								return 'mayor';
+"<"								return 'menor';
 "=="							return 'igual';
+"="                             return 'is';
 "!="							return 'dif';
 ";"								return 'ptocoma';
 ":"                             return 'dosptos';
@@ -30,6 +31,7 @@ cmulti						"/*" [^*]* "*/"
 "["                             return 'cora';
 "]"                             return 'corc';
 ","                             return 'coma';
+"."                             return 'punto';
 "pow"                           return 'potencia';
 "^"                             return 'xor_';
 "&&"                            return 'and_';
@@ -55,13 +57,13 @@ cmulti						"/*" [^*]* "*/"
 "boolean"                       return 't_boolean';
 "String"                        return 't_string';
 "void"                          return 'vacio';
-"="                             return 'is';
 //""                            return '';
 "public"                        return 'publico_';
 "protected"                     return 'protegido_';
 "private"                       return 'privado_';
 "static"                        return 'estatico_';
 "final"                         return 'ffinal_';
+"abstract"                      return 'abstracto_';
 {er_decimal}					return 'er_decimal';
 {er_entero}                    	return 'er_entero';
 {er_cadena}						return 'er_cadena';
@@ -72,7 +74,7 @@ cmulti						"/*" [^*]* "*/"
 \r+
 \t+
 \f+
-"."                         console.log("error lexico");
+.                         console.log("error lexico");
 <<EOF>>                     return 'ENDOFFILE';
 /lex
 %{
@@ -102,20 +104,47 @@ cmulti						"/*" [^*]* "*/"
         const s_switch=require("../compilador/s_switch.js");
         const s_decla=require("../compilador/s_decla.js");
         const s_declaracion=require("../compilador/s_declaracion.js");
+        const s_asignacion=require("../compilador/s_asignacion.js");
+        const s_accesos=require("../compilador/s_accesos.js");
+        const s_acVariable=require("../compilador/s_acVariable.js");
         const caso=require("../compilador/caso.js");
+        const parametro=require("../../mng_ts/parametro.js");
+        const s_metodo=require("../compilador/s_metodo.js");
+        const s_llamada=require("../compilador/s_llamada.js");
         const vari = require("../../var.js");
         const tablaTipos = require("../tablaTipos.js");
 %}
 
+
+//%right is
+
+%left or_
+%left and_
+%left igual dif
+%left menor menori mayor mayori 
 %left mas menos
 %left por divis modu
-%left potenciacion 
+%left potencia 
+%right not_
+%left xor_
 %left uminus
-%left menor menori mayor mayori igual dif
-%left or_
+%left para parc
+%left punto
+%left cora corc
+/*
 %left and_
 %left xor_
 %right not_
+%left mas menos
+%left por divis modu
+%left potencia 
+%left para parc
+%left uminus
+%left or_
+%left is
+%left menor menori mayor mayori igual dif
+*/
+
 %start INICIO
 
 %%
@@ -128,10 +157,31 @@ INICIO		    :	S ENDOFFILE
 				}
 				;
 
-S               : L
+S               : LISENT
                 {
                     $$=$1;
                 }
+                ;
+LISENT          :LISENT OPCG
+                {
+                    $$=$1;
+                    $$.push($2);
+                }
+                |OPCG
+                {
+                    $$=new Array();
+                    $$.push($1);
+                }
+                ;
+OPCG            :DECLAMETO
+                {
+                    $$=$1;
+                }
+                |DECLARACION ptocoma
+                {
+                    $$=$1;
+                    $$.IsGlobal=true;
+                }                
                 ;
 L               : L SENT
                 {
@@ -180,13 +230,109 @@ SENT            : IMPRIMIR ptocoma
                 {
                     $$=$1;
                 }
+                |ASIGNACION ptocoma
+                {
+                    $$=$1;
+                }
+                |LAC ptocoma
+                {
+                    vari.hash++;
+                    $$=new s_accesos($1,vari.hash);
+                }
                 ;
+
+DECLAMETO       :CABEZAMET llava  L llavc
+                {
+                    $$=$1;
+                    $$.isAbstract=false;
+                    $$.sentencias=$3;
+                }
+                |CABEZAMET llava  llavc
+                {
+                    $$=$1;
+                    $$.isAbstract=false;
+                    $$.sentencias=new Array();
+                }
+                |CABEZAMET ptocoma
+                {
+                    $$=$1;
+                    $$.isAbstract=true;
+                    $$.sentencias=null;
+                }
+                ;
+PARAMS          :PARAMS coma PARAM
+                {
+                    $$=$1;
+                    $$.push($3);
+                }
+                |PARAM
+                {
+                    $$=new Array();
+                    $$.push($1); 
+                }
+                ;
+PARAM           :TIPO ARRID
+				{
+                    vari.hash++;
+                    //(tipo,nombre,valor,isFinal,noDimensiones,linea,columna,archivo,hash)
+                    $$=new parametro($1,$2.id,null,false,$2.noDimensiones,$2.linea,$2.columna,
+                    $2.archivo,vari.hash);
+				}
+				|ffinal_ TIPO ARRID
+				{
+                    vari.hash++;
+                    //(tipo,nombre,valor,isFinal,noDimensiones,linea,columna,archivo,hash)
+                    $$=new parametro($2,$3.id,null,true,$3.noDimensiones,$3.linea,$3.columna,
+                    $3.archivo,vari.hash);
+				}
+                ;
+CABEZAMET       :MODSCAMPO TIPO DEM
+				{
+                    $3.tipo=$2;
+                    $3.modificadores=$1;
+                    $$=$3;  
+				}
+				|TIPO DEM
+				{
+                    $2.tipo=$1;
+                    $$=$2;                    
+				}
+				;
+DEM				:DEM cora corc
+				{
+                    $$=$1;
+                    $$.noDimensiones++;
+				}
+				|er_id para PARAMS parc
+				{
+                    vari.hash++;
+                    //isAbstract,id,sentencias,parametros,modificadores,tipo,noDimensiones,linea,columna,archivo,hash) 
+                    $$=new s_metodo(null,$1,null,$3,new Array(),null,0,_$[1].first_line,_$[1].first_column,
+                    vari.archivo,vari.hash);
+				}
+                |er_id para  parc
+				{
+                    vari.hash++;
+                    //isAbstract,id,sentencias,parametros,modificadores,tipo,noDimensiones,linea,columna,archivo,hash) 
+                    $$=new s_metodo(null,$1,null,new Array(),new Array(),null,0,_$[1].first_line,_$[1].first_column,
+                    vari.archivo,vari.hash);
+				}
+				;
+ASIGNACION      :LAC is INICIALIZA
+                {
+                    vari.hash++;
+                    var ace=new s_accesos($1,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(ace,$3,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                }
+                ;
+
 DECLARACION     : MODSCAMPO TIPO LDEC
                 {
                     vari.hash++;
                     $$=new s_declaracion($1,$2,$3,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
                 }
-                |TIPO LDEC
+                |TIPO LDEC 
                 {
                     vari.hash++;
                     $$=new s_declaracion(new Array(),$1,$2,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
@@ -204,17 +350,7 @@ LDEC            :LDEC coma DEC
                 } 
                 ;
 
-DEC             :er_id is INICIALIZA 
-                {
-                    vari.hash++;
-                    $$=new s_decla($1,0,$3,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
-                }
-                |er_id 
-                {
-                    vari.hash++;
-                    $$=new s_decla($1,0,null,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
-                }
-                |ARRID is INICIALIZA
+DEC             :ARRID is INICIALIZA
                 {
                     $$=$1;
                     $$.valor=$3;
@@ -235,10 +371,10 @@ ARRID           :ARRID cora corc
                     $$.noDimensiones=$$.noDimensiones+1;
 
                 }
-                |er_id cora corc
+                |er_id 
                 {
                     vari.hash++;
-                    $$=new s_decla($1,1,null,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_decla($1,0,null,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
                 }
                 ;
                 
@@ -266,10 +402,10 @@ TIPO            :t_int
                 {
                     $$=tablaTipos.tipo_vacio;
                 }
-                |er_id
+                /*|er_id
                 {
                     $$=tablaTipos.getTipoObjeto(yytext);
-                }
+                }*/
                 ;
 MODSCAMPO       :MODSCAMPO MOC
                 {
@@ -302,6 +438,10 @@ MOC             : protegido_
                 |ffinal_
                 {
                     $$=tablaTipos.ffinal;
+                }
+                |abstracto_
+                {
+                    $$=tablaTipos.abstracto;
                 }
                 ;
 S_SW            :switch_ para COND parc llava LCASOS llavc
@@ -445,7 +585,7 @@ BS_IF           :BS_IF SINO
 SI              : if_  para COND parc llava llavc
                 {
                     vari.hash++;
-                    $$=new s_bloque($3,$7,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_bloque($3,new Array(),_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
                 }
                 |if_  para COND parc llava L llavc
                 {
@@ -510,15 +650,7 @@ REL             : E OPREL E
                     $$=$1;
                 }
                 ;
-OPREL           :menor
-                {
-                    $$="<";
-                }
-                |mayor
-                {
-                    $$=">";
-                }
-                |menori
+OPREL           :menori
                 {
                     $$="<=";
                 }
@@ -534,6 +666,15 @@ OPREL           :menor
                 {
                     $$="!=";
                 }
+                |menor
+                {
+                    $$="<";
+                }
+                |mayor
+                {
+                    $$=">";
+                }
+                
                 ;
 E               : E mas E
                 {
@@ -577,6 +718,14 @@ E               : E mas E
                 | PRIM
                 {
                     $$=$1;
+                }
+                |LAC
+                {
+                    vari.hash++;
+                    var ace=new s_accesos($1,vari.hash);
+                    vari.hash++;
+                    $$=new o_valorPuntual(null,ace,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+
                 }
                 ;
 PRIM            : er_cadena
@@ -623,4 +772,49 @@ PRIM            : er_cadena
                     $$=new o_valorPuntual(tablaTipos.tipo_booleano,0,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
                 }
                 ;
+LAC             :LAC punto AC
+                {
+                    $$=$1;
+                    $$.push($3);
+                }
+                |AC
+                {
+                    $$=new Array();
+                    $$.push($1);
+                }
+                ;
+AC              :LLAMADA
+                {
+                    $$=$1;
+                }
+                |er_id
+                {
+                    vari.hash++;
+                    $$=new s_acVariable(yytext,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                }
+                
+                ;
 
+LCOND           :LCOND coma INICIALIZA
+                {
+                    $$=$1;
+                    $$.push($3);
+
+                }
+                |INICIALIZA
+                {
+                    $$=new Array();
+                    $$.push($1);
+                }
+                ;
+LLAMADA         :er_id para parc
+                {
+                    vari.hash++;
+                    $$=new s_llamada($1,new Array(),_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                }
+                |er_id para LCOND parc
+                {
+                    vari.hash++;
+                    $$=new s_llamada($1,$3,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                }
+                ;

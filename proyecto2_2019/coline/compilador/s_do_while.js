@@ -15,6 +15,14 @@ class s_do_while{
         this.archivo=archivo;
         this.hash=hash;
     }
+    comprobacion_global(ts,er)
+    {
+
+    }
+    traduccion_global(ts,traductor)
+    {
+        
+    }
     getTree()
     {
         var raiz =new nodoArbol("DOWHILE",this.hash);

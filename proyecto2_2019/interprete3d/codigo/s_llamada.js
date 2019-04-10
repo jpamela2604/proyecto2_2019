@@ -13,6 +13,8 @@ class s_llamada{
     }
     ejecutar(exec,er)
     {
+        //console.log();
+        exec.agregardeb("llamada "+this.id+" apuntador:"+exec.getTemp("p")+"\n");
         var sentencias=exec.getMetodo(this.id);
         for(var x=0;x<sentencias.length;x++)
         {

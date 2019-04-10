@@ -1,8 +1,29 @@
 
-print("hoa"+"laa");
-
-while(true)
+void main()
 {
-    print("putas");
-    break;
+	/*int c='a';
+
+    double a=1.26;
+    a=89;
+    println(a);
+    println(c);
+    double w='j';
+
+    println(w);
+    */
+    boolean a=true;
+    a=false||false;
+    println(a);
+    println((true&&true)+" resultado");    
+    otro(false||true&&true);
+    
+}
+
+boolean otro(boolean val)
+{
+    if(val)
+    {
+        println("go ahead");
+    }
+    return true&&false;
 }

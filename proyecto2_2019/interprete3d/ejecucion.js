@@ -1,4 +1,5 @@
 var HashTable = require("../hashtable");
+const fs = require('fs');
 class ejecucion{
     constructor() 
     {
@@ -9,10 +10,35 @@ class ejecucion{
         this.posicionAux=0;
         this.pila=new Array();
         this.monticulo=new Array();
+        //this.deb="";
     }
-
-
-
+    agregardeb(cadena)
+    {
+        //this.deb=this.deb+"cadena\n";
+        this.save(cadena);
+    }
+    printHeap()
+    {
+        var micad="monticulo|";
+        for(var x=0;x<this.monticulo.length;x++)
+        {
+            micad=micad+x+","+this.monticulo[x]+"|";
+        }
+        //console.log(micad);
+        this.save(micad+"\n");
+        //this.deb=this.deb+micad+"\n";
+    }
+    printStack()
+    {
+        var micad="pila|";
+        for(var x=0;x<this.pila.length;x++)
+        {
+            micad=micad+x+","+this.pila[x]+"|";
+        }
+        //console.log(micad);
+        //this.deb=this.deb+micad+"\n";
+        this.save(micad+"\n");
+    }
     imprimir(cad)
     {
         this.cadena=this.cadena+cad;
@@ -58,10 +84,21 @@ class ejecucion{
     {
         //onsole.log("set "+posicion+":"+valor);
         this.pila[posicion]=valor;
+        this.printHeap();
+        this.printStack();
+        this.save("\n\n");
+        //this.deb=this.deb+"\n\n";
+        //console.log("\n\n");
     }
     SetHeap(posicion,valor)
     {
         this.monticulo[posicion]=valor;
+        this.printHeap();
+        this.printStack();
+    }
+    save(cad)
+    {
+        //fs.appendFileSync("debuggin.txt",cad);
     }
 
 }

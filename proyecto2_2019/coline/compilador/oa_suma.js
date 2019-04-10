@@ -2,6 +2,7 @@ const valores = require("../values_manager.js");
 var nodoArbol =require("../nodoArbol.js");
 const tablaTipos= require("../tablaTipos.js");
 var simbolo = require("../../mng_ts/simbolo.js");
+const etiqueta= require("../etiqueta.js");
 class oa_suma{
     constructor(op1,op2,linea,columna,archivo,hash) 
     {
@@ -11,6 +12,15 @@ class oa_suma{
         this.columna=columna;
         this.archivo=archivo;
         this.hash=hash;
+        this.ope=null;
+    }
+    comprobacion_global(ts,er)
+    {
+
+    }
+    traduccion_global(ts,traductor)
+    {
+        
     }
     getTree()
     {
@@ -24,17 +34,17 @@ class oa_suma{
         var respuesta=new simbolo(tablaTipos.tipo_error);   
         var o1=this.op1.comprobacion(ts,er);
         var o2=this.op2.comprobacion(ts,er);
-        var ope=tablaTipos.suma[o1.tipo.indice][o2.tipo.indice];
-        if(ope==tablaTipos.entero)
+        this.ope=tablaTipos.suma[o1.tipo.indice][o2.tipo.indice];
+        if(this.ope==tablaTipos.entero)
         {
             respuesta = new simbolo(tablaTipos.tipo_entero);   
-        }else if(ope==tablaTipos.doble)
+        }else if(this.ope==tablaTipos.doble)
         {
             respuesta = new simbolo(tablaTipos.tipo_doble);   
-        }else if(ope==tablaTipos.cadena)
+        }else if(this.ope==tablaTipos.cadena)
         {
             respuesta = new simbolo(tablaTipos.tipo_cadena);   
-        }else if(ope==tablaTipos.error)
+        }else if(this.ope==tablaTipos.error)
         {
             er.addError("Tipos incompatibles: "+o1.tipo.nombre+" + "+o2.tipo.nombre,this.linea,this.columna,this.archivo,
             "SEMANTICO");
@@ -43,22 +53,28 @@ class oa_suma{
     }
     traducir(ts,traductor)
     {
-        var o1=this.op1.traducir(ts,traductor);
-        var o2=this.op2.traducir(ts,traductor);
-        var ope=tablaTipos.suma[o1.tipo.indice][o2.tipo.indice];
-        if(ope==tablaTipos.entero)
+        
+        if(this.ope==tablaTipos.entero)
         {
+            var o1=this.op1.traducir(ts,traductor);
+            var o2=this.op2.traducir(ts,traductor);
             var temporal=valores.getTemporal();
             traductor.imprimir(temporal+"="+o1.aux+"+"+o2.aux+";");
             return  new simbolo(tablaTipos.tipo_entero,temporal);   
-        }else if(ope==tablaTipos.doble)
+        }else if(this.ope==tablaTipos.doble)
         {
+            var o1=this.op1.traducir(ts,traductor);
+            var o2=this.op2.traducir(ts,traductor);
             var temporal=valores.getTemporal();
             traductor.imprimir(temporal+"="+o1.aux+"+"+o2.aux+";");
             return  new simbolo(tablaTipos.tipo_doble,temporal);   
         }
         else
         {//es cadena
+            var o1=this.op1.traducir(ts,traductor);
+            this.getAp(o1,traductor,ts);
+            var o2=this.op2.traducir(ts,traductor);
+            this.getAp(o2,traductor,ts);
             var t1=valores.getTemporal();
             var t2=valores.getTemporal();
             var t3=valores.getTemporal();
@@ -75,6 +91,49 @@ class oa_suma{
             return  new simbolo(tablaTipos.tipo_cadena,t4);
         } 
         
+    }
+    getAp(sim,traductor,ts)
+    {
+        if(sim.tipo.indice==tablaTipos.booleano)
+        {
+            tablaTipos.etiquetaToTemp(sim,traductor);
+           
+            var tsi=valores.getTemporal();var tsb=valores.getTemporal();var t174=valores.getTemporal();
+            traductor.imprimir(tsi+"=p+"+ts.getTamActual()+";");
+            traductor.imprimir(tsb+"="+tsi+"+1;");
+            traductor.imprimir("stack["+tsb+"]="+sim.aux+";");
+            traductor.imprimir("p=p+"+ts.getTamActual()+";");
+            traductor.imprimir("call booltostr();");
+            traductor.imprimir(t174+"=stack[p];");
+            traductor.imprimir("p=p-"+ts.getTamActual()+";");
+            sim.aux=t174;
+        }else if(sim.tipo.indice==tablaTipos.entero||sim.tipo.indice==tablaTipos.doble)
+        {
+            var no_decimales=sim.tipo.indice==tablaTipos.entero?0:4;
+            var tsim=valores.getTemporal();var tp1=valores.getTemporal();var tp2=valores.getTemporal();
+            var r=valores.getTemporal();
+            traductor.imprimir(tsim+"=p+"+ts.getTamActual()+";");
+            traductor.imprimir(tp1+"="+tsim+"+1;");
+            traductor.imprimir("stack["+tp1+"]="+sim.aux+";");
+            traductor.imprimir(tp2+"="+tsim+"+2;");
+            traductor.imprimir("stack["+tp2+"]="+no_decimales+";");
+
+            traductor.imprimir("p=p+"+ts.getTamActual()+";");
+            traductor.imprimir("call ftoa();");
+            traductor.imprimir(r+"=stack[p];");
+            traductor.imprimir("p=p-"+ts.getTamActual()+";");
+            sim.aux=r;
+            
+        }else if(sim.tipo.indice==tablaTipos.caracter)
+        {
+            var tw=valores.getTemporal();
+            traductor.imprimir(tw+"=h;");
+            traductor.imprimir("heap[h]="+sim.aux+";");
+            traductor.imprimir("h=h+1;");
+            traductor.imprimir("heap[h]="+tablaTipos.fin_cadena+";");
+            traductor.imprimir("h=h+1;");
+            sim.aux=tw;
+        }
     }
 }
 

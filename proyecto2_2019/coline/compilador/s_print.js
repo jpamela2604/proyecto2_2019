@@ -10,6 +10,15 @@ class s_print{
         this.columna=columna;
         this.archivo=archivo;
         this.hash=hash;
+        this.texto="PRINT";
+    }
+    comprobacion_global(ts,er)
+    {
+
+    }
+    traduccion_global(ts,traductor)
+    {
+        
     }
     getTree()
     {
@@ -24,23 +33,7 @@ class s_print{
             va.tipo.indice==tablaTipos.entero||va.tipo.indice==tablaTipos.doble||
             va.tipo.indice==tablaTipos.caracter||va.tipo.indice==tablaTipos.cadena)
         {
-            /*
-            if(va.aux instanceof etiqueta)
-            {
-                var mitemp=valores.getTemporal();
-                for(var i=0;i<va.aux.verdadero.length;i++)
-                {
-                    traductor.imprimir(va.aux.verdadero[i]+":");
-                }
-                traductor.imprimir(mitemp+"=1;");
-                for(var i=0;i<va.aux.falso.length;i++)
-                {
-                    traductor.imprimir(va.aux.falso[i]+":");
-                }
-                traductor.imprimir(mitemp+"=0;");
-                va.aux=mitemp;
-            }
-            */
+           
         }
         else
         {
@@ -52,7 +45,7 @@ class s_print{
     }
     traducir(ts,traductor)
     {
-        traductor.comentario("sentencia imprimir");
+        traductor.comentario("SENTENCIA "+this.texto);
         var va=this.valor.traducir(ts,traductor);
         if(va.tipo.indice==tablaTipos.booleano)
         {
@@ -64,7 +57,8 @@ class s_print{
                 temporal.falso.push(valores.getEtiqueta());
                 traductor.imprimir("if ("+va.aux+"==1)  goto "+temporal.verdadero[0]+";");
                 traductor.imprimir("goto "+temporal.falso[0]+";");
-                va= new simbolo(tablaTipos.tipo_booleano,temporal);
+                va.aux=temporal;
+                //va= new simbolo(tablaTipos.tipo_booleano,temporal);
             }
             var salida=valores.getEtiqueta();
             for(var i=0;i<va.aux.verdadero.length;i++)
@@ -94,6 +88,7 @@ class s_print{
             traductor.imprimir("print(\"%e\","+va.aux+");");
         }else if(va.tipo.indice==tablaTipos.doble)
         {
+            
             traductor.imprimir("print(\"%d\","+va.aux+");");
         }else if(va.tipo.indice==tablaTipos.caracter)
         {

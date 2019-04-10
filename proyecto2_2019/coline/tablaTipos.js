@@ -1,3 +1,5 @@
+const etiqueta= require("./etiqueta.js");
+const valoresm = require("./values_manager.js");
 const nodoTipo = require("../mng_ts/nodoTipo");
 const booleano=0;
 const entero=1;
@@ -8,7 +10,7 @@ const error=5;
 const vacio=6;
 const objeto=7;
 const error2=50;
-
+const allow=51;
 const tipo_booleano = new nodoTipo(booleano,"bool");
 const tipo_entero = new nodoTipo(entero,"int");
 const tipo_doble = new nodoTipo(doble,"double");
@@ -21,16 +23,24 @@ const igual_booleano=52;
 const igual_cadena=53;
 const fin_cadena=557886;
 const valor_nulo=557886;
+const caracter_nulo=00;
 const publico=200;
 const protegido=201;
 const privado=202;
 const estatico=203;
 const ffinal=204;
+const abstracto=205;
+
+//rol
+const rol_variable=300;
+const rol_metodo=301;
 
 function getTipoObjeto(nombre)
 {
     return new nodoTipo(objeto,nombre);
 }
+
+
 
 const suma=
 [
@@ -71,6 +81,58 @@ const relacional=
     [error,error,error,error,igual_cadena,error2],
     [error2,error2,error2,error2,error2,error2]
 ];
+
+const casteo=
+[
+    [allow,error,error,error,error,error2],
+    [error,allow,error,allow,error,error2],
+    [error,allow,allow,allow,error,error2],
+    [error,error,error,allow,error,error2],
+    [error,error,error,error,allow,error2],
+    [error2,error2,error2,error2,error2,error2]
+];
+
+function AsignValid(tipo1,tipo2)
+{
+    var bandera=true;
+    if(tipo1.indice==objeto&&tipo1.indice==tipo2.indice
+        &&!(tipo1.nombre==tipo2.nombre))
+    {
+        bandera=false;
+    }else if(tipo1.indice>6||tipo2.indice>6)
+    {
+        bandera=false;
+    }else
+    {
+        var op=casteo[tipo1.indice][tipo2.indice];
+        if(op==error)
+        {
+            bandera=false;
+        }
+    } 
+    return bandera;
+}
+function etiquetaToTemp(sim,traductor)
+{
+    if(sim.aux instanceof etiqueta)
+    {
+        var tw=valoresm.getTemporal();
+        for(var i=0;i<sim.aux.verdadero.length;i++)
+        {
+            traductor.imprimir_L(sim.aux.verdadero[i]+":");
+        }
+        var salida=valoresm.getEtiqueta();
+        traductor.imprimir(tw+"=1;");
+        traductor.imprimir("goto "+salida+";");
+        for(var i=0;i<sim.aux.falso.length;i++)
+        {
+            traductor.imprimir_L(sim.aux.falso[i]+":");
+        }
+        traductor.imprimir(tw+"=0;");
+        traductor.imprimir_L(salida+":");
+        sim.aux=tw;
+    }
+}
 module.exports.suma=suma;
 module.exports.valores=valores;
 module.exports.potencia=potencia;
@@ -100,6 +162,14 @@ module.exports.protegido=protegido;
 module.exports.privado=privado;
 module.exports.estatico=estatico;
 module.exports.ffinal=ffinal;
+module.exports.abstracto=abstracto;
 module.exports.objeto=objeto;
 module.exports.getTipoObjeto=getTipoObjeto;
+module.exports.rol_variable=rol_variable;
+module.exports.rol_metodo=rol_metodo;
+module.exports.caracter_nulo=caracter_nulo;
+module.exports.allow=allow;
+module.exports.casteo=casteo;
+module.exports.AsignValid=AsignValid;
+module.exports.etiquetaToTemp=etiquetaToTemp;
 //console.log("a "+suma[3][5]);

@@ -1,129 +1,575 @@
-void reverse_olcp2jjps(){
-        t12=0;
-        t13=0;
-        t14=p+2;
-        t15=stack[t14];
-        t16=t15-1;
-    L4:
-        if(t13<t16) goto L5;
-        t17=p+t13;
-        t12=heap[t17];
-        t18=p+t16;
-        t19=heap[t18];
-        heap[t17]=t19;
-        heap[t18]=t12;
-        t13=t13+1;
-        t16=t16-1;
-        goto L4;
-    L5:
-}
 void print_olcp2jjps()
 {
-        t20=p+1;
-        t21=stack[t20];
-    L6:
-        t22=heap[t21];
-        if(t22==557886) goto L7;
-        print("%c",t22);
-        t21=t21+1;
-        goto L6;
-    L7:
+        t1=p+1;
+        t2=stack[t1];
+    L1:
+        t3=heap[t2];
+        if(t3==557886) goto L2;
+        print("%c",t3);
+        t2=t2+1;
+        goto L1;
+    L2:
 }
 void copia_olcp2jjps(){
-        t23=p+1;
-        t24=stack[t23];
-    L8:
-        t25=heap[t24];
-        if(t25==557886) goto L9;
-        heap[h]=t25;
+        t4=p+1;
+        t5=stack[t4];
+    L3:
+        t6=heap[t5];
+        if(t6==557886) goto L4;
+        heap[h]=t6;
         h=h+1;
-        t24=t24+1;
-        goto L8;
-    L9:
+        t5=t5+1;
+        goto L3;
+    L4:
 }
 void concat_olcp2jjps(){
         stack[p]=h;
-        t26=p+3;
-        t27=t26+1;
-        t28=p+1;
-        t29=stack[t28];
-        stack[t27]=t29;
+        t7=p+3;
+        t8=t7+1;
+        t9=p+1;
+        t10=stack[t9];
+        stack[t8]=t10;
         p=p+3;
         call copia_olcp2jjps();
         p=p-3;
-        t30=p+2;
-        t31=stack[t30];
-        stack[t27]=t31;
+        t11=p+2;
+        t12=stack[t11];
+        stack[t8]=t12;
         p=p+3;
         call copia_olcp2jjps();
         p=p-3;
         heap[h]=557886;
         h=h+1;
 }
+void reverse(){
+        t13=p+1;
+        t14=stack[t13];
+        t15=0;
+        t16=0;
+        t17=p+2;
+        t18=stack[t17];
+        t19=t18-1;
+    L5:
+        if(t16<t19) goto L6;
+        goto L7;
+    L6:
+        t20=t14+t16;
+        t15=heap[t20];
+        t21=t14+t19;
+        t22=heap[t21];
+        heap[t20]=t22;
+        heap[t21]=t15;
+        t16=t16+1;
+        t19=t19-1;
+        goto L5;
+    L7:
+}
+void ftoa(){
+        t23=p+3;
+        stack[t23]=h;
+        t24=p+1;
+        t25=stack[t24];
+        if(t25<0) goto L9;
+        goto L10;
+    L9:
+        heap[h]=45;
+        h=h+1;
+        t26=p+1;
+        t27=p+1;
+        t28=stack[t27];
+        t29=-1;
+        t30=t28*t29;
+        stack[t26]=t30;
+        goto L8;
+    L10:
+    L8:
+        t31=p+4;
+        t32=p+4;
+        t33=t32+1;
+        t34=p+1;
+        t35=stack[t34];
+        stack[t33]=t35;
+        p=p+4;
+        call getent();
+        t36=p+0;
+        t37=stack[t36];
+        p=p-4;
+        $$_clean_scope(t32, 4);
+        stack[t31]=t37;
+        t38=p+5;
+        t39=p+1;
+        t40=stack[t39];
+        t41=p+4;
+        t42=stack[t41];
+        t43=t40-t42;
+        stack[t38]=t43;
+        t44=p+4;
+        t45=stack[t44];
+        if(t45==0) goto L12;
+        goto L13;
+    L12:
+        heap[h]=48;
+        h=h+1;
+        goto L11;
+    L13:
+    L11:
+        t46=p+6;
+        t47=p+6;
+        t48=t47+1;
+        t49=p+4;
+        t50=stack[t49];
+        stack[t48]=t50;
+        t51=t47+2;
+        stack[t51]=0;
+        p=p+6;
+        call inttostr();
+        t52=p+0;
+        t53=stack[t52];
+        p=p-6;
+        $$_clean_scope(t47, 6);
+        stack[t46]=t53;
+        t54=p+2;
+        t55=stack[t54];
+        if (t55!=0) goto L15;
+        goto L16;
+    L15:
+        heap[h]=46;
+        h=h+1;
+        t56=p+7;
+        stack[t56]=0;
+        t57=p+8;
+        stack[t57]=1;
+    L17:
+        t58=p+7;
+        t59=stack[t58];
+        t60=p+2;
+        t61=stack[t60];
+        if(t59<t61) goto L18;
+        goto L19;
+    L18:
+        t62=p+8;
+        t63=p+8;
+        t64=stack[t63];
+        t65=t64*10;
+        stack[t62]=t65;
+        t66=p+7;
+        t67=p+7;
+        t68=stack[t67];
+        t69=t68+1;
+        stack[t66]=t69;
+        goto L17;
+    L19:
+        t70=p+5;
+        t71=p+5;
+        t72=stack[t71];
+        t73=p+8;
+        t74=stack[t73];
+        t75=t72*t74;
+        stack[t70]=t75;
+        t76=p+10;
+        t77=t76+1;
+        t78=p+10;
+        t79=t78+1;
+        t80=p+5;
+        t81=stack[t80];
+        stack[t79]=t81;
+        p=p+10;
+        call getent();
+        t82=p+0;
+        t83=stack[t82];
+        p=p-10;
+        $$_clean_scope(t78,10);
+        stack[t77]=t83;
+        t84=t76+2;
+        t85=p+2;
+        t86=stack[t85];
+        stack[t84]=t86;
+        p=p+10;
+        call inttostr();
+        t87=p+0;
+        t88=stack[t87];
+        p=p-10;
+        goto L14;
+    L16:
+    L14:
+        heap[h]=557886;
+        h=h+1;
+        t89=p+0;
+        t90=p+3;
+        t91=stack[t90];
+        stack[t89]=t91;
+}
+void inttostr(){
+        t92=p+3;
+        stack[t92]=h;
+        t93=p+4;
+        stack[t93]=0;
+    L20:
+        t94=p+1;
+        t95=stack[t94];
+        if (t95!=0) goto L21;
+        goto L22;
+    L21:
+        t96=p+4;
+        t97=stack[t96];
+        t98=t97+1;
+        stack[t96]=t98;
+        t99=p+1;
+        t100=stack[t99];
+        t101=t100%10;
+        t102=t101+48;
+        heap[h]=t102;
+        h=h+1;
+        t103=p+1;
+        t104=stack[t103];
+        t105=t104/10;
+        stack[t103]=t105;
+        t106=p+1;
+        t107=p+5;
+        t108=t107+1;
+        t109=p+1;
+        t110=stack[t109];
+        stack[t108]=t110;
+        p=p+5;
+        call getent();
+        t111=p+0;
+        t112=stack[t111];
+        p=p-5;
+        $$_clean_scope(t107,5);
+        stack[t106]=t112;
+        goto L20;
+    L22:
+    L23:
+        t113=p+4;
+        t114=stack[t113];
+        t115=p+2;
+        t116=stack[t115];
+        if(t114<t116) goto L24;
+        goto L25;
+    L24:
+        heap[h]=48;
+        h=h+1;
+        t117=p+4;
+        t118=stack[t117];
+        t119=t118+1;
+        stack[t117]=t119;
+        goto L23;
+    L25:
+        t120=p+5;
+        t121=t120+1;
+        t122=p+3;
+        t123=stack[t122];
+        stack[t121]=t123;
+        t124=t120+2;
+        t125=p+4;
+        t126=stack[t125];
+        stack[t124]=t126;
+        p=p+5;
+        call reverse();
+        p=p-5;
+        $$_clean_scope(t120, 5);
+        t127=p+0;
+        t128=p+4;
+        t129=stack[t128];
+        stack[t127]=t129;
+}
+void getent(){
+        t130=p+2;
+        stack[t130]=0;
+        t131=p+1;
+        t132=stack[t131];
+        if(t132<0) goto L27 ;
+        goto L28;
+    L27:
+        t133=p+1;
+        t134=p+1;
+        t135=stack[t134];
+        t136=t135-0.00000000001;
+        stack[t133]=t136;
+        t137=p+3;
+        t138=p+1;
+        t139=stack[t138];
+        t140=0-1;
+        t141=t139*t140;
+        stack[t137]=t141;
+    L29:
+        t142=p+3;
+        t143=stack[t142];
+        if(t143<=1) goto L30;
+        goto L31;
+    L31:
+        t144=p+3;
+        t145=p+3;
+        t146=stack[t145];
+        t147=t146-1;
+        stack[t144]=t147;
+        t148=p+2;
+        t149=p+2;
+        t150=stack[t149];
+        t151=t150+1;
+        stack[t148]=t151;
+        goto L29;
+    L30:
+        goto L26;
+    L28:
+        t152=p+1;
+        t153=stack[t152];
+        if (t153>0) goto L32;
+        goto L33;
+    L32:
+        t154=p+1;
+        t155=p+1;
+        t156=stack[t155];
+        t157=t156+0.00000000001;
+        stack[t154]=t157;
+        t158=p+4;
+        t159=p+1;
+        t160=stack[t159];
+        stack[t158]=t160;
+    L34:
+        t161=p+4;
+        t162=stack[t161];
+        if(t162<=1) goto L35;
+        goto L36;
+    L36:
+        t163=p+4;
+        t164=p+4;
+        t165=stack[t164];
+        t166=t165-1;
+        stack[t163]=t166;
+        t167=p+2;
+        t168=p+2;
+        t169=stack[t168];
+        t170=t169+1;
+        stack[t167]=t170;
+        goto L34;
+    L35:
+        goto L26;
+    L33:
+    L26:
+        t171=p+0;
+        t172=p+2;
+        t173=stack[t172];
+        stack[t171]=t173;
+}
+void booltostr()
+{
+        t174=p+1;
+        t175=stack[t174];
+        stack[p]=h;
+        if(t175==0)goto L37;
+        heap[h]=116;
+        h=h+1;
+        heap[h]=114;
+        h=h+1;
+        heap[h]=117;
+        h=h+1;
+        heap[h]=101;
+        h=h+1;
+        heap[h]=557886;
+        h=h+1;
+        goto L38;
+    L37:
+        heap[h]=102;
+        h=h+1;
+        heap[h]=97;
+        h=h+1;
+        heap[h]=108;
+        h=h+1;
+        heap[h]=115;
+        h=h+1;
+        heap[h]=101;
+        h=h+1;
+        heap[h]=557886;
+        h=h+1;
+    L38:
+}
 var p=0;
 var h=0;
-/*########    sentencia imprimir    ########*/
-       t1=h;
-       heap[h]=104;
+void main_(){
+/*########    DECLARACION    ########*/
+       t176=p+1;
+       stack[t176]=1;
+/*########    accesos    ########*/
+       t177=p+1;
+       if (0==1)  goto L40;
+       goto L41;
+   L41:
+       if (0==1)  goto L42;
+       goto L43;
+   L40:
+   L42:
+       t178=1;
+       goto L44;
+   L43:
+       t178=0;
+   L44:
+       stack[t177]=t178;
+/*########    SENTENCIA println    ########*/
+/*########    accesos    ########*/
+       t179=p+1;
+       t180=stack[t179];
+       if (t180==1)  goto L45;
+       goto L46;
+   L45:
+       print("%c",116);
+       print("%c",114);
+       print("%c",117);
+       print("%c",101);
+       goto L47;
+   L46:
+       print("%c",102);
+       print("%c",97);
+       print("%c",108);
+       print("%c",115);
+       print("%c",101);
+   L47:
+       print("%c",10);
+/*########    SENTENCIA println    ########*/
+       if (1==1)  goto L48;
+       goto L49;
+   L48:
+       if (1==1)  goto L50;
+       goto L51;
+   L50:
+       t181=1;
+       goto L52;
+   L49:
+   L51:
+       t181=0;
+   L52:
+       t182=p+3;
+       t183=t182+1;
+       stack[t183]=t181;
+       p=p+3;
+       call booltostr();
+       t184=stack[p];
+       p=p-3;
+       t185=h;
+       heap[h]=32;
        h=h+1;
-       heap[h]=111;
+       heap[h]=114;
        h=h+1;
-       heap[h]=97;
+       heap[h]=101;
        h=h+1;
-       heap[h]=557886;
-       h=h+1;
-       t2=h;
-       heap[h]=108;
-       h=h+1;
-       heap[h]=97;
-       h=h+1;
-       heap[h]=97;
-       h=h+1;
-       heap[h]=557886;
-       h=h+1;
-       t3=p+0;
-       t4=t3+1;
-       stack[t4]=t1;//apuntador o1 heap
-       t5=t3+2;
-       stack[t5]=t2;//apuntador o2 heap
-       p=p+0;
-       call concat_olcp2jjps();
-       t6=stack[p];
-       p=p-0;
-       t7=p+0;
-       t8=t7+1;
-       stack[t8]=t6;
-       p=p+0;
-       call print_olcp2jjps();
-       p=p-0;
-/*########    SENTENCIA WHILE    ########*/
-   L1: //etiqueta de inicio de ciclo
-//condicion
-       if (1==1)  goto L2;
-       goto L3;
-   L2:
-//sentencias
-/*########    sentencia imprimir    ########*/
-       t9=h;
-       heap[h]=112;
+       heap[h]=115;
        h=h+1;
        heap[h]=117;
+       h=h+1;
+       heap[h]=108;
        h=h+1;
        heap[h]=116;
        h=h+1;
        heap[h]=97;
        h=h+1;
-       heap[h]=115;
+       heap[h]=100;
+       h=h+1;
+       heap[h]=111;
        h=h+1;
        heap[h]=557886;
        h=h+1;
-       t10=p+0;
-       t11=t10+1;
-       stack[t11]=t9;
-       p=p+0;
+       t186=p+3;
+       t187=t186+1;
+       stack[t187]=t184;//apuntador o1 heap
+       t188=t186+2;
+       stack[t188]=t185;//apuntador o2 heap
+       p=p+3;
+       call concat_olcp2jjps();
+       t189=stack[p];
+       p=p-3;
+       t190=p+3;
+       t191=t190+1;
+       stack[t191]=t189;
+       p=p+3;
        call print_olcp2jjps();
-       p=p-0;
-/*########    sentencia break    ########*/
-       goto L3;
-       goto L1;//goto inicio switch
-   L3:
+       p=p-3;
+       print("%c",10);
+/*########    accesos    ########*/
+/*########    SENTENCIA LLAMADA    ########*/
+       t192=p+3;//cambio simulado
+       t193=t192+1;
+       if (0==1)  goto L53;
+       goto L54;
+   L54:
+       if (1==1)  goto L55;
+       goto L56;
+   L55:
+       if (1==1)  goto L57;
+       goto L58;
+   L53:
+   L57:
+       t194=1;
+       goto L59;
+   L56:
+   L58:
+       t194=0;
+   L59:
+       stack[t193]=t194;
+       p=p+3;//cambio real
+       call otro_bool_();
+//valor retorno
+       t195=p+0;
+       t196=stack[t195];
+       p=p-3;//cambio real
+   L39:
+}
+void otro_bool_(){
+/*########    SENTENCIA IF    ########*/
+//-----bloque if
+//condicion
+/*########    accesos    ########*/
+       t197=p+1;
+       t198=stack[t197];
+       if (t198==1)  goto L62;
+       goto L63;
+   L62:
+//sentencias
+/*########    SENTENCIA println    ########*/
+       t199=h;
+       heap[h]=103;
+       h=h+1;
+       heap[h]=111;
+       h=h+1;
+       heap[h]=32;
+       h=h+1;
+       heap[h]=97;
+       h=h+1;
+       heap[h]=104;
+       h=h+1;
+       heap[h]=101;
+       h=h+1;
+       heap[h]=97;
+       h=h+1;
+       heap[h]=100;
+       h=h+1;
+       heap[h]=557886;
+       h=h+1;
+       t200=p+3;
+       t201=t200+1;
+       stack[t201]=t199;
+       p=p+3;
+       call print_olcp2jjps();
+       p=p-3;
+       print("%c",10);
+       goto L61;
+   L63:
+   L61:
+/*########    sentencia return    ########*/
+       t202=p+0;
+       if (1==1)  goto L64;
+       goto L65;
+   L64:
+       if (0==1)  goto L66;
+       goto L67;
+   L66:
+       t203=1;
+       goto L68;
+   L65:
+   L67:
+       t203=0;
+   L68:
+       stack[t202]=t203;
+       goto L60;
+   L60:
+}
+       call main_();

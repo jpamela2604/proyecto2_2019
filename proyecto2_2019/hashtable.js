@@ -11,15 +11,16 @@ function HashTable(obj)
 
     this.setItem = function(key, value)
     {
+        /*
         var previous = undefined;
         if (this.hasItem(key)) {
             previous = this.items[key];
         }
         else {
             this.length++;
-        }
+        }*/
         this.items[key] = value;
-        return previous;
+        //return previous;
     }
 
     this.getItem = function(key) {

@@ -18,6 +18,7 @@ class s_if{
     {
         var o1=this.op1.ejecutar(exec,er);
         var o2=this.op2.ejecutar(exec,er);
+        //console.log(o1+this.oprel+o2);
         switch(this.oprel)
         {
             case ">":

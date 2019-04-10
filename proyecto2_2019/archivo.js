@@ -8,7 +8,7 @@ const vari = require("./var.js");
 var parser = require("./coline/gramatica_coline/gramatica").parser;
 var fs = require("fs");
 var err=new error_manager();
-var tabla= new ts_manager();
+var tabla= new ts_manager(err);
 var trad = new traducir();
 /*
 var uno = new oa_suma(new o_valorPuntual(5,0,0,"",0),new o_valorPuntual(5,0,0,"",1),0,0,"",2);
@@ -30,19 +30,31 @@ function exec (input) {
 vari.archivo="new file";
 var lista = exec(bnf);
 for (x=0;x<lista.length;x++)
-{
+{    
+    lista[x].comprobacion_global(tabla,err);
+}
+for (x=0;x<lista.length;x++)
+{    
     lista[x].comprobacion(tabla,err);
 }
+
+
+
 err.imprimir();
 if(err.size()==0)
 {
     for (x=0;x<lista.length;x++)
     {
+        lista[x].traduccion_global(tabla,trad);
+    } 
+    for (x=0;x<lista.length;x++)
+    {
         lista[x].traducir(tabla,trad);
     }
+    trad.imprimir("call main_();");
 }
 
-trad.save();
+//trad.save();
 
 //dibujar.GenerarArbol(lista[0].getTree());
 

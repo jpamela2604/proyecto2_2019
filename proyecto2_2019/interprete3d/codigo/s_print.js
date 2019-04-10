@@ -24,7 +24,11 @@ class s_print{
             v=parseInt(v);
         }else
         {
+            /*
+            v=v+"";
             v=parseFloat(v.replace(",", "."));
+            */
+            v=(v).toFixed(4);
         }
         exec.imprimir(v);
     }

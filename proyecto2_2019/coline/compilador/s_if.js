@@ -9,6 +9,14 @@ class s_if{
         this.bloques=bloques;
         this.hash=hash;
     }
+    comprobacion_global(ts,er)
+    {
+
+    }
+    traduccion_global(ts,traductor)
+    {
+        
+    }
     getTree()
     {
         var raiz =new nodoArbol("IF",this.hash);

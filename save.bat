@@ -1,6 +1,5 @@
 git add .
-git commit -m "meti propuestas while,retorno,if,dowhile,break,
-continue,imprimir con la funcionalida de imprimir cadena y concatenacion"
+git commit -m "ya concateno y hago todas las operaciones de la suma | inclui casteo implicito | primera version de traduccion de metodos |relacionado con devolver valores de booleanos resuelto"
 git push -u origin master
 PAUSE
 

@@ -15,6 +15,14 @@ class s_bloque{
         this.hash=hash;
         this.salida="";
     }
+    comprobacion_global(ts,er)
+    {
+
+    }
+    traduccion_global(ts,traductor)
+    {
+        
+    }
     getTree()
     {
         var nombre=cond==null?"BLOQUEIF":"ELSE";
