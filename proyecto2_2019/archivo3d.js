@@ -12,7 +12,11 @@ function exec (input) {
 }
 vari.archivo="new file";
 var raiz = exec(bnf);
-raiz.guardarValores(execute,err);
-raiz.ejecutar(execute,err);
-console.log(execute.cadena);
-
+err.adding();
+err.imprimir();
+if(err.size()==0)
+{
+    raiz.guardarValores(execute,err);
+    raiz.ejecutar(execute,err);
+    console.log(execute.cadena);
+}

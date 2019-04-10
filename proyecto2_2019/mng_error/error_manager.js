@@ -1,4 +1,5 @@
 const nodoError = require("./nodoError.js");
+const vari=require("../var.js");
 class error_manager{
     constructor()
     {
@@ -22,6 +23,17 @@ class error_manager{
     size()
     {
         return this.errores.length;
+    }
+    adding()
+    {
+        if(vari.auxError!=null)
+        {
+            for(var x=0;x<vari.auxError.errores.length;x++)
+            {
+                this.errores.push(vari.auxError.errores[x]);
+            }
+            vari.auxError=null;
+        }
     }
 }
 

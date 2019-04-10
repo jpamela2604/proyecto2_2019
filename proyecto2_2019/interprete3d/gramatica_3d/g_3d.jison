@@ -56,15 +56,30 @@ cmulti						"/*" [^*]* "*/"
 /*{er_temp}                       return 'er_temp';
 {er_etiqueta}                   return 'er_etiqueta';*/
 {er_id}                       	return 'er_id';
-\s+                          /* skip whitespace */
-\n+
-\r+
-\t+
-\f+
-"."                         console.log("error lexico");
+\s+                          {/* skip whitespace */}
+\n+                         {}
+\r+                         {}
+\t+                         {}
+\f+                         {}
 <<EOF>>                     return 'ENDOFFILE';
+.                         {ErrorLexico(yytext,yylineno,yylloc.first_column); }
 /lex
 %{
+        const error_manager=require("../../mng_error/error_manager.js");
+        const vari = require("../../var.js");
+        vari.auxError=new error_manager();
+        function ErrorSintactico(a,lin,col){
+		    //console.log( "Error Sintactico = " + a+"|"+lin+","+col );
+            vari.auxError.addError(a,lin,col,vari.archivo,
+            "SINTACTICO");
+        }
+
+        function ErrorLexico(a,lin,col){
+            
+            //console.log( "Error Lexico = " + a +"|"+lin+","+col );
+            vari.auxError.addError("caracter inesperado: "+a ,lin,col,vari.archivo,
+            "LEXICO");
+        }
         var correlativo=0;
         const metodo = require("../codigo/metodo.js");
         const s_asignacion = require("../codigo/s_asignacion.js");
@@ -89,7 +104,7 @@ cmulti						"/*" [^*]* "*/"
         const v_resta = require("../codigo/v_resta.js");
         const v_suma = require("../codigo/v_suma.js"); 
         const raiz=  require("../codigo/raiz.js");     
-        const vari = require("../../var.js");
+        
 %}
 
 
@@ -138,12 +153,14 @@ MET             : void_ er_id para parc llava L llavc
 L               : L SENT
                 {
                     $$=$1;
-                    $$.push($2);
+                    if($2!=null)
+                    {$$.push($2);}
                 }
                 |SENT
                 {
                     $$=new Array();
-                    $$.push($1);
+                    if($1!=null)
+                    {$$.push($1);}
                 }
                 ;
 SENT            : DECLARACION ptocoma
@@ -178,6 +195,11 @@ SENT            : DECLARACION ptocoma
                 {
                     $$=$1;
                 }
+                |error ptocoma
+				{
+					 ErrorSintactico("falta un punto y coma ",yylineno,0);
+                     $$=null;									
+				}
                 ;
 CLEAN           :limpiar para OPC coma OPC parc
                 {

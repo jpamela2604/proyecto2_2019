@@ -69,15 +69,30 @@ cmulti						"/*" [^*]* "*/"
 {er_cadena}						return 'er_cadena';
 {er_caracter}					return 'er_caracter';
 {er_id}                       	return 'er_id';
-\s+                          /* skip whitespace */
-\n+
-\r+
-\t+
-\f+
-.                         console.log("error lexico");
+\s+                         { /* skip whitespace */}
+\n+                         {}
+\r+                         {}
+\t+                         {}
+\f+                         {}
 <<EOF>>                     return 'ENDOFFILE';
+.                         {ErrorLexico(yytext,yylineno,yylloc.first_column); }
 /lex
 %{
+        const error_manager=require("../../mng_error/error_manager.js");
+        const vari = require("../../var.js");
+        vari.auxError=new error_manager();
+        function ErrorSintactico(a,lin,col){
+		    //console.log( "Error Sintactico = " + a+"|"+lin+","+col );
+            vari.auxError.addError(a,lin,col,vari.archivo,
+            "SINTACTICO");
+        }
+
+        function ErrorLexico(a,lin,col){
+            
+            //console.log( "Error Lexico = " + a +"|"+lin+","+col );
+            vari.auxError.addError("caracter inesperado: "+a ,lin,col,vari.archivo,
+            "LEXICO");
+        }
         const oa_suma = require("../compilador/oa_suma.js");
         const oa_multi = require("../compilador/oa_multi.js");
         const oa_resta = require("../compilador/oa_resta.js");
@@ -111,7 +126,7 @@ cmulti						"/*" [^*]* "*/"
         const parametro=require("../../mng_ts/parametro.js");
         const s_metodo=require("../compilador/s_metodo.js");
         const s_llamada=require("../compilador/s_llamada.js");
-        const vari = require("../../var.js");
+        
         const tablaTipos = require("../tablaTipos.js");
 %}
 
@@ -152,7 +167,7 @@ cmulti						"/*" [^*]* "*/"
 INICIO		    :	S ENDOFFILE
 				{
 					//typeof console !== 'undefined' ? console.log($1) : print($1);
-					console.log("aceptada");
+					//console.log("aceptada");
 					return $1;
 				}
 				;
@@ -186,12 +201,14 @@ OPCG            :DECLAMETO
 L               : L SENT
                 {
                     $$=$1;
-                    $$.push($2);
+                    if($2!=null)
+                    {$$.push($2);}
                 }
                 |SENT
                 {
                     $$=new Array();
-                    $$.push($1);
+                    if($1!=null)
+                    {$$.push($1);}
                 }
                 ;
 SENT            : IMPRIMIR ptocoma
@@ -239,6 +256,11 @@ SENT            : IMPRIMIR ptocoma
                     vari.hash++;
                     $$=new s_accesos($1,vari.hash);
                 }
+                |error ptocoma
+				{
+					 ErrorSintactico("falta un punto y coma ",yylineno,0);
+                     $$=null;									
+				}
                 ;
 
 DECLAMETO       :CABEZAMET llava  L llavc
