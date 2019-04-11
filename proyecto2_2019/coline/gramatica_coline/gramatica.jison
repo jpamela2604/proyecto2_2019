@@ -1,11 +1,11 @@
 %lex
 %options case-insensitive
 er_entero                   [0-9]+
-er_decimal					{er_entero} [.] {er_entero}
+er_decimal					{er_entero} [.] {er_entero}?
 er_cadena					[\"]([^\"])*[\"]
 er_caracter					[\'] ([a-zA-Z]|"\0"|"\n"|"\t"|"\r"|"\f")[\']
-er_id                       [a-zA-Z][a-zA-Z0-9_]*
-clinea						"//" [^\n']+ [\n]?
+er_id                       [a-zA-Z_][a-zA-Z0-9_]*
+clinea						"//" [^\n]+ [\n]?
 cmulti						"/*" [^*]* "*/" 
 %%
 {cmulti}					/* ignore comment */
@@ -726,7 +726,7 @@ E               : E mas E
                 | potencia para E coma E parc %prec potenciacion
                 {
                     vari.hash++;
-                    $$=new oa_modular($3,$5,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new oa_potencia($3,$5,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
                 }
                 |menos E %prec uminus
                 {

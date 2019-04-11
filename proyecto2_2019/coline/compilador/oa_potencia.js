@@ -50,14 +50,20 @@ class oa_potencia{
     {
         var o1=this.op1.traducir(ts,traductor);
         var o2=this.op2.traducir(ts,traductor);
-        var ope=tablaTipos.suma[o1.tipo.indice][o2.tipo.indice];
-        var temporal=valores.getTemporal();
-        traductor.imprimir(temporal+"="+o1.aux+"%"+o2.aux+";");
-        if(ope==tablaTipos.entero)
-        {            
-            return  new simbolo(tablaTipos.tipo_entero,temporal);   
-        }
-        return  new simbolo(tablaTipos.tipo_doble,temporal);   
+            var tsim=valores.getTemporal();var tp1=valores.getTemporal();var tp2=valores.getTemporal();
+            var r=valores.getTemporal();
+            traductor.imprimir(tsim+"=p+"+ts.getTamActual()+";");
+            traductor.imprimir(tp1+"="+tsim+"+1;");
+            traductor.imprimir("stack["+tp1+"]="+o1.aux+";");
+            traductor.imprimir(tp2+"="+tsim+"+2;");
+            traductor.imprimir("stack["+tp2+"]="+o2.aux+";");
+
+            traductor.imprimir("p=p+"+ts.getTamActual()+";");
+            traductor.imprimir("call potencia();");
+            traductor.imprimir(r+"=stack[p];");
+            traductor.imprimir("p=p-"+ts.getTamActual()+";");
+        
+        return  new simbolo(tablaTipos.tipo_doble,r);   
     }
 }
 

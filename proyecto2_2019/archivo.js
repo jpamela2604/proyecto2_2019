@@ -54,7 +54,7 @@ if(err.size()==0)
     {
         lista[x].traducir(tabla,trad);
     }
-    trad.imprimir("call main_();");
+    trad.imprimir("call metojjpsmain_();");
 }
 
 //trad.save();

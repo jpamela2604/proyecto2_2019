@@ -115,13 +115,18 @@
             this.tabla=new Stack();
             this.tabla.push(this.globales);
             this.ambitoActual=new Hashtable();
-            this.posiciones.push(this.posicion);
-            this.posicion=0;
+            
+            
 
         }else
         {
             this.tabla.push(this.ambitoActual);
             this.ambitoActual=new Hashtable();
+        }
+        this.posiciones.push(this.posicion);
+        if(IsLlamada)
+        {
+            this.posicion=0;
         }
         
     }
@@ -132,12 +137,12 @@
         {
             this.tabla=this.auxiliar.pop();
             this.ambitoActual=this.tabla.pop();
-            this.posicion=this.posiciones.pop();
+           
         }else
         {
             this.ambitoActual=this.tabla.pop();
         }
-        
+        this.posicion=this.posiciones.pop();
     }
 }
 

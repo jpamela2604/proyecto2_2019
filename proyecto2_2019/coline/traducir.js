@@ -5,6 +5,10 @@ class traducir{
     constructor()
     {
         this.init();
+        
+        this.getpotencia();
+        this.getraizsq();
+        this.getpotene();
         this.getImprimirCad();
         this.getConcatenar();
         this.getReverse();
@@ -13,6 +17,288 @@ class traducir{
         this.getent();
         this.getbooltoStr();
         this.save("var p=0;\nvar h=0;\n")
+    }
+    getraizsq()
+    {
+        var t1=valores.getTemporal();var t2=valores.getTemporal();
+        var t3=valores.getTemporal();var t4=valores.getTemporal();
+        var t5=valores.getTemporal();var t6=valores.getTemporal();
+        var t7=valores.getTemporal();var t8=valores.getTemporal();
+        var t9=valores.getTemporal();var t10=valores.getTemporal();
+        var t11=valores.getTemporal();var t12=valores.getTemporal();
+        var t13=valores.getTemporal();var t14=valores.getTemporal();
+        var t15=valores.getTemporal();var t16=valores.getTemporal();
+        var t17=valores.getTemporal();var t18=valores.getTemporal();
+        var t19=valores.getTemporal();var t20=valores.getTemporal();
+        var t21=valores.getTemporal();var t22=valores.getTemporal();
+        var t23=valores.getTemporal();var t24=valores.getTemporal();
+        var t25=valores.getTemporal();
+        /*var l1=valores.getEtiqueta();*/var l2=valores.getEtiqueta();
+        var l3=valores.getEtiqueta();var l4=valores.getEtiqueta();
+        var l5=valores.getEtiqueta();var l6=valores.getEtiqueta();
+        var l7=valores.getEtiqueta();
+        this.save("void raizsqrt(){\n");
+        this.save("        "+t1+"=p+3;\n");
+        this.save("        stack["+t1+"]=0;\n");
+        this.save("        "+t2+"=p+4;\n");
+        this.save("        stack["+t2+"]=0.00001;\n");
+        this.save("        "+t3+"=p+2;\n");
+        this.save("        "+t4+"=stack["+t3+"];\n");
+        this.save("        if ("+t4+"==0) goto "+l3+";\n");
+        this.save("        goto "+l4+";\n");
+        this.save("    "+l3+":\n");
+        this.save("        "+t5+"=p+3;\n");
+        this.save("        stack["+t5+"]=1;\n");
+        this.save("        goto "+l2+";\n");
+        this.save("    "+l4+":\n");
+        this.save("    "+l5+":\n");
+        this.save("        "+t6+"=p+6;\n");
+        this.save("        "+t7+"="+t6+"+1;\n");
+        this.save("        "+t8+"=p+3;\n");
+        this.save("        "+t9+"=stack["+t8+"];\n");
+        this.save("        stack["+t7+"]="+t9+";\n");
+        this.save("        "+t10+"="+t6+"+2;\n");
+        this.save("        "+t11+"=p+2;\n");
+        this.save("        "+t12+"=stack["+t11+"];\n");
+        this.save("        stack["+t10+"]="+t12+";\n");
+        this.save("        p=p+6;\n");
+        this.save("        call potene();\n");
+        this.save("        "+t13+"=p+0;\n");
+        this.save("        "+t14+"=stack["+t13+"];\n");
+        this.save("        p=p-6;\n");
+        this.save("        "+t15+"=p+1;\n");
+        this.save("        "+t16+"=stack["+t15+"];\n");
+        this.save("        if("+t14+"<"+t16+") goto "+l6+";\n");
+        this.save("        goto "+l7+";\n");
+        this.save("    "+l6+":\n");
+        this.save("        "+t17+"=p+3;\n");
+        this.save("        "+t18+"=p+3;\n");
+        this.save("        "+t19+"=stack["+t18+"];\n");
+        this.save("        "+t20+"=p+4;\n");
+        this.save("        "+t21+"=stack["+t20+"];\n");
+        this.save("        "+t22+"="+t19+"+"+t21+";\n");
+        this.save("        stack["+t17+"]="+t22+";\n");
+        this.save("        goto "+l5+";\n");
+        this.save("    "+l7+":\n");
+        this.save("    "+l2+":\n");
+        this.save("        "+t23+"=p+0;\n");
+        this.save("        "+t24+"=p+3;\n");
+        this.save("        "+t25+"=stack["+t24+"];\n");
+        this.save("        stack["+t23+"]="+t25+";\n");
+        this.save("}\n");
+
+    }
+
+    getpotene()
+    {
+        var t1=valores.getTemporal();var t2=valores.getTemporal();
+        var t3=valores.getTemporal();var t4=valores.getTemporal();
+        var t5=valores.getTemporal();var t6=valores.getTemporal();
+        var t7=valores.getTemporal();var t8=valores.getTemporal();
+        var t9=valores.getTemporal();var t10=valores.getTemporal();
+        var t11=valores.getTemporal();var t12=valores.getTemporal();
+        var t13=valores.getTemporal();var t14=valores.getTemporal();
+        var t15=valores.getTemporal();var t16=valores.getTemporal();
+        var t17=valores.getTemporal();var t18=valores.getTemporal();
+        var t19=valores.getTemporal();var l2=valores.getEtiqueta();
+        var l3=valores.getEtiqueta();var l4=valores.getEtiqueta();
+        this.save("void potene(){\n");
+        this.save("        "+t1+"=p+3;\n");
+        this.save("        stack["+t1+"]=1;\n");
+        this.save("        "+t2+"=p+4;\n");
+        this.save("        stack["+t2+"]=0;\n");
+        this.save("    "+l2+":\n");
+        this.save("        "+t3+"=p+4;\n");
+        this.save("        "+t4+"=stack["+t3+"];\n");
+        this.save("        "+t5+"=p+2;\n");
+        this.save("        "+t6+"=stack["+t5+"];\n");
+        this.save("        if ("+t4+"<"+t6+") goto "+l3+";\n");
+        this.save("        goto "+l4+";\n");
+        this.save("    "+l3+":\n");
+        this.save("        "+t7+"=p+3;\n");
+        this.save("        "+t8+"=p+3;\n");
+        this.save("        "+t9+"=stack["+t8+"];\n");
+        this.save("        "+t10+"=p+1;\n");
+        this.save("        "+t11+"=stack["+t10+"];\n");
+        this.save("        "+t12+"="+t9+"*"+t11+";\n");
+        this.save("        stack["+t7+"]="+t12+";\n");
+        this.save("        "+t13+"=p+4;\n");
+        this.save("        "+t14+"=p+4;\n");
+        this.save("        "+t15+"=stack["+t14+"];\n");
+        this.save("        "+t16+"="+t15+"+1;\n");
+        this.save("        stack["+t13+"]="+t16+";\n");
+        this.save("        goto "+l2+";\n");
+        this.save("    "+l4+":\n");
+        this.save("        "+t17+"=p+0;\n");
+        this.save("        "+t18+"=p+3;\n");
+        this.save("        "+t19+"=stack["+t18+"];\n");
+        this.save("        stack["+t17+"]="+t19+";\n");
+        this.save("}\n");
+
+    }
+    getpotencia()
+    {
+        var t1=valores.getTemporal();var t2=valores.getTemporal();
+        var t3=valores.getTemporal();var t4=valores.getTemporal();
+        var t5=valores.getTemporal();var t6=valores.getTemporal();
+        var t7=valores.getTemporal();var t8=valores.getTemporal();
+        var t9=valores.getTemporal();var t10=valores.getTemporal();
+        var t11=valores.getTemporal();var t12=valores.getTemporal();
+        var t13=valores.getTemporal();var t14=valores.getTemporal();
+        var t15=valores.getTemporal();var t16=valores.getTemporal();
+        var t17=valores.getTemporal();var t18=valores.getTemporal();
+        var t19=valores.getTemporal();var t20=valores.getTemporal();
+        var t21=valores.getTemporal();var t22=valores.getTemporal();
+        var t23=valores.getTemporal();var t24=valores.getTemporal();
+        var t25=valores.getTemporal();var t26=valores.getTemporal();
+        var t27=valores.getTemporal();var t28=valores.getTemporal();var t29=valores.getTemporal();
+        var t30=valores.getTemporal();var t31=valores.getTemporal();var t32=valores.getTemporal();
+        var t33=valores.getTemporal();var t34=valores.getTemporal();var t35=valores.getTemporal();
+        var t36=valores.getTemporal();var t37=valores.getTemporal();var t38=valores.getTemporal();
+        var t39=valores.getTemporal();var t40=valores.getTemporal();var t41=valores.getTemporal();
+        var t42=valores.getTemporal();var t43=valores.getTemporal();var t44=valores.getTemporal();
+        var t45=valores.getTemporal();var t46=valores.getTemporal();var t47=valores.getTemporal();
+        var t48=valores.getTemporal();var t49=valores.getTemporal();var t50=valores.getTemporal();
+        var t51=valores.getTemporal();var t52=valores.getTemporal();
+        var t53=valores.getTemporal();var t54=valores.getTemporal();
+        var t55=valores.getTemporal();var t56=valores.getTemporal();
+        var t57=valores.getTemporal();var t58=valores.getTemporal();
+        var t59=valores.getTemporal();var t60=valores.getTemporal();
+        var t61=valores.getTemporal();var t62=valores.getTemporal();
+        var t63=valores.getTemporal();var t64=valores.getTemporal();
+        var t65=valores.getTemporal();var t66=valores.getTemporal();
+        var t67=valores.getTemporal();var t68=valores.getTemporal();
+        var t69=valores.getTemporal();var t70=valores.getTemporal();
+        var t71=valores.getTemporal();var t72=valores.getTemporal();
+        var l1=valores.getEtiqueta();var l2=valores.getEtiqueta();
+        var l3=valores.getEtiqueta();var l4=valores.getEtiqueta();
+        var l5=valores.getEtiqueta();var l6=valores.getEtiqueta();
+        var l7=valores.getEtiqueta();var l8=valores.getEtiqueta();
+        var l9=valores.getEtiqueta();var l10=valores.getEtiqueta();
+        var l11=valores.getEtiqueta();var l12=valores.getEtiqueta();
+        var l13=valores.getEtiqueta();
+        this.save("void potencia(){\n");
+        this.save("        "+t1+"=p+3;\n");
+        this.save("        "+t2+"=p+1;\n");
+        this.save("        "+t3+"=stack["+t2+"];\n");
+        this.save("        stack["+t1+"]="+t3+";\n");
+        this.save("        "+t4+"=p+4;\n");
+        this.save("        "+t5+"=p+6;\n");
+        this.save("        "+t6+"="+t5+"+1;\n");
+        this.save("        "+t7+"=p+2;\n");
+        this.save("        "+t8+"=stack["+t7+"];\n");
+        this.save("        stack["+t6+"]="+t8+";\n");
+        this.save("        p=p+6;\n");
+        this.save("        call getent();\n");
+        this.save("        "+t9+"=p+0;\n");
+        this.save("        "+t10+"=stack["+t9+"];\n");
+        this.save("        p=p-6;\n");
+        this.save("        stack["+t4+"]="+t10+";\n");
+        this.save("        "+t11+"=p+5;\n");
+        this.save("        "+t12+"=p+2;\n");
+        this.save("        "+t13+"=stack["+t12+"];\n");
+        this.save("        "+t14+"=p+4;\n");
+        this.save("        "+t15+"=stack["+t14+"];\n");
+        this.save("        "+t16+"="+t13+"-"+t15+";\n");
+        this.save("        stack["+t11+"]="+t16+";\n");
+        this.save("        "+t17+"=p+4;\n");
+        this.save("        "+t18+"=stack["+t17+"];\n");
+        this.save("        if ("+t18+"==0) goto "+l3+";\n");
+        this.save("        goto "+l4+";\n");
+        this.save("    "+l3+":\n");
+        this.save("        "+t19+"=p+3;\n");
+        this.save("        stack["+t19+"]=1;\n");
+        this.save("        goto "+l2+";\n");
+        this.save("    "+l4+":\n");
+        this.save("        "+t20+"=p+6;\n");
+        this.save("        stack["+t20+"]=0;\n");
+        this.save("    "+l5+":\n");
+        this.save("        "+t21+"=p+6;\n");
+        this.save("        "+t22+"=stack["+t21+"];\n");
+        this.save("        "+t23+"=p+4;\n");
+        this.save("        "+t24+"=stack["+t23+"];\n");
+        this.save("        "+t25+"="+t24+"-1;\n");
+        this.save("        if ("+t22+"<"+t25+") goto "+l6+";\n");
+        this.save("        goto "+l7+";\n");
+        this.save("    "+l6+":\n");
+        this.save("        "+t26+"=p+3;\n");
+        this.save("        "+t27+"=p+3;\n");
+        this.save("        "+t28+"=stack["+t27+"];\n");
+        this.save("        "+t29+"=p+1;\n");
+        this.save("        "+t30+"=stack["+t29+"];\n");
+        this.save("        "+t31+"="+t28+"*"+t30+";\n");
+        this.save("        stack["+t26+"]="+t31+";\n");
+        this.save("        "+t32+"=p+6;\n");
+        this.save("        "+t33+"=p+6;\n");
+        this.save("        "+t34+"=stack["+t33+"];\n");
+        this.save("        "+t35+"="+t34+"+1;\n");
+        this.save("        stack["+t32+"]="+t35+";\n");
+        this.save("        goto "+l5+";\n");
+        this.save("    "+l7+":\n");
+        this.save("    "+l2+":\n");
+        this.save("        "+t36+"=p+6;\n");
+        this.save("        stack["+t36+"]=1;\n");
+        this.save("        "+t37+"=p+7;\n");
+        this.save("        stack["+t37+"]=1;\n");
+        this.save("        "+t38+"=p+5;\n");
+        this.save("        "+t39+"=stack["+t38+"];\n");
+        this.save("        if ("+t39+"!=0) goto "+l9+";\n");
+        this.save("        goto "+l10+";\n");
+        this.save("    "+l9+":\n");
+        this.save("    "+l11+":\n");
+        this.save("        "+t40+"=p+5;\n");
+        this.save("        "+t41+"=stack["+t40+"];\n");
+        this.save("        "+t42+"="+t41+"%1;\n");
+        this.save("        if ("+t42+"!=0) goto "+l12+";\n");
+        this.save("        goto "+l13+";\n");
+        this.save("    "+l12+":\n");
+        this.save("        "+t43+"=p+5;\n");
+        this.save("        "+t44+"=p+5;\n");
+        this.save("        "+t45+"=stack["+t44+"];\n");
+        this.save("        "+t46+"="+t45+"*10;\n");
+        this.save("        stack["+t43+"]="+t46+";\n");
+        this.save("        "+t47+"=p+6;\n");
+        this.save("        "+t48+"=p+6;\n");
+        this.save("        "+t49+"=stack["+t48+"];\n");
+        this.save("        "+t50+"=10*"+t49+";\n");
+        this.save("        stack["+t47+"]="+t50+";\n");
+        this.save("        goto "+l11+";\n");
+        this.save("    "+l13+":\n");
+        this.save("        "+t51+"=p+7;\n");
+        this.save("        "+t52+"=p+9;\n");
+        this.save("        "+t53+"="+t52+"+1;\n");
+        this.save("        "+t54+"=p+1;\n");
+        this.save("        "+t55+"=stack["+t54+"];\n");
+        this.save("        stack["+t53+"]="+t55+";\n");
+        this.save("        "+t56+"="+t52+"+2;\n");
+        this.save("        "+t57+"=p+6;\n");
+        this.save("        "+t58+"=stack["+t57+"];\n");
+        this.save("        "+t59+"=p+5;\n");
+        this.save("        "+t60+"=stack["+t59+"];\n");
+        this.save("        "+t61+"="+t58+"/"+t60+";\n");
+        this.save("        stack["+t56+"]="+t61+";\n");
+        this.save("        p=p+9;\n");
+        this.save("        call raizsqrt();\n");
+        this.save("        "+t62+"=p+0;\n");
+        this.save("        "+t63+"=stack["+t62+"];\n");
+        this.save("        p=p-9;\n");
+        this.save("        stack["+t51+"]="+t63+";\n");
+        this.save("        goto "+l8+";\n");
+        this.save("    "+l10+":\n");
+        this.save("    "+l8+":\n");
+        this.save("        "+t64+"=p+3;\n");
+        this.save("        "+t65+"=p+3;\n");
+        this.save("        "+t66+"=stack["+t65+"];\n");
+        this.save("        "+t67+"=p+7;\n");
+        this.save("        "+t68+"=stack["+t67+"];\n");
+        this.save("        "+t69+"="+t66+"*"+t68+";\n");
+        this.save("        stack["+t64+"]="+t69+";\n");
+        this.save("        "+t70+"=p+0;\n");
+        this.save("        "+t71+"=p+3;\n");
+        this.save("        "+t72+"=stack["+t71+"];\n");
+        this.save("        stack["+t70+"]="+t72+";\n");        
+        this.save("}\n");
+
     }
     imprimirHead(cadena)
     {
@@ -210,6 +496,7 @@ class traducir{
         var l7=valores.getEtiqueta();var l8=valores.getEtiqueta();
         var l9=valores.getEtiqueta();var l10=valores.getEtiqueta();
         var l11=valores.getEtiqueta();var l12=valores.getEtiqueta();
+       
         this.save("void getent(){\n");
         this.save("        "+t1+"=p+2;\n");
         this.save("        stack["+t1+"]=0;\n");
@@ -292,17 +579,7 @@ class traducir{
     }
     getintToStr()
     {
-        /*
-        var t1=valores.getTemporal();var t7=valores.getTemporal();var t10=valores.getTemporal();
-        var t16=valores.getTemporal();var t31=valores.getTemporal();var t41=valores.getTemporal();
-        var t42=valores.getTemporal();
-        var l1=valores.getEtiqueta();var l2=valores.getEtiqueta();
-        var l9=valores.getEtiqueta();var l10=valores.getEtiqueta();
-        var l11=valores.getEtiqueta();var l12=valores.getEtiqueta();
-        var l13=valores.getEtiqueta();var l14=valores.getEtiqueta();
-        var l15=valores.getEtiqueta();var l16=valores.getEtiqueta();
-        var l17=valores.getEtiqueta();var l18=valores.getEtiqueta();
-        */
+      
         var t2=valores.getTemporal();var t3=valores.getTemporal();var t4=valores.getTemporal();
         var t5=valores.getTemporal();var t6=valores.getTemporal();var t8=valores.getTemporal();
         var t9=valores.getTemporal();var t11=valores.getTemporal();var t12=valores.getTemporal();
@@ -397,9 +674,7 @@ class traducir{
 
     getftoa()
     {
-        //var t1=valores.getTemporal();var t2=valores.getTemporal();
-
-
+        
         var t3=valores.getTemporal();var t4=valores.getTemporal();var t5=valores.getTemporal();
         var t6=valores.getTemporal();var t7=valores.getTemporal();var t8=valores.getTemporal();
         var t9=valores.getTemporal();var t10=valores.getTemporal();var t11=valores.getTemporal();

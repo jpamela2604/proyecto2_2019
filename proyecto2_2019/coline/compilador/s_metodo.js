@@ -19,6 +19,7 @@ class s_metodo{
         this.archivo=archivo;
         this.hash=hash;
         this.iden=null;
+        this.sim=null;
     }
     comprobacion_global(ts,er)
     {
@@ -30,7 +31,7 @@ class s_metodo{
             ts.getAmbito(true),this.noDimensiones,visibilidad,modificador
             );
         ts.AgregarSimbolo(simb,true,this.linea,this.columna,this.archivo);
-        
+        this.sim=simb;
     }
     traduccion_global(ts,traductor)
     {
@@ -95,7 +96,7 @@ class s_metodo{
        
         if(!this.isAbstract)
         {
-            traductor.imprimirHead("void "+this.iden.getNombre()+"(){");            
+            traductor.imprimirHead("void "+this.sim.getNombre()+"(){");            
             //cambiar ambito
             ts.cambiarAmbito(true);
             //declarar el retorno

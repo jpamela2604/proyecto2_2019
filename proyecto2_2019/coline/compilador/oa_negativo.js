@@ -48,7 +48,8 @@ class oa_negativo{
         var o1=this.op1.traducir(ts,traductor);
         var ope=tablaTipos.suma[o1.tipo.indice][tablaTipos.entero];
         var temporal=valores.getTemporal();
-        traductor.imprimir(temporal+"="+o1.aux+"*"+-1+";");
+        //traductor.imprimir(temporal+"="+o1.aux+"*"+-1+";");
+        traductor.imprimir(temporal+"=-"+o1.aux+";");
         if(ope==tablaTipos.entero)
         {            
             return  new simbolo(tablaTipos.tipo_entero,temporal);   

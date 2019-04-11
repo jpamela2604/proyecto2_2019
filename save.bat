@@ -1,5 +1,5 @@
 git add .
-git commit -m "inclui recuperraciond de errores lexicos y sintacticos ambas gramaticas"
+git commit -m "correji el negativo | agregue el metodo de potencia"
 git push -u origin master
 PAUSE
 

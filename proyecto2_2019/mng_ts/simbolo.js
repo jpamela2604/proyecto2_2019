@@ -24,7 +24,8 @@ class simbolo{
     }
     getNombre()
     {
-        return this.id.getNombre();
+        var aux =this.rol==tablaTipos.rol_metodo?"metojjps":"";
+        return aux+this.id.getNombre();
     }
 
     getPseudoNombre()

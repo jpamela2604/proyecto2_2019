@@ -1,7 +1,7 @@
 %lex
 %options case-insensitive
 er_entero                   [0-9]+
-er_decimal					{er_entero} [.] {er_entero}
+er_decimal					{er_entero} [.] {er_entero}?
 /*er_temp                     "t" [0-9]+
 er_etiqueta                 "L" [0-9]+*/
 er_id                       [a-zA-Z_][a-zA-Z0-9_]*
