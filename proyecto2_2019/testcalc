@@ -1,8 +1,9 @@
 void main()
 {
+	/*
 	int a=5;
 	int b=a+5;
-	int c=b*a;
+	int c=b  a;
 	println(a);
 	println(b);
 	println("fin "+c);
@@ -13,7 +14,18 @@ void main()
 	println(pow('b',2.0));
 	println(pow(3.0,2.5));
 	println(pow(2,'d'));
-	println(pow(4,5));
+	println(pow(4,5));*/
 	//println(pow('d',-3));
 	//println(pow('f','b'));
+	double mi=97.59;
+	int mm=8;
+	String cadenita=(String)mm;
+
+	println(cadenita+" engasada");
+	char pam=(char)mi;
+	String cad=(String)pam;
+	println(cad+" holis");
+	println(pam);
+	int mivaria=(int)mi;
+	print(mivaria);
 }

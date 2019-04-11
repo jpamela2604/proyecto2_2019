@@ -1,5 +1,5 @@
 git add .
-git commit -m "correji el negativo | agregue el metodo de potencia"
+git commit -m "agregue primera version casteo explicito"
 git push -u origin master
 PAUSE
 

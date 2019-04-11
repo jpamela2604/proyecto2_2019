@@ -24,7 +24,7 @@
 
     getPosicion(IsGlobal)
     {
-        var p=IsGlobal?this.contadorGlobales:this.posicion;
+        var p=IsGlobal?0:this.posicion;
         return p;
     }
     getAmbito(IsGlobal)

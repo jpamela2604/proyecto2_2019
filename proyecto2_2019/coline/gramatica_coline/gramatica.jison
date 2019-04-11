@@ -101,6 +101,7 @@ cmulti						"/*" [^*]* "*/"
         const oa_modular = require("../compilador/oa_modular.js");
         const oa_potencia = require("../compilador/oa_potencia.js");
         const oa_negativo = require("../compilador/oa_negativo.js");
+        const oa_casteo= require("../compilador/oa_casteo.js");
         const or_relacional = require("../compilador/or_relacional.js");
         const ol_and=require("../compilador/ol_and.js");
         const ol_not=require("../compilador/ol_not.js");
@@ -748,6 +749,11 @@ E               : E mas E
                     vari.hash++;
                     $$=new o_valorPuntual(null,ace,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
 
+                }
+                |para TIPO parc E
+                {
+                    vari.hash++;
+                    $$=new oa_casteo($2,$4,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
                 }
                 ;
 PRIM            : er_cadena

@@ -591,172 +591,142 @@ var h=0;
 void metojjpsmain_(){
 /*########    DECLARACION    ########*/
        t292=p+1;
-       stack[t292]=5;
+       stack[t292]=97.59;
 /*########    DECLARACION    ########*/
        t293=p+2;
-/*########    accesos    ########*/
-       t294=p+1;
-       t295=stack[t294];
-       t296=t295+5;
-       stack[t293]=t296;
+       stack[t293]=8;
 /*########    DECLARACION    ########*/
-       t297=p+3;
+       t294=p+3;
 /*########    accesos    ########*/
-       t298=p+2;
-       t299=stack[t298];
-/*########    accesos    ########*/
-       t300=p+1;
-       t301=stack[t300];
-       t302=t299*t301;
-       stack[t297]=t302;
+       t295=p+2;
+       t296=stack[t295];
+       t297=p+5;
+       t298=t297+1;
+       stack[t298]=t296;
+       t299=t297+2;
+       stack[t299]=0;
+       p=p+5;
+       call ftoa();
+       t300=stack[p];
+       p=p-5;
+       stack[t294]=t300;
 /*########    SENTENCIA println    ########*/
 /*########    accesos    ########*/
-       t303=p+1;
-       t304=stack[t303];
-       print("%e",t304);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-/*########    accesos    ########*/
-       t305=p+2;
-       t306=stack[t305];
-       print("%e",t306);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-       t307=h;
-       heap[h]=102;
+       t301=p+3;
+       t302=stack[t301];
+       t303=h;
+       heap[h]=32;
        h=h+1;
-       heap[h]=105;
+       heap[h]=101;
        h=h+1;
        heap[h]=110;
        h=h+1;
-       heap[h]=32;
+       heap[h]=103;
+       h=h+1;
+       heap[h]=97;
+       h=h+1;
+       heap[h]=115;
+       h=h+1;
+       heap[h]=97;
+       h=h+1;
+       heap[h]=100;
+       h=h+1;
+       heap[h]=97;
        h=h+1;
        heap[h]=557886;
        h=h+1;
-/*########    accesos    ########*/
-       t308=p+3;
-       t309=stack[t308];
-       t310=p+5;
-       t311=t310+1;
-       stack[t311]=t309;
-       t312=t310+2;
-       stack[t312]=0;
-       p=p+5;
-       call ftoa();
-       t313=stack[p];
-       p=p-5;
-       t314=p+5;
-       t315=t314+1;
-       stack[t315]=t307;//apuntador o1 heap
-       t316=t314+2;
-       stack[t316]=t313;//apuntador o2 heap
+       t304=p+5;
+       t305=t304+1;
+       stack[t305]=t302;//apuntador o1 heap
+       t306=t304+2;
+       stack[t306]=t303;//apuntador o2 heap
        p=p+5;
        call concat_olcp2jjps();
-       t317=stack[p];
+       t307=stack[p];
        p=p-5;
-       t318=p+5;
-       t319=t318+1;
-       stack[t319]=t317;
+       t308=p+5;
+       t309=t308+1;
+       stack[t309]=t307;
        p=p+5;
        call print_olcp2jjps();
        p=p-5;
        print("%c",10);
+/*########    DECLARACION    ########*/
+       t310=p+4;
+/*########    accesos    ########*/
+       t311=p+1;
+       t312=stack[t311];
+       stack[t310]=t312;
+/*########    DECLARACION    ########*/
+       t313=p+5;
+/*########    accesos    ########*/
+       t314=p+4;
+       t315=stack[t314];
+       t316=h;
+       heap[h]=t315;
+       h=h+1;
+       heap[h]=557886;
+       h=h+1;
+       stack[t313]=t316;
 /*########    SENTENCIA println    ########*/
-       t320=p+5;
+/*########    accesos    ########*/
+       t317=p+5;
+       t318=stack[t317];
+       t319=h;
+       heap[h]=32;
+       h=h+1;
+       heap[h]=104;
+       h=h+1;
+       heap[h]=111;
+       h=h+1;
+       heap[h]=108;
+       h=h+1;
+       heap[h]=105;
+       h=h+1;
+       heap[h]=115;
+       h=h+1;
+       heap[h]=557886;
+       h=h+1;
+       t320=p+7;
        t321=t320+1;
-       stack[t321]=25;
+       stack[t321]=t318;//apuntador o1 heap
        t322=t320+2;
-       stack[t322]=2.5;
-       p=p+5;
-       call potencia();
+       stack[t322]=t319;//apuntador o2 heap
+       p=p+7;
+       call concat_olcp2jjps();
        t323=stack[p];
-       p=p-5;
-       print("%d",t323);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-       t324=p+5;
+       p=p-7;
+       t324=p+7;
        t325=t324+1;
-       stack[t325]=1;
-       t326=t324+2;
-       stack[t326]=4.5;
-       p=p+5;
-       call potencia();
-       t327=stack[p];
-       p=p-5;
-       print("%d",t327);
+       stack[t325]=t323;
+       p=p+7;
+       call print_olcp2jjps();
+       p=p-7;
        print("%c",10);
 /*########    SENTENCIA println    ########*/
-       t328=p+5;
-       t329=t328+1;
-       stack[t329]=5.1;
-       t330=t328+2;
-       stack[t330]=3;
-       p=p+5;
-       call potencia();
-       t331=stack[p];
-       p=p-5;
-       print("%d",t331);
+/*########    accesos    ########*/
+       t326=p+4;
+       t327=stack[t326];
+       print("%c",t327);
        print("%c",10);
-/*########    SENTENCIA println    ########*/
-       t332=p+5;
-       t333=t332+1;
-       stack[t333]=1.0;
-       t334=t332+2;
-       stack[t334]=97;
-       p=p+5;
-       call potencia();
-       t335=stack[p];
-       p=p-5;
-       print("%d",t335);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-       t336=p+5;
-       t337=t336+1;
-       stack[t337]=98;
-       t338=t336+2;
-       stack[t338]=2.0;
-       p=p+5;
-       call potencia();
-       t339=stack[p];
-       p=p-5;
-       print("%d",t339);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-       t340=p+5;
-       t341=t340+1;
-       stack[t341]=3.0;
-       t342=t340+2;
-       stack[t342]=2.5;
-       p=p+5;
-       call potencia();
-       t343=stack[p];
-       p=p-5;
-       print("%d",t343);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-       t344=p+5;
-       t345=t344+1;
-       stack[t345]=2;
-       t346=t344+2;
-       stack[t346]=100;
-       p=p+5;
-       call potencia();
-       t347=stack[p];
-       p=p-5;
-       print("%d",t347);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-       t348=p+5;
-       t349=t348+1;
-       stack[t349]=4;
-       t350=t348+2;
-       stack[t350]=5;
-       p=p+5;
-       call potencia();
-       t351=stack[p];
-       p=p-5;
-       print("%d",t351);
-       print("%c",10);
+/*########    DECLARACION    ########*/
+       t328=p+6;
+/*########    accesos    ########*/
+       t329=p+1;
+       t330=stack[t329];
+       t331=p+8;
+       t332=t331+1;
+       stack[t332]=t330;
+       p=p+8;
+       call getent();
+       t334=stack[p];
+       p=p-8;
+       stack[t328]=t334;
+/*########    SENTENCIA PRINT    ########*/
+/*########    accesos    ########*/
+       t335=p+6;
+       t336=stack[t335];
+       print("%e",t336);
    L61:
 }
        call metojjpsmain_();

@@ -42,7 +42,7 @@ class ejecucion{
     imprimir(cad)
     {
         this.cadena=this.cadena+cad;
-        console.log(cad);
+        //console.log(cad);
     }
     
     agregarTemp(nombre,valor)
