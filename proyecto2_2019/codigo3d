@@ -1,241 +1,271 @@
+void cmpIgual(){
+        t1=p+1;
+        t2=stack[t1];
+        t4=p+2;
+        t3=stack[t4];
+        stack[p]=0;
+    L2:
+        t5=heap[t2];
+        t6=heap[t3];
+        if(t5==557886) goto L8;
+        goto L4;
+    L8:
+        if (t6==557886) goto L3;
+        goto L4;
+    L3:
+        stack[p]=1;
+        goto L7;
+    L4:
+        if (t5==557886) goto L5;
+        if (t6==557886) goto L5;
+        if (t5!=t6) goto L5;
+        goto L6;
+    L5:
+        goto L7;
+    L6:
+        t2=t2+1;
+        t3=t3+1;
+        goto L2;
+    L7:
+}
 void potencia(){
-        t1=p+3;
-        t2=p+1;
-        t3=stack[t2];
-        stack[t1]=t3;
-        t4=p+4;
-        t5=p+6;
-        t6=t5+1;
-        t7=p+2;
-        t8=stack[t7];
-        stack[t6]=t8;
+        t7=p+3;
+        t8=p+1;
+        t9=stack[t8];
+        stack[t7]=t9;
+        t10=p+4;
+        t11=p+6;
+        t12=t11+1;
+        t13=p+2;
+        t14=stack[t13];
+        stack[t12]=t14;
         p=p+6;
         call getent();
-        t9=p+0;
-        t10=stack[t9];
+        t15=p+0;
+        t16=stack[t15];
         p=p-6;
-        stack[t4]=t10;
-        t11=p+5;
-        t12=p+2;
-        t13=stack[t12];
-        t14=p+4;
-        t15=stack[t14];
-        t16=t13-t15;
-        stack[t11]=t16;
-        t17=p+4;
-        t18=stack[t17];
-        if (t18==0) goto L4;
-        goto L5;
-    L4:
-        t19=p+3;
-        stack[t19]=1;
-        goto L3;
-    L5:
-        t20=p+6;
-        stack[t20]=0;
-    L6:
-        t21=p+6;
-        t22=stack[t21];
+        stack[t10]=t16;
+        t17=p+5;
+        t18=p+2;
+        t19=stack[t18];
+        t20=p+4;
+        t21=stack[t20];
+        t22=t19-t21;
+        stack[t17]=t22;
         t23=p+4;
         t24=stack[t23];
-        t25=t24-1;
-        if (t22<t25) goto L7;
-        goto L8;
-    L7:
-        t26=p+3;
-        t27=p+3;
-        t28=stack[t27];
-        t29=p+1;
-        t30=stack[t29];
-        t31=t28*t30;
-        stack[t26]=t31;
-        t32=p+6;
-        t33=p+6;
-        t34=stack[t33];
-        t35=t34+1;
-        stack[t32]=t35;
-        goto L6;
-    L8:
-    L3:
-        t36=p+6;
-        stack[t36]=1;
-        t37=p+7;
-        stack[t37]=1;
-        t38=p+5;
-        t39=stack[t38];
-        if (t39!=0) goto L10;
-        goto L11;
-    L10:
+        if (t24==0) goto L11;
+        goto L12;
+    L11:
+        t25=p+3;
+        stack[t25]=1;
+        goto L10;
     L12:
-        t40=p+5;
-        t41=stack[t40];
-        t42=t41%1;
-        if (t42!=0) goto L13;
-        goto L14;
+        t26=p+6;
+        stack[t26]=0;
     L13:
-        t43=p+5;
+        t27=p+6;
+        t28=stack[t27];
+        t29=p+4;
+        t30=stack[t29];
+        t31=t30-1;
+        if (t28<t31) goto L14;
+        goto L15;
+    L14:
+        t32=p+3;
+        t33=p+3;
+        t34=stack[t33];
+        t35=p+1;
+        t36=stack[t35];
+        t37=t34*t36;
+        stack[t32]=t37;
+        t38=p+6;
+        t39=p+6;
+        t40=stack[t39];
+        t41=t40+1;
+        stack[t38]=t41;
+        goto L13;
+    L15:
+    L10:
+        t42=p+6;
+        stack[t42]=1;
+        t43=p+7;
+        stack[t43]=1;
         t44=p+5;
         t45=stack[t44];
-        t46=t45*10;
-        stack[t43]=t46;
-        t47=p+6;
-        t48=p+6;
-        t49=stack[t48];
-        t50=10*t49;
-        stack[t47]=t50;
-        goto L12;
-    L14:
-        t51=p+7;
-        t52=p+9;
-        t53=t52+1;
-        t54=p+1;
+        if (t45!=0) goto L17;
+        goto L18;
+    L17:
+    L19:
+        t46=p+5;
+        t47=stack[t46];
+        t48=t47%1;
+        if (t48!=0) goto L20;
+        goto L21;
+    L20:
+        t49=p+5;
+        t50=p+5;
+        t51=stack[t50];
+        t52=t51*10;
+        stack[t49]=t52;
+        t53=p+6;
+        t54=p+6;
         t55=stack[t54];
-        stack[t53]=t55;
-        t56=t52+2;
-        t57=p+6;
-        t58=stack[t57];
-        t59=p+5;
-        t60=stack[t59];
-        t61=t58/t60;
-        stack[t56]=t61;
+        t56=10*t55;
+        stack[t53]=t56;
+        goto L19;
+    L21:
+        t57=p+7;
+        t58=p+9;
+        t59=t58+1;
+        t60=p+1;
+        t61=stack[t60];
+        stack[t59]=t61;
+        t62=t58+2;
+        t63=p+6;
+        t64=stack[t63];
+        t65=p+5;
+        t66=stack[t65];
+        t67=t64/t66;
+        stack[t62]=t67;
         p=p+9;
         call raizsqrt();
-        t62=p+0;
-        t63=stack[t62];
+        t68=p+0;
+        t69=stack[t68];
         p=p-9;
-        stack[t51]=t63;
-        goto L9;
-    L11:
-    L9:
-        t64=p+3;
-        t65=p+3;
-        t66=stack[t65];
-        t67=p+7;
-        t68=stack[t67];
-        t69=t66*t68;
-        stack[t64]=t69;
-        t70=p+0;
+        stack[t57]=t69;
+        goto L16;
+    L18:
+    L16:
+        t70=p+3;
         t71=p+3;
         t72=stack[t71];
-        stack[t70]=t72;
+        t73=p+7;
+        t74=stack[t73];
+        t75=t72*t74;
+        stack[t70]=t75;
+        t76=p+0;
+        t77=p+3;
+        t78=stack[t77];
+        stack[t76]=t78;
 }
 void raizsqrt(){
-        t73=p+3;
-        stack[t73]=0;
-        t74=p+4;
-        stack[t74]=0.00001;
-        t75=p+2;
-        t76=stack[t75];
-        if (t76==0) goto L16;
-        goto L17;
-    L16:
-        t77=p+3;
-        stack[t77]=1;
-        goto L15;
-    L17:
-    L18:
-        t78=p+6;
-        t79=t78+1;
-        t80=p+3;
-        t81=stack[t80];
-        stack[t79]=t81;
-        t82=t78+2;
-        t83=p+2;
-        t84=stack[t83];
-        stack[t82]=t84;
+        t79=p+3;
+        stack[t79]=0;
+        t80=p+4;
+        stack[t80]=0.00001;
+        t81=p+2;
+        t82=stack[t81];
+        if (t82==0) goto L23;
+        goto L24;
+    L23:
+        t83=p+3;
+        stack[t83]=1;
+        goto L22;
+    L24:
+    L25:
+        t84=p+6;
+        t85=t84+1;
+        t86=p+3;
+        t87=stack[t86];
+        stack[t85]=t87;
+        t88=t84+2;
+        t89=p+2;
+        t90=stack[t89];
+        stack[t88]=t90;
         p=p+6;
         call potene();
-        t85=p+0;
-        t86=stack[t85];
+        t91=p+0;
+        t92=stack[t91];
         p=p-6;
-        t87=p+1;
-        t88=stack[t87];
-        if(t86<t88) goto L19;
-        goto L20;
-    L19:
-        t89=p+3;
-        t90=p+3;
-        t91=stack[t90];
-        t92=p+4;
-        t93=stack[t92];
-        t94=t91+t93;
-        stack[t89]=t94;
-        goto L18;
-    L20:
-    L15:
-        t95=p+0;
+        t93=p+1;
+        t94=stack[t93];
+        if(t92<t94) goto L26;
+        goto L27;
+    L26:
+        t95=p+3;
         t96=p+3;
         t97=stack[t96];
-        stack[t95]=t97;
+        t98=p+4;
+        t99=stack[t98];
+        t100=t97+t99;
+        stack[t95]=t100;
+        goto L25;
+    L27:
+    L22:
+        t101=p+0;
+        t102=p+3;
+        t103=stack[t102];
+        stack[t101]=t103;
 }
 void potene(){
-        t98=p+3;
-        stack[t98]=1;
-        t99=p+4;
-        stack[t99]=0;
-    L21:
-        t100=p+4;
-        t101=stack[t100];
-        t102=p+2;
-        t103=stack[t102];
-        if (t101<t103) goto L22;
-        goto L23;
-    L22:
         t104=p+3;
-        t105=p+3;
-        t106=stack[t105];
-        t107=p+1;
-        t108=stack[t107];
-        t109=t106*t108;
-        stack[t104]=t109;
-        t110=p+4;
-        t111=p+4;
+        stack[t104]=1;
+        t105=p+4;
+        stack[t105]=0;
+    L28:
+        t106=p+4;
+        t107=stack[t106];
+        t108=p+2;
+        t109=stack[t108];
+        if (t107<t109) goto L29;
+        goto L30;
+    L29:
+        t110=p+3;
+        t111=p+3;
         t112=stack[t111];
-        t113=t112+1;
-        stack[t110]=t113;
-        goto L21;
-    L23:
-        t114=p+0;
-        t115=p+3;
-        t116=stack[t115];
-        stack[t114]=t116;
+        t113=p+1;
+        t114=stack[t113];
+        t115=t112*t114;
+        stack[t110]=t115;
+        t116=p+4;
+        t117=p+4;
+        t118=stack[t117];
+        t119=t118+1;
+        stack[t116]=t119;
+        goto L28;
+    L30:
+        t120=p+0;
+        t121=p+3;
+        t122=stack[t121];
+        stack[t120]=t122;
 }
 void print_olcp2jjps(){
-        t117=p+1;
-        t118=stack[t117];
-    L24:
-        t119=heap[t118];
-        if(t119==557886) goto L25;
-        print("%c",t119);
-        t118=t118+1;
-        goto L24;
-    L25:
+        t123=p+1;
+        t124=stack[t123];
+    L31:
+        t125=heap[t124];
+        if(t125==557886) goto L32;
+        print("%c",t125);
+        t124=t124+1;
+        goto L31;
+    L32:
 }
 void copia_olcp2jjps(){
-        t120=p+1;
-        t121=stack[t120];
-    L26:
-        t122=heap[t121];
-        if(t122==557886) goto L27;
-        heap[h]=t122;
+        t126=p+1;
+        t127=stack[t126];
+    L33:
+        t128=heap[t127];
+        if(t128==557886) goto L34;
+        heap[h]=t128;
         h=h+1;
-        t121=t121+1;
-        goto L26;
-    L27:
+        t127=t127+1;
+        goto L33;
+    L34:
 }
 void concat_olcp2jjps(){
         stack[p]=h;
-        t123=p+3;
-        t124=t123+1;
-        t125=p+1;
-        t126=stack[t125];
-        stack[t124]=t126;
+        t129=p+3;
+        t130=t129+1;
+        t131=p+1;
+        t132=stack[t131];
+        stack[t130]=t132;
         p=p+3;
         call copia_olcp2jjps();
         p=p-3;
-        t127=p+2;
-        t128=stack[t127];
-        stack[t124]=t128;
+        t133=p+2;
+        t134=stack[t133];
+        stack[t130]=t134;
         p=p+3;
         call copia_olcp2jjps();
         p=p-3;
@@ -243,321 +273,321 @@ void concat_olcp2jjps(){
         h=h+1;
 }
 void reverse(){
-        t129=p+1;
-        t130=stack[t129];
-        t131=0;
-        t132=0;
-        t133=p+2;
-        t134=stack[t133];
-        t135=t134-1;
-    L28:
-        if(t132<t135) goto L29;
-        goto L30;
-    L29:
-        t136=t130+t132;
-        t131=heap[t136];
-        t137=t130+t135;
-        t138=heap[t137];
-        heap[t136]=t138;
-        heap[t137]=t131;
-        t132=t132+1;
-        t135=t135-1;
-        goto L28;
-    L30:
+        t135=p+1;
+        t136=stack[t135];
+        t137=0;
+        t138=0;
+        t139=p+2;
+        t140=stack[t139];
+        t141=t140-1;
+    L35:
+        if(t138<t141) goto L36;
+        goto L37;
+    L36:
+        t142=t136+t138;
+        t137=heap[t142];
+        t143=t136+t141;
+        t144=heap[t143];
+        heap[t142]=t144;
+        heap[t143]=t137;
+        t138=t138+1;
+        t141=t141-1;
+        goto L35;
+    L37:
 }
 void ftoa(){
-        t139=p+3;
-        stack[t139]=h;
-        t140=p+1;
-        t141=stack[t140];
-        if(t141<0) goto L32;
-        goto L33;
-    L32:
+        t145=p+3;
+        stack[t145]=h;
+        t146=p+1;
+        t147=stack[t146];
+        if(t147<0) goto L39;
+        goto L40;
+    L39:
         heap[h]=45;
         h=h+1;
-        t142=p+1;
-        t143=p+1;
-        t144=stack[t143];
-        t145=-1;
-        t146=t144*t145;
-        stack[t142]=t146;
-        goto L31;
-    L33:
-    L31:
-        t147=p+4;
-        t148=p+4;
-        t149=t148+1;
-        t150=p+1;
-        t151=stack[t150];
-        stack[t149]=t151;
+        t148=p+1;
+        t149=p+1;
+        t150=stack[t149];
+        t151=-1;
+        t152=t150*t151;
+        stack[t148]=t152;
+        goto L38;
+    L40:
+    L38:
+        t153=p+4;
+        t154=p+4;
+        t155=t154+1;
+        t156=p+1;
+        t157=stack[t156];
+        stack[t155]=t157;
         p=p+4;
         call getent();
-        t152=p+0;
-        t153=stack[t152];
+        t158=p+0;
+        t159=stack[t158];
         p=p-4;
-        $$_clean_scope(t148, 4);
-        stack[t147]=t153;
-        t154=p+5;
-        t155=p+1;
-        t156=stack[t155];
-        t157=p+4;
-        t158=stack[t157];
-        t159=t156-t158;
-        stack[t154]=t159;
-        t160=p+4;
-        t161=stack[t160];
-        if(t161==0) goto L35;
-        goto L36;
-    L35:
+        $$_clean_scope(t154, 4);
+        stack[t153]=t159;
+        t160=p+5;
+        t161=p+1;
+        t162=stack[t161];
+        t163=p+4;
+        t164=stack[t163];
+        t165=t162-t164;
+        stack[t160]=t165;
+        t166=p+4;
+        t167=stack[t166];
+        if(t167==0) goto L42;
+        goto L43;
+    L42:
         heap[h]=48;
         h=h+1;
-        goto L34;
-    L36:
-    L34:
-        t162=p+6;
-        t163=p+6;
-        t164=t163+1;
-        t165=p+4;
-        t166=stack[t165];
-        stack[t164]=t166;
-        t167=t163+2;
-        stack[t167]=0;
+        goto L41;
+    L43:
+    L41:
+        t168=p+6;
+        t169=p+6;
+        t170=t169+1;
+        t171=p+4;
+        t172=stack[t171];
+        stack[t170]=t172;
+        t173=t169+2;
+        stack[t173]=0;
         p=p+6;
         call inttostr();
-        t168=p+0;
-        t169=stack[t168];
-        p=p-6;
-        $$_clean_scope(t163, 6);
-        stack[t162]=t169;
-        t170=p+2;
-        t171=stack[t170];
-        if (t171!=0) goto L38;
-        goto L39;
-    L38:
-        heap[h]=46;
-        h=h+1;
-        t172=p+7;
-        stack[t172]=0;
-        t173=p+8;
-        stack[t173]=1;
-    L40:
-        t174=p+7;
+        t174=p+0;
         t175=stack[t174];
+        p=p-6;
+        $$_clean_scope(t169, 6);
+        stack[t168]=t175;
         t176=p+2;
         t177=stack[t176];
-        if(t175<t177) goto L41;
-        goto L42;
-    L41:
-        t178=p+8;
+        if (t177!=0) goto L45;
+        goto L46;
+    L45:
+        heap[h]=46;
+        h=h+1;
+        t178=p+7;
+        stack[t178]=0;
         t179=p+8;
-        t180=stack[t179];
-        t181=t180*10;
-        stack[t178]=t181;
-        t182=p+7;
-        t183=p+7;
-        t184=stack[t183];
-        t185=t184+1;
-        stack[t182]=t185;
-        goto L40;
-    L42:
-        t186=p+5;
-        t187=p+5;
-        t188=stack[t187];
-        t189=p+8;
+        stack[t179]=1;
+    L47:
+        t180=p+7;
+        t181=stack[t180];
+        t182=p+2;
+        t183=stack[t182];
+        if(t181<t183) goto L48;
+        goto L49;
+    L48:
+        t184=p+8;
+        t185=p+8;
+        t186=stack[t185];
+        t187=t186*10;
+        stack[t184]=t187;
+        t188=p+7;
+        t189=p+7;
         t190=stack[t189];
-        t191=t188*t190;
-        stack[t186]=t191;
-        t192=p+10;
-        t193=t192+1;
-        t194=p+10;
-        t195=t194+1;
-        t196=p+5;
-        t197=stack[t196];
-        stack[t195]=t197;
+        t191=t190+1;
+        stack[t188]=t191;
+        goto L47;
+    L49:
+        t192=p+5;
+        t193=p+5;
+        t194=stack[t193];
+        t195=p+8;
+        t196=stack[t195];
+        t197=t194*t196;
+        stack[t192]=t197;
+        t198=p+10;
+        t199=t198+1;
+        t200=p+10;
+        t201=t200+1;
+        t202=p+5;
+        t203=stack[t202];
+        stack[t201]=t203;
         p=p+10;
         call getent();
-        t198=p+0;
-        t199=stack[t198];
+        t204=p+0;
+        t205=stack[t204];
         p=p-10;
-        $$_clean_scope(t194,10);
-        stack[t193]=t199;
-        t200=t192+2;
-        t201=p+2;
-        t202=stack[t201];
-        stack[t200]=t202;
+        $$_clean_scope(t200,10);
+        stack[t199]=t205;
+        t206=t198+2;
+        t207=p+2;
+        t208=stack[t207];
+        stack[t206]=t208;
         p=p+10;
         call inttostr();
-        t203=p+0;
-        t204=stack[t203];
+        t209=p+0;
+        t210=stack[t209];
         p=p-10;
-        goto L37;
-    L39:
-    L37:
+        goto L44;
+    L46:
+    L44:
         heap[h]=557886;
         h=h+1;
-        t205=p+0;
-        t206=p+3;
-        t207=stack[t206];
-        stack[t205]=t207;
+        t211=p+0;
+        t212=p+3;
+        t213=stack[t212];
+        stack[t211]=t213;
 }
 void inttostr(){
-        t208=p+3;
-        stack[t208]=h;
-        t209=p+4;
-        stack[t209]=0;
-    L43:
-        t210=p+1;
-        t211=stack[t210];
-        if (t211!=0) goto L44;
-        goto L45;
-    L44:
-        t212=p+4;
-        t213=stack[t212];
-        t214=t213+1;
-        stack[t212]=t214;
-        t215=p+1;
-        t216=stack[t215];
-        t217=t216%10;
-        t218=t217+48;
-        heap[h]=t218;
+        t214=p+3;
+        stack[t214]=h;
+        t215=p+4;
+        stack[t215]=0;
+    L50:
+        t216=p+1;
+        t217=stack[t216];
+        if (t217!=0) goto L51;
+        goto L52;
+    L51:
+        t218=p+4;
+        t219=stack[t218];
+        t220=t219+1;
+        stack[t218]=t220;
+        t221=p+1;
+        t222=stack[t221];
+        t223=t222%10;
+        t224=t223+48;
+        heap[h]=t224;
         h=h+1;
-        t219=p+1;
-        t220=stack[t219];
-        t221=t220/10;
-        stack[t219]=t221;
-        t222=p+1;
-        t223=p+5;
-        t224=t223+1;
         t225=p+1;
         t226=stack[t225];
-        stack[t224]=t226;
+        t227=t226/10;
+        stack[t225]=t227;
+        t228=p+1;
+        t229=p+5;
+        t230=t229+1;
+        t231=p+1;
+        t232=stack[t231];
+        stack[t230]=t232;
         p=p+5;
         call getent();
-        t227=p+0;
-        t228=stack[t227];
+        t233=p+0;
+        t234=stack[t233];
         p=p-5;
-        $$_clean_scope(t223,5);
-        stack[t222]=t228;
-        goto L43;
-    L45:
-    L46:
-        t229=p+4;
-        t230=stack[t229];
-        t231=p+2;
-        t232=stack[t231];
-        if(t230<t232) goto L47;
-        goto L48;
-    L47:
+        $$_clean_scope(t229,5);
+        stack[t228]=t234;
+        goto L50;
+    L52:
+    L53:
+        t235=p+4;
+        t236=stack[t235];
+        t237=p+2;
+        t238=stack[t237];
+        if(t236<t238) goto L54;
+        goto L55;
+    L54:
         heap[h]=48;
         h=h+1;
-        t233=p+4;
-        t234=stack[t233];
-        t235=t234+1;
-        stack[t233]=t235;
-        goto L46;
-    L48:
-        t236=p+5;
-        t237=t236+1;
-        t238=p+3;
-        t239=stack[t238];
-        stack[t237]=t239;
-        t240=t236+2;
-        t241=p+4;
-        t242=stack[t241];
-        stack[t240]=t242;
+        t239=p+4;
+        t240=stack[t239];
+        t241=t240+1;
+        stack[t239]=t241;
+        goto L53;
+    L55:
+        t242=p+5;
+        t243=t242+1;
+        t244=p+3;
+        t245=stack[t244];
+        stack[t243]=t245;
+        t246=t242+2;
+        t247=p+4;
+        t248=stack[t247];
+        stack[t246]=t248;
         p=p+5;
         call reverse();
         p=p-5;
-        $$_clean_scope(t236, 5);
-        t243=p+0;
-        t244=p+4;
-        t245=stack[t244];
-        stack[t243]=t245;
+        $$_clean_scope(t242, 5);
+        t249=p+0;
+        t250=p+4;
+        t251=stack[t250];
+        stack[t249]=t251;
 }
 void getent(){
-        t246=p+2;
-        stack[t246]=0;
-        t247=p+1;
-        t248=stack[t247];
-        if(t248<0) goto L50 ;
-        goto L51;
-    L50:
-        t249=p+1;
-        t250=p+1;
-        t251=stack[t250];
-        t252=t251-0.00000000001;
-        stack[t249]=t252;
-        t253=p+3;
-        t254=p+1;
-        t255=stack[t254];
-        t256=0-1;
-        t257=t255*t256;
-        stack[t253]=t257;
-    L52:
-        t258=p+3;
-        t259=stack[t258];
-        if(t259<=1) goto L53;
-        goto L54;
-    L54:
-        t260=p+3;
-        t261=p+3;
-        t262=stack[t261];
-        t263=t262-1;
-        stack[t260]=t263;
-        t264=p+2;
-        t265=p+2;
-        t266=stack[t265];
-        t267=t266+1;
-        stack[t264]=t267;
-        goto L52;
-    L53:
-        goto L49;
-    L51:
-        t268=p+1;
-        t269=stack[t268];
-        if (t269>0) goto L55;
-        goto L56;
-    L55:
-        t270=p+1;
-        t271=p+1;
-        t272=stack[t271];
-        t273=t272+0.00000000001;
-        stack[t270]=t273;
-        t274=p+4;
-        t275=p+1;
-        t276=stack[t275];
-        stack[t274]=t276;
+        t252=p+2;
+        stack[t252]=0;
+        t253=p+1;
+        t254=stack[t253];
+        if(t254<0) goto L57 ;
+        goto L58;
     L57:
-        t277=p+4;
-        t278=stack[t277];
-        if(t278<=1) goto L58;
-        goto L59;
+        t255=p+1;
+        t256=p+1;
+        t257=stack[t256];
+        t258=t257-0.00000000001;
+        stack[t255]=t258;
+        t259=p+3;
+        t260=p+1;
+        t261=stack[t260];
+        t262=0-1;
+        t263=t261*t262;
+        stack[t259]=t263;
     L59:
-        t279=p+4;
-        t280=p+4;
-        t281=stack[t280];
-        t282=t281-1;
-        stack[t279]=t282;
-        t283=p+2;
-        t284=p+2;
-        t285=stack[t284];
-        t286=t285+1;
-        stack[t283]=t286;
-        goto L57;
+        t264=p+3;
+        t265=stack[t264];
+        if(t265<=1) goto L60;
+        goto L61;
+    L61:
+        t266=p+3;
+        t267=p+3;
+        t268=stack[t267];
+        t269=t268-1;
+        stack[t266]=t269;
+        t270=p+2;
+        t271=p+2;
+        t272=stack[t271];
+        t273=t272+1;
+        stack[t270]=t273;
+        goto L59;
+    L60:
+        goto L56;
     L58:
-        goto L49;
+        t274=p+1;
+        t275=stack[t274];
+        if (t275>0) goto L62;
+        goto L63;
+    L62:
+        t276=p+1;
+        t277=p+1;
+        t278=stack[t277];
+        t279=t278+0.00000000001;
+        stack[t276]=t279;
+        t280=p+4;
+        t281=p+1;
+        t282=stack[t281];
+        stack[t280]=t282;
+    L64:
+        t283=p+4;
+        t284=stack[t283];
+        if(t284<=1) goto L65;
+        goto L66;
+    L66:
+        t285=p+4;
+        t286=p+4;
+        t287=stack[t286];
+        t288=t287-1;
+        stack[t285]=t288;
+        t289=p+2;
+        t290=p+2;
+        t291=stack[t290];
+        t292=t291+1;
+        stack[t289]=t292;
+        goto L64;
+    L65:
+        goto L56;
+    L63:
     L56:
-    L49:
-        t287=p+0;
-        t288=p+2;
-        t289=stack[t288];
-        stack[t287]=t289;
+        t293=p+0;
+        t294=p+2;
+        t295=stack[t294];
+        stack[t293]=t295;
 }
 void booltostr(){
-        t290=p+1;
-        t291=stack[t290];
+        t296=p+1;
+        t297=stack[t296];
         stack[p]=h;
-        if(t291==0)goto L60;
+        if(t297==0)goto L67;
         heap[h]=116;
         h=h+1;
         heap[h]=114;
@@ -568,8 +598,8 @@ void booltostr(){
         h=h+1;
         heap[h]=557886;
         h=h+1;
-        goto L61;
-    L60:
+        goto L68;
+    L67:
         heap[h]=102;
         h=h+1;
         heap[h]=97;
@@ -582,30 +612,30 @@ void booltostr(){
         h=h+1;
         heap[h]=557886;
         h=h+1;
-    L61:
+    L68:
 }
 void StringToNum(){
-        t292=p+1;
-        t293=stack[t292];
-        t294=0;
-        t295=0;
-        t296=10;
-        t297=1;
-        t298=1;
-    L62:
-        t299=heap[t293];
-        if (t299==557886) goto L68;
-        if (t299!=45) goto L63;
-        t297=-1;
-        goto L67;
-    L63:
-        if(t299!=46) goto L64;
-        t298=0;
-        goto L67;
-    L64:
-        if(t299>=58) goto L69;
-        if(t299>47) goto L65;
+        t298=p+1;
+        t299=stack[t298];
+        t300=0;
+        t301=0;
+        t302=10;
+        t303=1;
+        t304=1;
     L69:
+        t305=heap[t299];
+        if (t305==557886) goto L75;
+        if (t305!=45) goto L70;
+        t303=-1;
+        goto L74;
+    L70:
+        if(t305!=46) goto L71;
+        t304=0;
+        goto L74;
+    L71:
+        if(t305>=58) goto L76;
+        if(t305>47) goto L72;
+    L76:
         print("%c",99);
         print("%c",97);
         print("%c",115);
@@ -617,241 +647,34 @@ void StringToNum(){
         print("%c",111);
         print("%c",114);
         print("%c",32);
-        t307=p+2;
-        t308=stack[t307];
-        t309=p+3;
-        t310=stack[t309];
-        print("%e",t308);
+        t313=p+2;
+        t314=stack[t313];
+        t315=p+3;
+        t316=stack[t315];
+        print("%e",t314);
         print("%c",44);
-        print("%e",t310);
+        print("%e",t316);
         goto L1;
-    L65:
-        if(t298!=1) goto L66;
-        t300=t294*10;
-        t301=t300+t299;
-        t302=t301-48;
-        t294=t302;
-        goto L67;
-    L66:
-        t303=t299-48;
-        t304=t303/t296;
-        t305=t295+t304;
-        t295=t305;
-        t296=t296*10;
-    L67:
-        t293=t293+1;
-        goto L62;
-    L68:
-        t306=t294+t295;
-        t294=t306*t297;
-        stack[p]=t294;
+    L72:
+        if(t304!=1) goto L73;
+        t306=t300*10;
+        t307=t306+t305;
+        t308=t307-48;
+        t300=t308;
+        goto L74;
+    L73:
+        t309=t305-48;
+        t310=t309/t302;
+        t311=t301+t310;
+        t301=t311;
+        t302=t302*10;
+    L74:
+        t299=t299+1;
+        goto L69;
+    L75:
+        t312=t300+t301;
+        t300=t312*t303;
+        stack[p]=t300;
 }
 var p=0;
 var h=0;
-void metojjpsmain_(){
-       t311=p+1;
-       stack[t311]=97.59;
-       t312=p+2;
-       stack[t312]=8;
-       t313=p+3;
-       t314=p+2;
-       t315=stack[t314];
-       t316=p+5;
-       t317=t316+1;
-       stack[t317]=t315;
-       t318=t316+2;
-       stack[t318]=0;
-       p=p+5;
-       call ftoa();
-       t319=stack[p];
-       p=p-5;
-       stack[t313]=t319;
-       t320=p+3;
-       t321=stack[t320];
-       t322=h;
-       heap[h]=32;
-       h=h+1;
-       heap[h]=101;
-       h=h+1;
-       heap[h]=110;
-       h=h+1;
-       heap[h]=103;
-       h=h+1;
-       heap[h]=97;
-       h=h+1;
-       heap[h]=115;
-       h=h+1;
-       heap[h]=97;
-       h=h+1;
-       heap[h]=100;
-       h=h+1;
-       heap[h]=97;
-       h=h+1;
-       heap[h]=115;
-       h=h+1;
-       heap[h]=557886;
-       h=h+1;
-       t323=p+5;
-       t324=t323+1;
-       stack[t324]=t321;//apuntador o1 heap
-       t325=t323+2;
-       stack[t325]=t322;//apuntador o2 heap
-       p=p+5;
-       call concat_olcp2jjps();
-       t326=stack[p];
-       p=p-5;
-       t327=p+5;
-       t328=t327+1;
-       stack[t328]=t326;
-       p=p+5;
-       call print_olcp2jjps();
-       p=p-5;
-       print("%c",10);
-       t329=p+4;
-       t330=p+1;
-       t331=stack[t330];
-       if(t331<0) goto L72;
-       if(t331<255) goto L71;
-   L72:
-       print("%c",99);
-       print("%c",97);
-       print("%c",115);
-       print("%c",116);
-       print("%c",32);
-       print("%c",101);
-       print("%c",114);
-       print("%c",114);
-       print("%c",111);
-       print("%c",114);
-       print("%c",32);
-       print("%e",1);
-       print("%c",44);
-       print("%e",0);
-       goto L1;
-   L71:
-       stack[t329]=t331;
-       t332=p+5;
-       t333=p+4;
-       t334=stack[t333];
-       t335=h;
-       heap[h]=t334;
-       h=h+1;
-       heap[h]=557886;
-       h=h+1;
-       stack[t332]=t335;
-       t336=p+5;
-       t337=stack[t336];
-       t338=h;
-       heap[h]=32;
-       h=h+1;
-       heap[h]=104;
-       h=h+1;
-       heap[h]=111;
-       h=h+1;
-       heap[h]=108;
-       h=h+1;
-       heap[h]=105;
-       h=h+1;
-       heap[h]=115;
-       h=h+1;
-       heap[h]=557886;
-       h=h+1;
-       t339=p+7;
-       t340=t339+1;
-       stack[t340]=t337;//apuntador o1 heap
-       t341=t339+2;
-       stack[t341]=t338;//apuntador o2 heap
-       p=p+7;
-       call concat_olcp2jjps();
-       t342=stack[p];
-       p=p-7;
-       t343=p+7;
-       t344=t343+1;
-       stack[t344]=t342;
-       p=p+7;
-       call print_olcp2jjps();
-       p=p-7;
-       print("%c",10);
-       t345=p+4;
-       t346=stack[t345];
-       print("%c",t346);
-       print("%c",10);
-       t347=p+6;
-       t348=p+1;
-       t349=stack[t348];
-       t350=p+8;
-       t351=t350+1;
-       stack[t351]=t349;
-       p=p+8;
-       call getent();
-       t353=stack[p];
-       p=p-8;
-       stack[t347]=t353;
-       t354=p+6;
-       t355=stack[t354];
-       print("%e",t355);
-       print("%c",10);
-       t356=p+7;
-       stack[t356]=97.5;
-       t357=p+8;
-       t358=p+7;
-       t359=stack[t358];
-       if(t359<0) goto L74;
-       if(t359<255) goto L73;
-   L74:
-       print("%c",99);
-       print("%c",97);
-       print("%c",115);
-       print("%c",116);
-       print("%c",32);
-       print("%c",101);
-       print("%c",114);
-       print("%c",114);
-       print("%c",111);
-       print("%c",114);
-       print("%c",32);
-       print("%e",1);
-       print("%c",44);
-       print("%e",0);
-       goto L1;
-   L73:
-       stack[t357]=t359;
-       t360=p+8;
-       t361=stack[t360];
-       print("%c",t361);
-       print("%c",10);
-       t362=p+9;
-       t363=h;
-       heap[h]=557886;
-       h=h+1;
-       stack[t362]=t363;
-       t364=p+10;
-       t365=p+9;
-       t366=stack[t365];
-       if(t366!=557886) goto L75;
-   L76:
-       print("%c",99);
-       print("%c",97);
-       print("%c",115);
-       print("%c",116);
-       print("%c",32);
-       print("%c",101);
-       print("%c",114);
-       print("%c",114);
-       print("%c",111);
-       print("%c",114);
-       print("%c",32);
-       print("%e",1);
-       print("%c",44);
-       print("%e",0);
-       goto L1;
-   L75:
-       t367=heap[t366];
-       if (t367==557886) goto L76;
-       stack[t364]=t367;
-       t368=p+10;
-       t369=stack[t368];
-       print("%c",t369);
-   L70:
-}
-       L1:

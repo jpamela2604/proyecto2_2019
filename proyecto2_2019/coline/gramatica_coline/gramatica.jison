@@ -19,6 +19,7 @@ cmulti						"/*" [^*]* "*/"
 "!="							return 'dif';
 ";"								return 'ptocoma';
 ":"                             return 'dosptos';
+"?"                             return 'ques';
 "+"								return 'mas';
 "-"								return 'menos';
 "*"								return 'por';
@@ -107,6 +108,7 @@ cmulti						"/*" [^*]* "*/"
         const ol_not=require("../compilador/ol_not.js");
         const ol_or=require("../compilador/ol_or.js");
         const ol_xor=require("../compilador/ol_xor.js");
+        const o_ternario=require("../compilador/o_ternario.js");
         const s_print=require("../compilador/s_print.js");
         const s_println=require("../compilador/s_println.js");
         const s_if=require("../compilador/s_if.js");
@@ -127,7 +129,7 @@ cmulti						"/*" [^*]* "*/"
         const parametro=require("../../mng_ts/parametro.js");
         const s_metodo=require("../compilador/s_metodo.js");
         const s_llamada=require("../compilador/s_llamada.js");
-        const s_salida=require("../compilador/s_salida.js");
+        //const s_salida=require("../compilador/s_salida.js");
         const tablaTipos = require("../tablaTipos.js");
 %}
 
@@ -136,13 +138,14 @@ cmulti						"/*" [^*]* "*/"
 
 %left or_
 %left and_
+%left xor_
+%left ques
+%right not_
 %left igual dif
 %left menor menori mayor mayori 
 %left mas menos
 %left por divis modu
 %left potencia 
-%right not_
-%left xor_
 %left uminus
 %left para parc
 %left punto
@@ -263,7 +266,7 @@ SENT            : IMPRIMIR ptocoma
                      $$=null;									
 				}
                 ;
-
+                
 DECLAMETO       :CABEZAMET llava  L llavc
                 {
                     $$=$1;
@@ -661,6 +664,11 @@ COND            : COND and_ COND
                 |REL
                 {
                     $$=$1;
+                }
+                |COND ques COND dosptos COND
+                {
+                    vari.hash++;
+                    $$=new o_ternario($1,$3,$5,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
                 }
                 ;
 REL             : E OPREL E

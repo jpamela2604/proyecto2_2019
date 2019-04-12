@@ -30,14 +30,21 @@ class ol_or{
     }
     comprobacion(ts,er)
     {
+        
         var respuesta=new simbolo(tablaTipos.tipo_error);   
         var o1=this.op1.comprobacion(ts,er);
         var o2=this.op2.comprobacion(ts,er);
+        if(o1.tipo.indice==tablaTipos.error||o2.tipo.indice==tablaTipos.error)
+        {
+
+        }else
         if(o1.tipo.indice==tablaTipos.booleano&&o2.tipo.indice==tablaTipos.booleano)
         {
             respuesta = new simbolo(tablaTipos.tipo_booleano);
         }else 
         {
+            console.log(this.op1.constructor.name);
+            console.log(this.op2.constructor.name);
             er.addError("Tipos incompatibles: "+o1.tipo.nombre+" || "+o2.tipo.nombre,this.linea,this.columna,this.archivo,
             "SEMANTICO");
         }

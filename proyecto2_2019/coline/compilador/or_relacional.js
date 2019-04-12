@@ -119,7 +119,28 @@ class or_relacional{
             return  new simbolo(tablaTipos.tipo_booleano,temporal);  
         }else if(ope==tablaTipos.igual_cadena)
         {
-
+            if(this.oprel=="=="||this.oprel=="!=")
+            {
+                var temporal=new etiqueta();
+                 temporal.verdadero.push(valores.getEtiqueta());
+                 temporal.falso.push(valores.getEtiqueta());
+                var complemento=this.oprel=="=="?"==1":"==0";
+                //llamada
+                var tsim=valores.getTemporal();var tp1=valores.getTemporal();var tp2=valores.getTemporal();
+                var r=valores.getTemporal();
+                traductor.imprimir(tsim+"=p+"+ts.getTamActual()+";");
+                traductor.imprimir(tp1+"="+tsim+"+1;");
+                traductor.imprimir("stack["+tp1+"]="+o1.aux+";");
+                traductor.imprimir(tp2+"="+tsim+"+2;");
+                traductor.imprimir("stack["+tp2+"]="+o2.aux+";");
+                traductor.imprimir("p=p+"+ts.getTamActual()+";");
+                traductor.imprimir("call  cmpIgual();");
+                traductor.imprimir(r+"=stack[p];");
+                traductor.imprimir("p=p-"+ts.getTamActual()+";");
+                traductor.imprimir("if("+r+complemento+") goto "+temporal.verdadero[0]+";");
+                traductor.imprimir("goto "+temporal.falso[0]+";");
+                return  new simbolo(tablaTipos.tipo_booleano,temporal);  
+            }
         }
         
     }

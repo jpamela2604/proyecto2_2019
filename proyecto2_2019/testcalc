@@ -20,7 +20,10 @@ void main()
 	double mi=97.59;
 	int mm=8;
 	String cadenita=(String)mm;
-
+	String ter1=5==8?"no":"yes";
+	println(ter1);
+	boolean ter2=8>5?56:false||false;
+	print(ter2);
 	println(cadenita+" engasadas");
 	char pam=(char)mi;
 	String cad=(String)pam;

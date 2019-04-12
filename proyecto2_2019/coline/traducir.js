@@ -6,6 +6,7 @@ class traducir{
     {
         this.init();
         this.salida=valores.getEtiqueta();
+        this.getcmpstringequal();
         this.getpotencia();
         this.getraizsq();
         this.getpotene();
@@ -58,6 +59,46 @@ class traducir{
         //this.save(c);
         //console.log(c);
     }  
+
+    getcmpstringequal()
+    {        
+        var Linicio=valores.getEtiqueta();var lv=valores.getEtiqueta();var lf=valores.getEtiqueta();
+        var lv2=valores.getEtiqueta();var lf2=valores.getEtiqueta();var fin=valores.getEtiqueta();
+        var lx1=valores.getEtiqueta();
+        var taw1=valores.getTemporal();var h1=valores.getTemporal();var h2=valores.getTemporal();
+        var taw2=valores.getTemporal();var tb1=valores.getTemporal();var tb2=valores.getTemporal();
+        this.save("void cmpIgual(){\n");
+        this.save("        "+taw1+"=p+1;\n");
+        this.save("        "+h1+"=stack["+taw1+"];\n");
+        this.save("        "+taw2+"=p+2;\n");
+        this.save("        "+h2+"=stack["+taw2+"];\n");
+        this.save("        stack[p]=0;\n");
+        this.save("    "+Linicio+":\n");
+        this.save("        "+tb1+"=heap["+h1+"];\n");        
+        this.save("        "+tb2+"=heap["+h2+"];\n");
+        this.save("        if("+tb1+"=="+tablaTipos.fin_cadena+") goto "+lx1+";\n");
+        this.save("        goto "+lf+";\n");
+        this.save("    "+lx1+":\n");
+        this.save("        if ("+tb2+"=="+tablaTipos.fin_cadena+") goto "+lv+";\n");
+        this.save("        goto "+lf+";\n");
+        this.save("    "+lv+":\n");
+        this.save("        stack[p]=1;\n");
+        this.save("        goto "+fin+";\n");
+        this.save("    "+lf+":\n");
+        this.save("        if ("+tb1+"=="+tablaTipos.fin_cadena+") goto "+lv2+";\n");
+        this.save("        if ("+tb2+"=="+tablaTipos.fin_cadena+") goto "+lv2+";\n");
+        this.save("        if ("+tb1+"!="+tb2+") goto "+lv2+";\n");
+        this.save("        goto "+lf2+";\n");
+        this.save("    "+lv2+":\n");
+        this.save("        goto "+fin+";\n");
+        this.save("    "+lf2+":\n");
+        this.save("        "+h1+"="+h1+"+1;\n");
+        this.save("        "+h2+"="+h2+"+1;\n");
+        this.save("        goto "+Linicio+";\n");
+        this.save("    "+fin+":\n");
+        this.save("}\n");
+
+    }
     getStringToNum()
     {
         var taux=valores.getTemporal();var apuntador=valores.getTemporal();
