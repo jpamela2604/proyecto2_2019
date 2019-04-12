@@ -5,7 +5,7 @@ class traducir{
     constructor()
     {
         this.init();
-        
+        this.salida=valores.getEtiqueta();
         this.getpotencia();
         this.getraizsq();
         this.getpotene();
@@ -16,7 +16,126 @@ class traducir{
         this.getintToStr();
         this.getent();
         this.getbooltoStr();
-        this.save("var p=0;\nvar h=0;\n")
+        this.getStringToNum();
+        this.save("var p=0;\nvar h=0;\n");
+        
+    }
+    init()
+    {
+        //this.cadena=this.getReverse()+this.getImprimirCad()+this.getConcatenar()+"var p=0;\nvar h=0;\n"+this.cadena;
+        fs.writeFileSync("./codigo3d", "");
+    }
+
+    save(cad)
+    {
+        fs.appendFileSync("./codigo3d",cad);
+    }
+    imprimirHead(cadena)
+    {
+        this.save(cadena+"\n");
+    }
+    imprimir(cadena)
+    {
+        var c="       "+cadena+"\n";
+        this.save(c);
+        //console.log(c);
+    }
+    imprimir_L(cadena)
+    {
+        var c="   "+cadena+"\n";
+        this.save(c);
+        //console.log(c);
+    }
+    comentarioSimple(cadena)
+    {
+        var c="//"+cadena+"\n";
+        //this.save(c);
+        //console.log(c);
+    }
+    comentario(cadena)
+    {
+        var c="/*########    "+cadena+"    ########*/"+"\n";
+        //this.save(c);
+        //console.log(c);
+    }  
+    getStringToNum()
+    {
+        var taux=valores.getTemporal();var apuntador=valores.getTemporal();
+        var entero=valores.getTemporal();var decimal=valores.getTemporal();
+        var dec=valores.getTemporal();var signo=valores.getTemporal();
+        var bandera=valores.getTemporal();
+        var tx1=valores.getTemporal();var t2=valores.getTemporal();
+        var t3=valores.getTemporal();var t4=valores.getTemporal();
+        var t5=valores.getTemporal();var t6=valores.getTemporal();
+        var t7=valores.getTemporal();var t8=valores.getTemporal();
+
+        var taf=valores.getTemporal();var tf=valores.getTemporal();var tac=valores.getTemporal();
+        var tc=valores.getTemporal();
+        var Linicio=valores.getEtiqueta();var next1=valores.getEtiqueta();var next2=valores.getEtiqueta();
+        var next3=valores.getEtiqueta();var next4=valores.getEtiqueta();var salidaif=valores.getEtiqueta();
+        var salida=valores.getEtiqueta();var lf=valores.getEtiqueta();
+        this.save("void StringToNum(){\n");
+        this.save("        "+taux+"=p+1;\n");
+        this.save("        "+apuntador+"=stack["+taux+"];\n");
+        this.save("        "+entero+"=0;\n");
+        this.save("        "+decimal+"=0;\n");
+        this.save("        "+dec+"=10;\n");
+        this.save("        "+signo+"=1;\n");
+        this.save("        "+bandera+"=1;\n");
+        this.save("    "+Linicio+":\n");
+        this.save("        "+tx1+"=heap["+apuntador+"];\n");
+        this.save("        if ("+tx1+"=="+tablaTipos.fin_cadena+") goto "+salida+";\n");
+        this.save("        if ("+tx1+"!=45) goto "+next1+";\n");
+        this.save("        "+signo+"=-1;\n");
+        this.save("        goto "+salidaif+";\n");
+        this.save("    "+next1+":\n");
+        this.save("        if("+tx1+"!=46) goto "+next2+";\n");
+        this.save("        "+bandera+"=0;\n");
+        this.save("        goto "+salidaif+";\n");
+        this.save("    "+next2+":\n");
+        this.save("        if("+tx1+">=58) goto "+lf+";\n");
+        this.save("        if("+tx1+">47) goto "+next3+";\n");
+        this.save("    "+lf+":\n");
+        this.save("        print(\"%c\",99);\n");
+        this.save("        print(\"%c\",97);\n");
+        this.save("        print(\"%c\",115);\n");
+        this.save("        print(\"%c\",116);\n");
+        this.save("        print(\"%c\",32);\n");
+        this.save("        print(\"%c\",101);\n");
+        this.save("        print(\"%c\",114);\n");
+        this.save("        print(\"%c\",114);\n");
+        this.save("        print(\"%c\",111);\n");
+        this.save("        print(\"%c\",114);\n");
+        this.save("        print(\"%c\",32);\n");
+        this.save("        "+taf+"=p+2;\n");
+        this.save("        "+tf+"=stack["+taf+"];\n");
+        this.save("        "+tac+"=p+3;\n");
+        this.save("        "+tc+"=stack["+tac+"];\n");
+        this.save("        print(\"%e\","+tf+");\n");
+        this.save("        print(\"%c\",44);\n");
+        this.save("        print(\"%e\","+tc+");\n");
+        this.save("        goto "+this.salida+";\n");
+        this.save("    "+next3+":\n");
+        this.save("        if("+bandera+"!=1) goto "+next4+";\n");
+        this.save("        "+t2+"="+entero+"*10;\n");
+        this.save("        "+t3+"="+t2+"+"+tx1+";\n");
+        this.save("        "+t4+"="+t3+"-48;\n");
+        this.save("        "+entero+"="+t4+";\n");
+        this.save("        goto "+salidaif+";\n");
+        this.save("    "+next4+":\n");
+        this.save("        "+t5+"="+tx1+"-48;\n");
+        this.save("        "+t6+"="+t5+"/"+dec+";\n");
+        this.save("        "+t7+"="+decimal+"+"+t6+";\n");
+        this.save("        "+decimal+"="+t7+";\n");
+        this.save("        "+dec+"="+dec+"*10;\n");
+        this.save("    "+salidaif+":\n");
+        this.save("        "+apuntador+"="+apuntador+"+1;\n");
+        this.save("        goto "+Linicio+";\n");
+        this.save("    "+salida+":\n");
+        this.save("        "+t8+"="+entero+"+"+decimal+";\n");
+        this.save("        "+entero+"="+t8+"*"+signo+";\n");
+        this.save("        stack[p]="+entero+";\n");
+        this.save("}\n");
     }
     getraizsq()
     {
@@ -86,6 +205,7 @@ class traducir{
         this.save("        "+t25+"=stack["+t24+"];\n");
         this.save("        stack["+t23+"]="+t25+";\n");
         this.save("}\n");
+        
 
     }
 
@@ -300,40 +420,13 @@ class traducir{
         this.save("}\n");
 
     }
-    imprimirHead(cadena)
-    {
-        this.save(cadena+"\n");
-    }
-    imprimir(cadena)
-    {
-        var c="       "+cadena+"\n";
-        this.save(c);
-        //console.log(c);
-    }
-    imprimir_L(cadena)
-    {
-        var c="   "+cadena+"\n";
-        this.save(c);
-        //console.log(c);
-    }
-    comentarioSimple(cadena)
-    {
-        var c="//"+cadena+"\n";
-        this.save(c);
-        //console.log(c);
-    }
-    comentario(cadena)
-    {
-        var c="/*########    "+cadena+"    ########*/"+"\n";
-        this.save(c);
-        //console.log(c);
-    }  
+    
     getbooltoStr()
     {
         var ta=valores.getTemporal();var tval=valores.getTemporal();
         var lf=valores.getEtiqueta();var lsalida=valores.getEtiqueta();
-        this.save("void booltostr()\n");
-        this.save("{\n");
+        this.save("void booltostr(){\n");
+        //this.save("{\n");
         this.save("        "+ta+"=p+1;\n");
         this.save("        "+tval+"=stack["+ta+"];\n");
         this.save("        stack[p]=h;\n");
@@ -367,8 +460,8 @@ class traducir{
     }
     getImprimirCad()
     {
-        this.save("void print_olcp2jjps()\n");
-        this.save("{\n");
+        this.save("void print_olcp2jjps(){\n");
+        //this.save("{\n");
         var t1=valores.getTemporal();
         this.save("        "+t1+"=p+1;\n");
         var t2=valores.getTemporal();
@@ -846,16 +939,7 @@ class traducir{
         this.save("        stack["+t69+"]="+t71+";\n");
         this.save("}\n");
     }
-    init()
-    {
-        //this.cadena=this.getReverse()+this.getImprimirCad()+this.getConcatenar()+"var p=0;\nvar h=0;\n"+this.cadena;
-        fs.writeFileSync("./codigo3d", "");
-    }
-
-    save(cad)
-    {
-        fs.appendFileSync("./codigo3d",cad);
-    }
+    
 }
 
 module.exports = traducir;

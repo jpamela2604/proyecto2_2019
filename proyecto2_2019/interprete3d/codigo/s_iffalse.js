@@ -16,6 +16,7 @@ class s_iffalse{
     }
     ejecutar(exec,er)
     {
+        exec.byInstr(this.correlativo);   
         var o1=this.op1.ejecutar(exec,er);
         var o2=this.op2.ejecutar(exec,er);
         switch(this.oprel)

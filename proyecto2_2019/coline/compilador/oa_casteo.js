@@ -66,13 +66,13 @@ class oa_casteo{
 module.exports = oa_casteo;
 
 /**
- * char=string
- * char=int         done
- * char=doble       done
+ * char=string      done xy
+ * char=int         done xy
+ * char=doble       done xy
  * string=char      done
  * string=doble     done
  * string=int       done
  * int=doble        done
- * int=string
- * doble=string 
+ * int=string       done xy
+ * doble=string     done xy
  */

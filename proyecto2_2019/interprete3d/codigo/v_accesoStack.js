@@ -13,7 +13,7 @@ class v_accesoStack{
     }
     ejecutar(exec,er)
     {
-       
+         
         var pos=this.posicion.ejecutar(exec,er);
         return exec.getFromStack(pos);
     }

@@ -13,17 +13,14 @@ class s_llamada{
     }
     ejecutar(exec,er)
     {
+        exec.byInstr(this.correlativo);   
         //console.log(this.id);
         exec.agregardeb("llamada "+this.id+" apuntador:"+exec.getTemp("p")+"\n");
-        var sentencias=exec.getMetodo(this.id);
-        for(var x=0;x<sentencias.length;x++)
-        {
-            var aux=sentencias[x].ejecutar(exec,er);
-            if(Number.isInteger(aux))
-            {
-                x=aux;
-            }
-        }
+        
+        var posicion=exec.getMetodo(this.id);
+        exec.stacksp.push(exec.sp);
+        //console.log("size "+exec.stacksp.size());
+        return parseInt(posicion-1);
     }
 }
 

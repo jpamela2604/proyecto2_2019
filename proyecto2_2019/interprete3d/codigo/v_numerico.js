@@ -13,6 +13,7 @@ class v_numerico{
     }
     ejecutar(exec,er)
     {
+        
         return parseFloat(this.valor.replace(",", "."));
     }
 }

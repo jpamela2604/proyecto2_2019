@@ -80,7 +80,7 @@ cmulti						"/*" [^*]* "*/"
             vari.auxError.addError("caracter inesperado: "+a ,lin,col,vari.archivo,
             "LEXICO");
         }
-        var correlativo=0;
+        var correlativo=-1;
         const metodo = require("../codigo/metodo.js");
         const s_asignacion = require("../codigo/s_asignacion.js");
         const s_asignaHeap = require("../codigo/s_asignaHeap.js");
@@ -93,6 +93,7 @@ cmulti						"/*" [^*]* "*/"
         const s_llamada = require("../codigo/s_llamada.js");
         const s_print = require("../codigo/s_print.js");
         const s_salto = require("../codigo/s_salto.js");
+        const s_salida=require("../codigo/s_salida.js");
         const v_accesoHeap = require("../codigo/v_accesoHeap.js");
         const v_accesoStack = require("../codigo/v_accesoStack.js");
         const v_division = require("../codigo/v_division.js");
@@ -119,37 +120,12 @@ INICIO :        S ENDOFFILE
 					return $1;
 				}
 				;
-S               : LM
+S               : L
                 {
                     $$=new raiz($1);
                 }
                 ;
-LM              :LM OMET
-                {
-                    $$=$1;
-                    $$.push($2);
-                }
-                |OMET
-                {
-                    $$=new Array();
-                    $$.push($1);
-                }
-                ;
-OMET            :MET
-                {
-                    $$=$1;
-                }
-                |SENT
-                {
-                    $$=$1;
-                }
-                ;
-MET             : void_ er_id para parc llava L llavc
-                {
-                    correlativo++;
-                    $$=new metodo($2,$6,_$[1].first_line,_$[1].first_column,vari.archivo,correlativo);
-                }
-                ;
+
 L               : L SENT
                 {
                     $$=$1;
@@ -194,6 +170,16 @@ SENT            : DECLARACION ptocoma
                 | CLEAN ptocoma
                 {
                     $$=$1;
+                }
+                | llavc
+                {
+                     correlativo++;
+                     $$=new s_salida(_$[1].first_line,_$[1].first_column,vari.archivo,correlativo);
+                }
+                |void_ er_id para parc llava
+                {
+                    correlativo++;
+                    $$=new metodo($2,_$[1].first_line,_$[1].first_column,vari.archivo,correlativo);
                 }
                 |error ptocoma
 				{

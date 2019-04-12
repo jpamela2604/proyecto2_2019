@@ -14,6 +14,7 @@ class v_multiplicacion{
     }
     ejecutar(exec,er)
     {
+           
         var o1=this.op1.ejecutar(exec,er);
         var o2=this.op2.ejecutar(exec,er);
         var r=o1*o2;

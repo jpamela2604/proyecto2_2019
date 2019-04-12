@@ -1,5 +1,5 @@
 git add .
-git commit -m "agregue primera version casteo explicito"
+git commit -m "ya tengo los casteos explicitos, con sus errores| cambie cierta logica del interprete"
 git push -u origin master
 PAUSE
 

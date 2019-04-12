@@ -14,6 +14,7 @@ class s_print{
     }
     ejecutar(exec,er)
     {
+        exec.byInstr(this.correlativo);   
         var v=this.valor.ejecutar(exec,er);
         //console.log("oh: "+v+" |tipo: "+this.tipo);
         if(this.tipo=="c")

@@ -13,6 +13,7 @@ class s_salto{
     }
     ejecutar(exec,er)
     {
+        exec.byInstr(this.correlativo);   
         return parseInt(exec.getEtiqueta(this.id)-1);
     }
 }

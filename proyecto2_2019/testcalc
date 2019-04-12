@@ -21,11 +21,17 @@ void main()
 	int mm=8;
 	String cadenita=(String)mm;
 
-	println(cadenita+" engasada");
+	println(cadenita+" engasadas");
 	char pam=(char)mi;
 	String cad=(String)pam;
 	println(cad+" holis");
 	println(pam);
 	int mivaria=(int)mi;
-	print(mivaria);
+	println(mivaria);
+	double aa=97.5;
+	char bbb=(char)aa;
+	println(bbb);
+	String pp="";
+	char chch=(char)pp;
+	print(chch);
 }

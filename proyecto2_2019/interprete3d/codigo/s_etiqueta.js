@@ -13,7 +13,7 @@ class s_etiqueta{
     }
     ejecutar(exec,er)
     {
-        
+        exec.byInstr(this.correlativo);   
     }
 }
 

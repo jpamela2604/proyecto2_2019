@@ -13,6 +13,7 @@ class v_accesoHeap{
     }
     ejecutar(exec,er)
     {
+        
         var pos=this.posicion.ejecutar(exec,er);
         return exec.getFromHeap(pos);
     }

@@ -127,7 +127,7 @@ cmulti						"/*" [^*]* "*/"
         const parametro=require("../../mng_ts/parametro.js");
         const s_metodo=require("../compilador/s_metodo.js");
         const s_llamada=require("../compilador/s_llamada.js");
-        
+        const s_salida=require("../compilador/s_salida.js");
         const tablaTipos = require("../tablaTipos.js");
 %}
 

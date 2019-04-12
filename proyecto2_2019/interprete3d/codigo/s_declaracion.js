@@ -15,7 +15,7 @@ class s_declaracion{
     }
     ejecutar(exec,er)
     {
-        
+        exec.byInstr(this.correlativo);   
     }
 }
 

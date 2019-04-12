@@ -15,6 +15,7 @@ class s_clean{
     }
     ejecutar(exec,er)
     {
+        exec.byInstr(this.correlativo);   
         var pos=this.posicion.ejecutar(exec,er);
         var t=this.tam.ejecutar(exec,er);
         for(var i=0;i<t;i++)

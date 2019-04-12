@@ -1,5 +1,6 @@
 const ts_manager = require("./mng_ts/ts_manager.js");
 const traducir=require("./coline/traducir.js");
+const valores = require("./coline/values_manager.js");
 const dibujar =require("./coline/dibujar.js");
 const error_manager=require("./mng_error/error_manager.js");
 //const oa_suma=require("./coline/compilador/oa_suma.js");
@@ -46,6 +47,7 @@ for (x=0;x<lista.length;x++)
 err.imprimir();
 if(err.size()==0)
 {
+    
     for (x=0;x<lista.length;x++)
     {
         lista[x].traduccion_global(tabla,trad);
@@ -54,7 +56,8 @@ if(err.size()==0)
     {
         lista[x].traducir(tabla,trad);
     }
-    trad.imprimir("call metojjpsmain_();");
+    trad.imprimir(trad.salida+":");
+    //trad.imprimir("call metojjpsmain_();");
 }
 
 //trad.save();

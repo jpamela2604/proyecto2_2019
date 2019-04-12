@@ -14,6 +14,7 @@ class v_negativo{
     }
     ejecutar(exec,er)
     {
+        
         var o1=this.op1.ejecutar(exec,er);
         var r=o1*-1;
         return r;

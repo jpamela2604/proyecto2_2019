@@ -13,7 +13,8 @@ class s_asignacion{
 
     }
     ejecutar(exec,er)
-    {
+    {   
+        exec.byInstr(this.correlativo);     
         var v=this.valor.ejecutar(exec,er);
         exec.agregarTemp(this.id,v);
     }

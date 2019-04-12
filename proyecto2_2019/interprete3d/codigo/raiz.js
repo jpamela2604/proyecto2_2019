@@ -16,14 +16,20 @@ class raiz{
        }
     }
     ejecutar(exec,er)
-    {
-        for(var x=0;x<this.globales.length;x++)
+    {    
+        exec.sp=exec.getMetodo("metojjpsmain_");
+        exec.stacksp.push(this.globales.length);        
+        
+        while(exec.sp<this.globales.length)
         {
-            var aux=this.globales[x].ejecutar(exec,er);
+            //console.log("cro: "+exec.sp);
+            var aux=this.globales[exec.sp].ejecutar(exec,er); 
+            
             if(Number.isInteger(aux))
             {
-                x=aux;
+                exec.sp=aux;
             }
+            exec.sp++;
         }
     }
 }

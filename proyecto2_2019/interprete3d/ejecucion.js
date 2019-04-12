@@ -1,4 +1,5 @@
 var HashTable = require("../hashtable");
+const Stack=require("../pila.js");
 const fs = require('fs');
 class ejecucion{
     constructor() 
@@ -10,7 +11,8 @@ class ejecucion{
         this.posicionAux=0;
         this.pila=new Array();
         this.monticulo=new Array();
-        //this.deb="";
+        this.stacksp=new Stack();
+        this.sp=0;
     }
     agregardeb(cadena)
     {
@@ -44,7 +46,11 @@ class ejecucion{
         this.cadena=this.cadena+cad;
         //console.log(cad);
     }
-    
+    byInstr(c)
+    {
+        //console.log("cro "+c);
+    }
+
     agregarTemp(nombre,valor)
     {
         this.temporales.setItem(nombre,valor);
@@ -53,9 +59,9 @@ class ejecucion{
     {
         return this.temporales.getItem(nombre);
     }
-    guardarMetodo(nombre,sentencias)
+    guardarMetodo(nombre,posicion)
     {
-        this.funciones.setItem(nombre,sentencias);
+        this.funciones.setItem(nombre,posicion);
     }
     getMetodo(nombre)
     {

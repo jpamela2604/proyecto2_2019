@@ -14,6 +14,7 @@ class s_asignaHeap{
     }
     ejecutar(exec,er)
     {
+        exec.byInstr(this.correlativo);   
         var pos=this.posicion.ejecutar(exec,er);
         var val=this.valor.ejecutar(exec,er);
         exec.SetHeap(pos,val);

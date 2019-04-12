@@ -50,7 +50,21 @@ class oa_casteotoInt{
         var val=this.valor.traducir(ts,traductor);
         if(val.tipo.indice==tablaTipos.cadena)
         {
-
+            var tsim=valores.getTemporal();var tp1=valores.getTemporal();var tp2=valores.getTemporal();
+            var tp3=valores.getTemporal();
+            var r=valores.getTemporal();
+            traductor.imprimir(tsim+"=p+"+ts.getTamActual()+";");
+            traductor.imprimir(tp1+"="+tsim+"+1;");
+            traductor.imprimir("stack["+tp1+"]="+val.aux+";");
+            traductor.imprimir(tp2+"="+tsim+"+2;");
+            traductor.imprimir("stack["+tp2+"]="+this.linea+";");
+            traductor.imprimir(tp3+"="+tsim+"+3;");
+            traductor.imprimir("stack["+tp3+"]="+this.columna+";");
+            traductor.imprimir("p=p+"+ts.getTamActual()+";");
+            traductor.imprimir("call  StringToNum();");
+            traductor.imprimir(r+"=stack[p];");
+            traductor.imprimir("p=p-"+ts.getTamActual()+";");
+            val.aux=r;
         }else if(val.tipo.indice==tablaTipos.doble)
         {
             var tsim=valores.getTemporal();var tp1=valores.getTemporal();var tp2=valores.getTemporal();
