@@ -17,12 +17,22 @@ void main()
 	println(pow(4,5));*/
 	//println(pow('d',-3));
 	//println(pow('f','b'));
+	int h=56;
+	println(h++);//56
+	println(h);//57
+	println(++h);//58
+	println(h);//58
+	println(--h);//57
+	println(h);//57
+	println(h--);//57
+	println(h);//56
+
 	double mi=97.59;
 	int mm=8;
 	String cadenita=(String)mm;
 	String ter1=5==8?"no":"yes";
 	println(ter1);
-	boolean ter2=8>5?56:false||false;
+	boolean ter2=8>5?true:false||false;
 	print(ter2);
 	println(cadenita+" engasadas");
 	char pam=(char)mi;

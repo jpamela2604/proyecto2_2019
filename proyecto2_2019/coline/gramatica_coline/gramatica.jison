@@ -20,6 +20,8 @@ cmulti						"/*" [^*]* "*/"
 ";"								return 'ptocoma';
 ":"                             return 'dosptos';
 "?"                             return 'ques';
+"++"                            return 'incr';
+"--"                            return 'decr';
 "+"								return 'mas';
 "-"								return 'menos';
 "*"								return 'por';
@@ -94,6 +96,11 @@ cmulti						"/*" [^*]* "*/"
             vari.auxError.addError("caracter inesperado: "+a ,lin,col,vari.archivo,
             "LEXICO");
         }
+        const o_postInc = require("../compilador/o_postInc.js");
+        const o_preInc = require("../compilador/o_preInc.js");
+        const o_postDecr = require("../compilador/o_postDecr.js");
+        const o_preDecr = require("../compilador/o_preDecr.js");
+         
         const oa_suma = require("../compilador/oa_suma.js");
         const oa_multi = require("../compilador/oa_multi.js");
         const oa_resta = require("../compilador/oa_resta.js");
@@ -147,6 +154,7 @@ cmulti						"/*" [^*]* "*/"
 %left por divis modu
 %left potencia 
 %left uminus
+%right decr incr
 %left para parc
 %left punto
 %left cora corc
@@ -260,13 +268,56 @@ SENT            : IMPRIMIR ptocoma
                     vari.hash++;
                     $$=new s_accesos($1,vari.hash);
                 }
+                |UNAR ptocoma
+                {
+                    $$=$1;
+                }
                 |error ptocoma
 				{
 					 ErrorSintactico("falta un punto y coma ",yylineno,0);
                      $$=null;									
 				}
                 ;
-                
+UNAR            :PREFIJO
+                {
+                    $$=$1;
+                }
+                |POSTFIJO
+                {
+                    $$=$1;
+                }
+                ;
+PREFIJO         : incr  LAC  
+                {
+                    vari.hash++;
+                    var aco=new s_accesos($2,vari.hash);
+                    vari.hash++;
+                    $$=new  o_preInc(aco,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);  
+                }
+                | decr LAC
+                {
+                    vari.hash++;
+                    var aco=new s_accesos($2,vari.hash);
+                    vari.hash++;
+                    $$=new o_preDecr(aco,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                }
+                ;
+POSTFIJO        : LAC incr
+                {
+                    vari.hash++;
+                    var aco=new s_accesos($1,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                }
+                | LAC decr
+                {
+                    vari.hash++;
+                    var aco=new s_accesos($1,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                }
+                ;
+
 DECLAMETO       :CABEZAMET llava  L llavc
                 {
                     $$=$1;
@@ -762,6 +813,10 @@ E               : E mas E
                 {
                     vari.hash++;
                     $$=new oa_casteo($2,$4,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                }
+                |UNAR
+                {
+                    $$=$1;
                 }
                 ;
 PRIM            : er_cadena

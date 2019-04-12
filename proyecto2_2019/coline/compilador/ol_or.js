@@ -43,8 +43,7 @@ class ol_or{
             respuesta = new simbolo(tablaTipos.tipo_booleano);
         }else 
         {
-            console.log(this.op1.constructor.name);
-            console.log(this.op2.constructor.name);
+            
             er.addError("Tipos incompatibles: "+o1.tipo.nombre+" || "+o2.tipo.nombre,this.linea,this.columna,this.archivo,
             "SEMANTICO");
         }

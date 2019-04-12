@@ -31,6 +31,10 @@ class or_relacional{
     }
     comprobacion(ts,er)
     {
+        /*
+        console.log(this.op1.constructor.name);
+        console.log(this.op2.constructor.name);
+        */
         var respuesta=new simbolo(tablaTipos.tipo_error);   
         var o1=this.op1.comprobacion(ts,er);
         var o2=this.op2.comprobacion(ts,er);
