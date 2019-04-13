@@ -1,50 +1,25 @@
 void main()
 {
-	/*
-	int a=5;
-	int b=a+5;
-	int c=b  a;
-	println(a);
-	println(b);
-	println("fin "+c);
-	println(pow(25,2.5));
-	println(pow(1,4.5));
-	println(pow(5.1,3));
-	println(pow(1.0,'a'));
-	println(pow('b',2.0));
-	println(pow(3.0,2.5));
-	println(pow(2,'d'));
-	println(pow(4,5));*/
-	//println(pow('d',-3));
-	//println(pow('f','b'));
-	int h=56;
-	println(h++);//56
-	println(h);//57
-	println(++h);//58
-	println(h);//58
-	println(--h);//57
-	println(h);//57
-	println(h--);//57
-	println(h);//56
+	
+	if(5>8)
+	{
+		while(true)
+		{
+			continue;
+			break;
+			return;
+			do 
+			{
 
-	double mi=97.59;
-	int mm=8;
-	String cadenita=(String)mm;
-	String ter1=5==8?"no":"yes";
-	println(ter1);
-	boolean ter2=8>5?true:false||false;
-	print(ter2);
-	println(cadenita+" engasadas");
-	char pam=(char)mi;
-	String cad=(String)pam;
-	println(cad+" holis");
-	println(pam);
-	int mivaria=(int)mi;
-	println(mivaria);
-	double aa=97.5;
-	char bbb=(char)aa;
-	println(bbb);
-	String pp="";
-	char chch=(char)pp;
-	print(chch);
+			}while(false^true);
+		}
+
+	}else if(8==5)
+	{
+
+	}else
+	{
+
+		println("hola");
+	}
 }

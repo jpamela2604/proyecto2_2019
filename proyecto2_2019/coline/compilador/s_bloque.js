@@ -28,8 +28,11 @@ class s_bloque{
         var nombre=cond==null?"BLOQUEIF":"ELSE";
         var raiz =new nodoArbol(nombre,this.hash);
         vari.hash++;
-        var cond = new nodoArbol("COND",vari.hash);
+        if(this.cond!=null)
+        {var cond = new nodoArbol("COND",vari.hash);
         cond.agregarHijo(this.cond.getTree());
+        raiz.agregarHijo(cond);
+        }
         vari.hash++;
         var sent =new nodoArbol("LSENT",vari.hash);
         
@@ -37,7 +40,7 @@ class s_bloque{
         {
             sent.agregarHijo(this.sentencias[i].getTree());
         }
-        raiz.agregarHijo(cond);
+        
         raiz.agregarHijo(sent);
         return raiz;
     }

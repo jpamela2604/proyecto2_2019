@@ -24,7 +24,7 @@ class s_acVariable{
     }
     getTree()
     {
-        var raiz =new nodoArbol(id,this.hash);
+        var raiz =new nodoArbol(this.id,this.hash);
         
         return raiz;
     }

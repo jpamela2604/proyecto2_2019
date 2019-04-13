@@ -23,7 +23,7 @@ class o_preInc{
     getTree()
     {
         var raiz =new nodoArbol("Pre Incr",this.hash);
-        raiz.agregarHijo(accesos.getTree());
+        raiz.agregarHijo(this.accesos.getTree());
         return raiz;
     }
     comprobacion(ts,er)

@@ -24,7 +24,6 @@ class ol_not{
     {
         var raiz =new nodoArbol("!",this.hash);
         raiz.agregarHijo(this.op1.getTree());
-        raiz.agregarHijo(this.op2.getTree());
         return raiz;
     }
     comprobacion(ts,er)

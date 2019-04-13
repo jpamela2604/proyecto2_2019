@@ -5,6 +5,7 @@ var simbolo = require("../../mng_ts/simbolo.js");
 const parametro = require("../../mng_ts/parametro.js");
 const valores = require("../values_manager.js");
 var identificador=require("../../mng_ts/identificador.js");
+const vari = require("../../var");
 class s_llamada{
     constructor(id,params,linea,columna,archivo,hash) 
     {
@@ -28,7 +29,17 @@ class s_llamada{
     getTree()
     {
         var raiz =new nodoArbol("LLAMADA",this.hash);
-        
+        vari.hash++;
+        var myid=new nodoArbol(this.id,vari.hash);
+        raiz.agregarHijo(myid);
+        vari.hash++;
+        var mypar=new nodoArbol("PARAMETROS",vari.hash);
+        for(var w=0;w<this.params.length;w++)
+        {
+            var valor=new nodoArbol(this.params[w].valor.getTree());
+            mypar.agregarHijo(valor);
+        }
+        raiz.agregarHijo(mypar);
         return raiz;
     }
     comprobacion(ts,er)

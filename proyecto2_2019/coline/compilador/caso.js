@@ -2,6 +2,7 @@
 const tablaTipos= require("../tablaTipos.js");
 const etiqueta=require("../etiqueta.js");
 const valores = require("../values_manager.js");
+const vari = require("../../var");
 class caso{
     constructor(valor,sentencias,linea,columna,archivo,hash) 
     {

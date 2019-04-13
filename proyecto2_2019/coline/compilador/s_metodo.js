@@ -4,6 +4,8 @@ const simbolo=require("../../mng_ts/simbolo");
 const tablaTipos= require("../tablaTipos.js");
 const valores = require("../values_manager.js");
 const nodoDisplay=require("../nodoDisplay.js");
+const vari = require("../../var");
+const nodoArbol =require("../nodoArbol.js");
 class s_metodo{
     constructor(isAbstract,id,sentencias,parametros,modificadores,tipo,noDimensiones,linea,columna,archivo,hash) 
     {
@@ -39,7 +41,43 @@ class s_metodo{
     }
     getTree()
     {
-        
+        var raiz =new nodoArbol("FUNCION",this.hash);
+        var type=this.tipo.nombre;
+        for(var i=0;i<this.noDimensiones;i++)
+        {
+            type=type+"[]";
+        }
+        vari.hash++; 
+        var tipo= new nodoArbol(type,vari.hash);
+        raiz.agregarHijo(tipo);
+        vari.hash++; 
+        var name =new nodoArbol(this.id,vari.hash);
+        raiz.agregarHijo(name);
+        vari.hash++; 
+        var mypar=new nodoArbol("PARAMETROS",vari.hash);
+        for(var w=0;w<this.parametros.length;w++)
+        {
+            vari.hash++;
+            var p=new nodoArbol("PARAMETRO",vari.hash);
+            vari.hash++
+            var myt=new nodoArbol(this.parametros[w].tipo.nombre,vari.hash);
+            vari.hash++
+            var myn=new nodoArbol(this.parametros[w].nombre,vari.hash);
+            p.agregarHijo(myt);
+            p.agregarHijo(myn);
+            mypar.agregarHijo(p);
+        }
+        raiz.agregarHijo(mypar);
+        vari.hash++;
+        var sent =new nodoArbol("LSENT",vari.hash);
+        for(var i=0;i<this.sentencias.length;i++)
+        {
+            var apo=this.sentencias[i].getTree();
+            //console.log(apo);
+            sent.agregarHijo(apo);
+        }
+        raiz.agregarHijo(sent);
+        return raiz;
     }
     comprobacion(ts,er)
     {

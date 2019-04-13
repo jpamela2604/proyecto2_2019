@@ -61,6 +61,6 @@ if(err.size()==0)
 }
 
 //trad.save();
-
-//dibujar.GenerarArbol(lista[0].getTree());
+//console.log(lista[0].getTree());
+dibujar.GenerarArbol(lista[0].getTree());
 

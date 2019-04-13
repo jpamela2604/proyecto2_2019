@@ -23,7 +23,7 @@ class ol_or{
     }
     getTree()
     {
-        var raiz =new nodoArbol("XOR",this.hash);
+        var raiz =new nodoArbol("XOR^",this.hash);
         raiz.agregarHijo(this.op1.getTree());
         raiz.agregarHijo(this.op2.getTree());
         return raiz;

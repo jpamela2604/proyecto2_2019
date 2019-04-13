@@ -6,6 +6,7 @@ const oa_casteotoChar=require("./oa_casteotoChar.js");
 const oa_casteotoDoble=require("./oa_casteotoDoble.js");
 const oa_casteotoInt=require("./oa_casteotoInt.js");
 const oa_casteotoString=require("./oa_casteotoString");
+const vari = require("../../var");
 class oa_casteo{
     constructor(tipo,valor,linea,columna,archivo,hash) 
     {
@@ -27,8 +28,10 @@ class oa_casteo{
     }
     getTree()
     {
-        var raiz =new nodoArbol("BREAK",this.hash);
-        
+        var raiz =new nodoArbol("CAST EXP",this.hash);
+        vari.hash++;
+        raiz.agregarHijo(new nodoArbol("("+this.tipo.nombre+")",vari.hash));
+        raiz.agregarHijo(this.valor.getTree());
         return raiz;
     }
     comprobacion(ts,er)

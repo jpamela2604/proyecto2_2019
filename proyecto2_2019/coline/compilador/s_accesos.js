@@ -43,7 +43,7 @@ class s_accesos{
     {
         //console.log("pasa");
         var respuesta=null;
-        traductor.comentario("accesos");
+        //traductor.comentario("accesos");
 
         for(var i=0;i<this.accesos.length;i++)
         {

@@ -23,7 +23,7 @@ class o_postDecr{
     getTree()
     {
         var raiz =new nodoArbol("Post Decr",this.hash);
-        raiz.agregarHijo(accesos.getTree());
+        raiz.agregarHijo(this.accesos.getTree());
         return raiz;
     }
     comprobacion(ts,er)

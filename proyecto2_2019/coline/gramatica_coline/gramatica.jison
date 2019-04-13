@@ -1,5 +1,4 @@
 %lex
-%options case-insensitive
 er_entero                   [0-9]+
 er_decimal					{er_entero} [.] {er_entero}?
 er_cadena					[\"]([^\"])*[\"]
@@ -60,6 +59,7 @@ cmulti						"/*" [^*]* "*/"
 "boolean"                       return 't_boolean';
 "String"                        return 't_string';
 "void"                          return 'vacio';
+"null"                          return 'nulo';
 //""                            return '';
 "public"                        return 'publico_';
 "protected"                     return 'protegido_';
@@ -861,6 +861,11 @@ PRIM            : er_cadena
                 {
                     vari.hash++;
                     $$=new o_valorPuntual(tablaTipos.tipo_booleano,0,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                }
+                |nulo
+                {
+                    vari.hash++;
+                    $$=new o_valorPuntual(tablaTipos.tipo_nulo,null,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
                 }
                 ;
 LAC             :LAC punto AC

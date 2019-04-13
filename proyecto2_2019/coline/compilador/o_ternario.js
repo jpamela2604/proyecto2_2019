@@ -26,8 +26,10 @@ class o_ternario{
     }
     getTree()
     {
-        var raiz =new nodoArbol("BREAK",this.hash);
-        
+        var raiz =new nodoArbol("TERNARIA",this.hash);
+        raiz.agregarHijo(this.cond.getTree());
+        raiz.agregarHijo(this.valor1.getTree());
+        raiz.agregarHijo(this.valor2.getTree());
         return raiz;
     }
     comprobacion(ts,er)

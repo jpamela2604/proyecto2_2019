@@ -23,7 +23,7 @@ class o_postInc{
     getTree()
     {
         var raiz =new nodoArbol("Post Incr",this.hash);
-        raiz.agregarHijo(accesos.getTree());
+        raiz.agregarHijo(this.accesos.getTree());
         return raiz;
     }
     comprobacion(ts,er)

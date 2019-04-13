@@ -20,12 +20,7 @@ class oa_casteotoString{
     {
         
     }
-    getTree()
-    {
-        var raiz =new nodoArbol("BREAK",this.hash);
-        
-        return raiz;
-    }
+   
    comprobacion (ts,er)
     {
         var respuesta=new simbolo(tablaTipos.tipo_error); 

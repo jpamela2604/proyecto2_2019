@@ -1,5 +1,6 @@
 
 var nodoArbol =require("../nodoArbol.js");
+const vari = require("../../var");
 class s_decla{
     constructor(id,noDimensiones,valor,linea,columna,archivo,hash) 
     {
@@ -30,7 +31,7 @@ class s_decla{
         vari.hash++; 
         var id=new nodoArbol(name,vari.hash);
         raiz.agregarHijo(id);
-        if(valor!=null)
+        if(this.valor!=null)
         {
             raiz.agregarHijo(this.valor.getTree());
         }

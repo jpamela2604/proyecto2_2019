@@ -3,6 +3,7 @@ const tablaTipos= require("../tablaTipos.js");
 const simbolo=require("../../mng_ts/simbolo");
 const valores = require("../values_manager.js");
 const identificador=require("../../mng_ts/identificador.js");
+const vari = require("../../var");
 class s_declaracion{
     constructor(modificadores,tipo,declas,linea,columna,archivo,hash) 
     {
@@ -63,10 +64,15 @@ class s_declaracion{
         var raiz =new nodoArbol("DECLARACION",this.hash);
         vari.hash++; 
         var MOD=new nodoArbol("MODIFICADORES",vari.hash);
+        for(var x=0;x<this.modificadores.length;x++)
+        {
+            MOD.agregarHijo(tablaTipos.getMod(this.modificadores[x]));
+        }
         vari.hash++;
         var type=new nodoArbol("TIPO",vari.hash);
         vari.hash++;
-        var def=new nodoArbol(this.tipo.name,vari.hash);
+        //console.log(this.tipo);
+        var def=new nodoArbol(this.tipo.nombre,vari.hash);
         type.agregarHijo(def);
         vari.hash++;
         var variables=new nodoArbol("VARIABLES",vari.hash);
@@ -74,6 +80,9 @@ class s_declaracion{
         {
             variables.agregarHijo(this.declas[x].getTree());
         }
+        //console.log(MOD);
+        //console.log(type);
+        //console.log(variables);
         raiz.agregarHijo(MOD);
         raiz.agregarHijo(type);
         raiz.agregarHijo(variables);

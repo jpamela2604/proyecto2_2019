@@ -22,7 +22,7 @@ class oa_potencia{
     }
     getTree()
     {
-        var raiz =new nodoArbol("^",this.hash);
+        var raiz =new nodoArbol("POT",this.hash);
         raiz.agregarHijo(this.op1.getTree());
         raiz.agregarHijo(this.op2.getTree());
         return raiz;

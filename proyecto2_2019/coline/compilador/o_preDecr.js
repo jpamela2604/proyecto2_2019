@@ -23,7 +23,7 @@ class o_preDecr{
     getTree()
     {
         var raiz =new nodoArbol("Pre Decr",this.hash);
-        raiz.agregarHijo(accesos.getTree());
+        raiz.agregarHijo(this.accesos.getTree());
         return raiz;
     }
     comprobacion(ts,er)

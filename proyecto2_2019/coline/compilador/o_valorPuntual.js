@@ -22,11 +22,13 @@ class o_valorPuntual{
     }
     getTree()
     {
-        if(tipo==null)
+        if(this.tipo!=null)
         {
-            return this.valor.getTree();
+            return new nodoArbol(this.valor+"|"+this.tipo.nombre,this.hash);
+        }else
+        {
+            return this.valor.getTree();   
         }
-        return new nodoArbol(this.valor,this.hash);
     }
     comprobacion(ts,er)
     {   if(this.tipo!=null)
