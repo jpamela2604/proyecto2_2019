@@ -50,13 +50,13 @@ class traducir{
     comentarioSimple(cadena)
     {
         var c="//"+cadena+"\n";
-        //this.save(c);
+        this.save(c);
         //console.log(c);
     }
     comentario(cadena)
     {
         var c="/*########    "+cadena+"    ########*/"+"\n";
-        //this.save(c);
+        this.save(c);
         //console.log(c);
     }  
 

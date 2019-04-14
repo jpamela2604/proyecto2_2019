@@ -679,64 +679,77 @@ void StringToNum(){
 var p=0;
 var h=0;
 void metojjpsmain_(){
-       if (5>8)  goto L79;
-       goto L80;
-   L79:
-   L81: //etiqueta de inicio de ciclo
-       if (1==1)  goto L82;
-       goto L83;
-   L82:
-       goto L81;
-       goto L83;
-       goto L77;
-   L84: //etiqueta de inicio de ciclo
-   L85: //condicion do while
-       t317=-1;
-       if (0==1)  goto L87;
-       goto L88;
-   L87:
-       t317=1;
-   L88:
-       if (1==1)  goto L89;
-       goto L90;
-   L89:
-       t317=t317+2;
-   L90:
-       t317=t317-1;
-       if (t317==0) goto L91;
-       goto L92;
-   L91:
-       goto L84;//goto inicio dowhile
-   L92:
-   L86://salida del break
-       goto L81;//goto inicio switch
-   L83:
-       goto L78;
+/*########    DECLARACION    ########*/
+       t317=p+1;
+       stack[t317]=2;
+/*########    SENTENCIA SWITCH    ########*/
+       t318=p+1;
+       t319=stack[t318];
+       if (t319==1)  goto L80;
+       if (t319==2)  goto L81;
+       if (t319==10)  goto L82;
+       goto L79;//ir a etiqueta de defecto
    L80:
-       if (8==5)  goto L93;
-       goto L94;
-   L93:
-       goto L78;
-   L94:
-       t318=h;
+   L81:
+/*########    SENTENCIA PRINT    ########*/
+       t320=h;
        heap[h]=104;
        h=h+1;
-       heap[h]=111;
+       heap[h]=117;
        h=h+1;
-       heap[h]=108;
+       heap[h]=114;
        h=h+1;
-       heap[h]=97;
+       heap[h]=116;
        h=h+1;
        heap[h]=557886;
        h=h+1;
-       t319=p+2;
-       t320=t319+1;
-       stack[t320]=t318;
-       p=p+2;
+       t321=p+3;
+       t322=t321+1;
+       stack[t322]=t320;
+       p=p+3;
        call print_olcp2jjps();
-       p=p-2;
-       print("%c",10);
-   L78:
+       p=p-3;
+/*########    SENTENCIA PRINT    ########*/
+       print("%e",85);
+   L82:
+/*########    SENTENCIA PRINT    ########*/
+       t323=h;
+       heap[h]=104;
+       h=h+1;
+       heap[h]=117;
+       h=h+1;
+       heap[h]=114;
+       h=h+1;
+       heap[h]=116;
+       h=h+1;
+       heap[h]=557886;
+       h=h+1;
+       t324=p+3;
+       t325=t324+1;
+       stack[t325]=t323;
+       p=p+3;
+       call print_olcp2jjps();
+       p=p-3;
+       goto L78;//ir a etiqueta salida
+   L79://etiqueta de defecto
+//sentencias default
+/*########    SENTENCIA PRINT    ########*/
+       t326=h;
+       heap[h]=100;
+       h=h+1;
+       heap[h]=101;
+       h=h+1;
+       heap[h]=102;
+       h=h+1;
+       heap[h]=557886;
+       h=h+1;
+       t327=p+3;
+       t328=t327+1;
+       stack[t328]=t326;
+       p=p+3;
+       call print_olcp2jjps();
+       p=p-3;
+       L78: //etiqueta de salida del switch
    L77:
 }
        L1:

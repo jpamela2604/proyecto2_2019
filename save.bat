@@ -1,5 +1,5 @@
 git add .
-git commit -m "funciona el metodo gettree hasta donde voy"
+git commit -m "agregue sentencia switch"
 git push -u origin master
 PAUSE
 

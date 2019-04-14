@@ -1,25 +1,21 @@
 void main()
 {
-	
-	if(5>8)
-	{
-		while(true)
+	int val=2;
+	switch (val) {
+		case 1:
+		case 2:
 		{
-			continue;
-			break;
-			return;
-			do 
-			{
-
-			}while(false^true);
+			print("hurt");
+			//break;
+			print(85);
 		}
-
-	}else if(8==5)
-	{
-
-	}else
-	{
-
-		println("hola");
+		case 10:
+		{
+			print("hurt");
+		}
+		default:
+		{
+			print("def");
+		}
 	}
 }

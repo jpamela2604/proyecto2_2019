@@ -292,14 +292,14 @@ PREFIJO         : incr  LAC
                     vari.hash++;
                     var aco=new s_accesos($2,vari.hash);
                     vari.hash++;
-                    $$=new  o_preInc(aco,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);  
+                    $$=new  o_preInc(aco,@1.first_line,@1.first_column,vari.archivo,vari.hash);  
                 }
                 | decr LAC
                 {
                     vari.hash++;
                     var aco=new s_accesos($2,vari.hash);
                     vari.hash++;
-                    $$=new o_preDecr(aco,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new o_preDecr(aco,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
 POSTFIJO        : LAC incr
@@ -307,14 +307,14 @@ POSTFIJO        : LAC incr
                     vari.hash++;
                     var aco=new s_accesos($1,vari.hash);
                     vari.hash++;
-                    $$=new o_postInc(aco,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 | LAC decr
                 {
                     vari.hash++;
                     var aco=new s_accesos($1,vari.hash);
                     vari.hash++;
-                    $$=new o_postDecr(aco,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 ;
 
@@ -384,14 +384,14 @@ DEM				:DEM cora corc
 				{
                     vari.hash++;
                     //isAbstract,id,sentencias,parametros,modificadores,tipo,noDimensiones,linea,columna,archivo,hash) 
-                    $$=new s_metodo(null,$1,null,$3,new Array(),null,0,_$[1].first_line,_$[1].first_column,
+                    $$=new s_metodo(null,$1,null,$3,new Array(),null,0,@1.first_line,@1.first_column,
                     vari.archivo,vari.hash);
 				}
                 |er_id para  parc
 				{
                     vari.hash++;
                     //isAbstract,id,sentencias,parametros,modificadores,tipo,noDimensiones,linea,columna,archivo,hash) 
-                    $$=new s_metodo(null,$1,null,new Array(),new Array(),null,0,_$[1].first_line,_$[1].first_column,
+                    $$=new s_metodo(null,$1,null,new Array(),new Array(),null,0,@1.first_line,@1.first_column,
                     vari.archivo,vari.hash);
 				}
 				;
@@ -400,19 +400,19 @@ ASIGNACION      :LAC is INICIALIZA
                     vari.hash++;
                     var ace=new s_accesos($1,vari.hash);
                     vari.hash++;
-                    $$=new s_asignacion(ace,$3,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    $$=new s_asignacion(ace,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 ;
 
 DECLARACION     : MODSCAMPO TIPO LDEC
                 {
                     vari.hash++;
-                    $$=new s_declaracion($1,$2,$3,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_declaracion($1,$2,$3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |TIPO LDEC 
                 {
                     vari.hash++;
-                    $$=new s_declaracion(new Array(),$1,$2,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_declaracion(new Array(),$1,$2,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
 LDEC            :LDEC coma DEC
@@ -451,7 +451,7 @@ ARRID           :ARRID cora corc
                 |er_id 
                 {
                     vari.hash++;
-                    $$=new s_decla($1,0,null,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_decla($1,0,null,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
                 
@@ -524,33 +524,33 @@ MOC             : protegido_
 S_SW            :switch_ para COND parc llava LCASOS llavc
                 {
                     vari.hash++;
-                    $$=new s_switch($3,$6,null,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_switch($3,$6,null,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |switch_ para COND parc llava LCASOS DEFECTO llavc
                 {
                     vari.hash++;
-                    $$=new s_switch($3,$6,$7,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_switch($3,$6,$7,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |switch_ para COND parc llava DEFECTO llavc
                 {
                     vari.hash++;
-                    $$=new s_switch($3,new Array(),$6,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_switch($3,new Array(),$6,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ; 
 DEFECTO         : default_ dosptos
                 {
                     vari.hash++;
-                    $$=new caso(null,new Array(),_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new caso(null,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |default_ dosptos llava L llavc
                 {
                     vari.hash++;
-                    $$=new caso(null,$4,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new caso(null,$4,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |default_ dosptos llava  llavc
                 {
                     vari.hash++;
-                    $$=new caso(null,new Array(),_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new caso(null,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
 LCASOS          : LCASOS CASO
@@ -567,69 +567,69 @@ LCASOS          : LCASOS CASO
 CASO            : case_ COND dosptos llava  L llavc
                 {
                     vari.hash++;
-                    $$=new caso($2,$5,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new caso($2,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 | case_ COND dosptos llava   llavc
                 {
                     vari.hash++;
-                    $$=new caso($2,new Array(),_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new caso($2,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |case_ COND dosptos
                 {
                     vari.hash++;
-                    $$=new caso($2,new Array(),_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new caso($2,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
 
 S_BREAK         : break_
                 {
                     vari.hash++;
-                    $$=new s_break(_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_break(@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
 S_CON           : continue_
                 {
                     vari.hash++;
-                    $$=new s_continue(_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_continue(@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
 S_RETORNO       : return_ COND
                 {
                     vari.hash++;
-                    $$=new s_retorno($2,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_retorno($2,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |return_
                 {
                     vari.hash++;
-                    $$=new s_retornoEmpty(_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_retornoEmpty(@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
 S_DO            :dow llava L llavc while_ para COND parc
                 {
                     vari.hash++;
-                    $$=new s_do_while($7,$3,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_do_while($7,$3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |dow llava  llavc while_ para COND parc
                 {
                     vari.hash++;
-                    $$=new s_do_while($6,new Array(),_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_do_while($6,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
 S_WHILE         : while_ para COND parc llava L llavc
                 {
                     vari.hash++;
-                    $$=new s_while($3,$6,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_while($3,$6,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |while_ para COND parc llava  llavc
                 {
                     vari.hash++;
-                    $$=new s_while($3,new Array(),_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_while($3,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
 S_IF            :BS_IF else_ llava L llavc
                 {
                     vari.hash++;
-                    var bloque=new s_bloque(null,$4,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    var bloque=new s_bloque(null,$4,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                     $1.push(bloque);
                     vari.hash++;
                     $$=new s_if($1,vari.hash);
@@ -637,7 +637,7 @@ S_IF            :BS_IF else_ llava L llavc
                 |BS_IF else_ llava  llavc
                 {
                     vari.hash++;
-                    var bloque=new s_bloque(null,new Array(),_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    var bloque=new s_bloque(null,new Array(),@2.first_line,@2.first_column,vari.archivo,vari.hash);
                     $1.push(bloque);
                     vari.hash++;
                     $$=new s_if($1,vari.hash);
@@ -662,55 +662,55 @@ BS_IF           :BS_IF SINO
 SI              : if_  para COND parc llava llavc
                 {
                     vari.hash++;
-                    $$=new s_bloque($3,new Array(),_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_bloque($3,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |if_  para COND parc llava L llavc
                 {
                     vari.hash++;
-                    $$=new s_bloque($3,$6,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_bloque($3,$6,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
 SINO            : else_ if_ para COND parc llava llavc
                 {
                     vari.hash++;
-                    $$=new s_bloque($4,new Array(),_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_bloque($4,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 | else_ if_ para COND parc llava L llavc
                 {
                     vari.hash++;
-                    $$=new s_bloque($4,$7,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_bloque($4,$7,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
 IMPRIMIR        : print_ para COND parc
                 {
                     vari.hash++;
-                    $$=new s_print($3,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_print($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 | println_ para COND parc
                 {
                     vari.hash++;
-                    $$=new s_println($3,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_println($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
 COND            : COND and_ COND
                 {
                     vari.hash++;
-                    $$=new ol_and($1,$3,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    $$=new ol_and($1,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 | COND or_ COND
                 {
                     vari.hash++;
-                    $$=new ol_or($1,$3,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    $$=new ol_or($1,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 | COND xor_ COND
                 {
                     vari.hash++;
-                    $$=new ol_xor($1,$3,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    $$=new ol_xor($1,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 |not_ COND
                 {
                     vari.hash++;
-                    $$=new ol_not($2,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new ol_not($2,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |REL
                 {
@@ -719,13 +719,13 @@ COND            : COND and_ COND
                 |COND ques COND dosptos COND
                 {
                     vari.hash++;
-                    $$=new o_ternario($1,$3,$5,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    $$=new o_ternario($1,$3,$5,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 ;
 REL             : E OPREL E
                 {
                     vari.hash++;
-                    $$=new or_relacional($2,$1,$3,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    $$=new or_relacional($2,$1,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 | E 
                 {
@@ -761,37 +761,37 @@ OPREL           :menori
 E               : E mas E
                 {
                     vari.hash++;
-                    $$=new oa_suma($1,$3,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    $$=new oa_suma($1,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 | E menos E
                 {
                     vari.hash++;
-                    $$=new oa_resta($1,$3,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    $$=new oa_resta($1,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 | E por E
                 {
                     vari.hash++;
-                    $$=new oa_multi($1,$3,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    $$=new oa_multi($1,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 | E divis E
                 {
                     vari.hash++;
-                    $$=new oa_division($1,$3,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    $$=new oa_division($1,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 | E modu E 
                 {
                     vari.hash++;
-                    $$=new oa_modular($1,$3,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    $$=new oa_modular($1,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 | potencia para E coma E parc %prec potenciacion
                 {
                     vari.hash++;
-                    $$=new oa_potencia($3,$5,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new oa_potencia($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |menos E %prec uminus
                 {
                     vari.hash++;
-                    $$=new oa_negativo($2,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new oa_negativo($2,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 | para COND parc
                 {
@@ -806,13 +806,13 @@ E               : E mas E
                     vari.hash++;
                     var ace=new s_accesos($1,vari.hash);
                     vari.hash++;
-                    $$=new o_valorPuntual(null,ace,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new o_valorPuntual(null,ace,@1.first_line,@1.first_column,vari.archivo,vari.hash);
 
                 }
                 |para TIPO parc E
                 {
                     vari.hash++;
-                    $$=new oa_casteo($2,$4,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new oa_casteo($2,$4,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |UNAR
                 {
@@ -824,7 +824,7 @@ PRIM            : er_cadena
                     var a=yytext+"";
                     a=a.substring(1,a.length-1);
                     vari.hash++;
-                    $$=new o_valorPuntual(tablaTipos.tipo_cadena,a,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new o_valorPuntual(tablaTipos.tipo_cadena,a,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |er_caracter
                 {
@@ -840,32 +840,32 @@ PRIM            : er_cadena
                         a=a.charCodeAt();
                     }
                     vari.hash++;
-                    $$=new o_valorPuntual(tablaTipos.tipo_caracter,a,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new o_valorPuntual(tablaTipos.tipo_caracter,a,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |er_entero
                 {
                     vari.hash++;
-                    $$=new o_valorPuntual(tablaTipos.tipo_entero,yytext,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new o_valorPuntual(tablaTipos.tipo_entero,yytext,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |er_decimal
                 {
                     vari.hash++;
-                    $$=new o_valorPuntual(tablaTipos.tipo_doble,yytext,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new o_valorPuntual(tablaTipos.tipo_doble,yytext,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |verdadero
                 {
                     vari.hash++;
-                    $$=new o_valorPuntual(tablaTipos.tipo_booleano,1,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new o_valorPuntual(tablaTipos.tipo_booleano,1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |falso
                 {
                     vari.hash++;
-                    $$=new o_valorPuntual(tablaTipos.tipo_booleano,0,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new o_valorPuntual(tablaTipos.tipo_booleano,0,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |nulo
                 {
                     vari.hash++;
-                    $$=new o_valorPuntual(tablaTipos.tipo_nulo,null,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new o_valorPuntual(tablaTipos.tipo_nulo,null,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
 LAC             :LAC punto AC
@@ -886,7 +886,7 @@ AC              :LLAMADA
                 |er_id
                 {
                     vari.hash++;
-                    $$=new s_acVariable(yytext,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_acVariable(yytext,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 
                 ;
@@ -906,11 +906,11 @@ LCOND           :LCOND coma INICIALIZA
 LLAMADA         :er_id para parc
                 {
                     vari.hash++;
-                    $$=new s_llamada($1,new Array(),_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_llamada($1,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |er_id para LCOND parc
                 {
                     vari.hash++;
-                    $$=new s_llamada($1,$3,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    $$=new s_llamada($1,$3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;

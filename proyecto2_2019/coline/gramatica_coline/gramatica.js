@@ -149,7 +149,7 @@ case 24:
                     vari.hash++;
                     var aco=new s_accesos($$[$0],vari.hash);
                     vari.hash++;
-                    this.$=new  o_preInc(aco,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);  
+                    this.$=new  o_preInc(aco,_$[$0-1].first_line,_$[$0-1].first_column,vari.archivo,vari.hash);  
                 
 break;
 case 25:
@@ -157,7 +157,7 @@ case 25:
                     vari.hash++;
                     var aco=new s_accesos($$[$0],vari.hash);
                     vari.hash++;
-                    this.$=new o_preDecr(aco,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new o_preDecr(aco,_$[$0-1].first_line,_$[$0-1].first_column,vari.archivo,vari.hash);
                 
 break;
 case 26:
@@ -165,7 +165,7 @@ case 26:
                     vari.hash++;
                     var aco=new s_accesos($$[$0-1],vari.hash);
                     vari.hash++;
-                    this.$=new o_postInc(aco,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    this.$=new o_postInc(aco,_$[$0].first_line,_$[$0].first_column,vari.archivo,vari.hash);
                 
 break;
 case 27:
@@ -173,7 +173,7 @@ case 27:
                     vari.hash++;
                     var aco=new s_accesos($$[$0-1],vari.hash);
                     vari.hash++;
-                    this.$=new o_postDecr(aco,_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    this.$=new o_postDecr(aco,_$[$0].first_line,_$[$0].first_column,vari.archivo,vari.hash);
                 
 break;
 case 28:
@@ -248,7 +248,7 @@ case 38:
 
                     vari.hash++;
                     //isAbstract,id,sentencias,parametros,modificadores,tipo,noDimensiones,linea,columna,archivo,hash) 
-                    this.$=new s_metodo(null,$$[$0-3],null,$$[$0-1],new Array(),null,0,_$[1].first_line,_$[1].first_column,
+                    this.$=new s_metodo(null,$$[$0-3],null,$$[$0-1],new Array(),null,0,_$[$0-3].first_line,_$[$0-3].first_column,
                     vari.archivo,vari.hash);
 				
 break;
@@ -256,7 +256,7 @@ case 39:
 
                     vari.hash++;
                     //isAbstract,id,sentencias,parametros,modificadores,tipo,noDimensiones,linea,columna,archivo,hash) 
-                    this.$=new s_metodo(null,$$[$0-2],null,new Array(),new Array(),null,0,_$[1].first_line,_$[1].first_column,
+                    this.$=new s_metodo(null,$$[$0-2],null,new Array(),new Array(),null,0,_$[$0-2].first_line,_$[$0-2].first_column,
                     vari.archivo,vari.hash);
 				
 break;
@@ -265,19 +265,19 @@ case 40:
                     vari.hash++;
                     var ace=new s_accesos($$[$0-2],vari.hash);
                     vari.hash++;
-                    this.$=new s_asignacion(ace,$$[$0],_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    this.$=new s_asignacion(ace,$$[$0],_$[$0-1].first_line,_$[$0-1].first_column,vari.archivo,vari.hash);
                 
 break;
 case 41:
 
                     vari.hash++;
-                    this.$=new s_declaracion($$[$0-2],$$[$0-1],$$[$0],_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_declaracion($$[$0-2],$$[$0-1],$$[$0],_$[$0-2].first_line,_$[$0-2].first_column,vari.archivo,vari.hash);
                 
 break;
 case 42:
 
                     vari.hash++;
-                    this.$=new s_declaracion(new Array(),$$[$0-1],$$[$0],_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_declaracion(new Array(),$$[$0-1],$$[$0],_$[$0-1].first_line,_$[$0-1].first_column,vari.archivo,vari.hash);
                 
 break;
 case 43:
@@ -302,7 +302,7 @@ break;
 case 49:
 
                     vari.hash++;
-                    this.$=new s_decla($$[$0],0,null,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_decla($$[$0],0,null,_$[$0].first_line,_$[$0].first_column,vari.archivo,vari.hash);
                 
 break;
 case 50:
@@ -374,103 +374,109 @@ break;
 case 64:
 
                     vari.hash++;
-                    this.$=new s_switch($$[$0-4],$$[$0-1],null,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_switch($$[$0-4],$$[$0-1],null,_$[$0-6].first_line,_$[$0-6].first_column,vari.archivo,vari.hash);
                 
 break;
 case 65:
 
                     vari.hash++;
-                    this.$=new s_switch($$[$0-5],$$[$0-2],$$[$0-1],_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_switch($$[$0-5],$$[$0-2],$$[$0-1],_$[$0-7].first_line,_$[$0-7].first_column,vari.archivo,vari.hash);
                 
 break;
 case 66:
 
                     vari.hash++;
-                    this.$=new s_switch($$[$0-4],new Array(),$$[$0-1],_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_switch($$[$0-4],new Array(),$$[$0-1],_$[$0-6].first_line,_$[$0-6].first_column,vari.archivo,vari.hash);
                 
 break;
-case 67: case 69:
+case 67:
 
                     vari.hash++;
-                    this.$=new caso(null,new Array(),_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new caso(null,new Array(),_$[$0-1].first_line,_$[$0-1].first_column,vari.archivo,vari.hash);
                 
 break;
 case 68:
 
                     vari.hash++;
-                    this.$=new caso(null,$$[$0-1],_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new caso(null,$$[$0-1],_$[$0-4].first_line,_$[$0-4].first_column,vari.archivo,vari.hash);
+                
+break;
+case 69:
+
+                    vari.hash++;
+                    this.$=new caso(null,new Array(),_$[$0-3].first_line,_$[$0-3].first_column,vari.archivo,vari.hash);
                 
 break;
 case 72:
 
                     vari.hash++;
-                    this.$=new caso($$[$0-4],$$[$0-1],_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new caso($$[$0-4],$$[$0-1],_$[$0-5].first_line,_$[$0-5].first_column,vari.archivo,vari.hash);
                 
 break;
 case 73:
 
                     vari.hash++;
-                    this.$=new caso($$[$0-3],new Array(),_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new caso($$[$0-3],new Array(),_$[$0-4].first_line,_$[$0-4].first_column,vari.archivo,vari.hash);
                 
 break;
 case 74:
 
                     vari.hash++;
-                    this.$=new caso($$[$0-1],new Array(),_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new caso($$[$0-1],new Array(),_$[$0-2].first_line,_$[$0-2].first_column,vari.archivo,vari.hash);
                 
 break;
 case 75:
 
                     vari.hash++;
-                    this.$=new s_break(_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_break(_$[$0].first_line,_$[$0].first_column,vari.archivo,vari.hash);
                 
 break;
 case 76:
 
                     vari.hash++;
-                    this.$=new s_continue(_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_continue(_$[$0].first_line,_$[$0].first_column,vari.archivo,vari.hash);
                 
 break;
 case 77:
 
                     vari.hash++;
-                    this.$=new s_retorno($$[$0],_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_retorno($$[$0],_$[$0-1].first_line,_$[$0-1].first_column,vari.archivo,vari.hash);
                 
 break;
 case 78:
 
                     vari.hash++;
-                    this.$=new s_retornoEmpty(_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_retornoEmpty(_$[$0].first_line,_$[$0].first_column,vari.archivo,vari.hash);
                 
 break;
 case 79:
 
                     vari.hash++;
-                    this.$=new s_do_while($$[$0-1],$$[$0-5],_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_do_while($$[$0-1],$$[$0-5],_$[$0-7].first_line,_$[$0-7].first_column,vari.archivo,vari.hash);
                 
 break;
 case 80:
 
                     vari.hash++;
-                    this.$=new s_do_while($$[$0-1],new Array(),_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_do_while($$[$0-1],new Array(),_$[$0-6].first_line,_$[$0-6].first_column,vari.archivo,vari.hash);
                 
 break;
 case 81:
 
                     vari.hash++;
-                    this.$=new s_while($$[$0-4],$$[$0-1],_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_while($$[$0-4],$$[$0-1],_$[$0-6].first_line,_$[$0-6].first_column,vari.archivo,vari.hash);
                 
 break;
 case 82:
 
                     vari.hash++;
-                    this.$=new s_while($$[$0-3],new Array(),_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_while($$[$0-3],new Array(),_$[$0-5].first_line,_$[$0-5].first_column,vari.archivo,vari.hash);
                 
 break;
 case 83:
 
                     vari.hash++;
-                    var bloque=new s_bloque(null,$$[$0-1],_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    var bloque=new s_bloque(null,$$[$0-1],_$[$0-3].first_line,_$[$0-3].first_column,vari.archivo,vari.hash);
                     $$[$0-4].push(bloque);
                     vari.hash++;
                     this.$=new s_if($$[$0-4],vari.hash);
@@ -479,7 +485,7 @@ break;
 case 84:
 
                     vari.hash++;
-                    var bloque=new s_bloque(null,new Array(),_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    var bloque=new s_bloque(null,new Array(),_$[$0-2].first_line,_$[$0-2].first_column,vari.archivo,vari.hash);
                     $$[$0-3].push(bloque);
                     vari.hash++;
                     this.$=new s_if($$[$0-3],vari.hash);
@@ -491,64 +497,76 @@ case 85:
                     this.$=new s_if($$[$0],vari.hash);
                 
 break;
-case 88: case 90:
+case 88:
 
                     vari.hash++;
-                    this.$=new s_bloque($$[$0-3],new Array(),_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_bloque($$[$0-3],new Array(),_$[$0-5].first_line,_$[$0-5].first_column,vari.archivo,vari.hash);
                 
 break;
-case 89: case 91:
+case 89:
 
                     vari.hash++;
-                    this.$=new s_bloque($$[$0-4],$$[$0-1],_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_bloque($$[$0-4],$$[$0-1],_$[$0-6].first_line,_$[$0-6].first_column,vari.archivo,vari.hash);
+                
+break;
+case 90:
+
+                    vari.hash++;
+                    this.$=new s_bloque($$[$0-3],new Array(),_$[$0-6].first_line,_$[$0-6].first_column,vari.archivo,vari.hash);
+                
+break;
+case 91:
+
+                    vari.hash++;
+                    this.$=new s_bloque($$[$0-4],$$[$0-1],_$[$0-7].first_line,_$[$0-7].first_column,vari.archivo,vari.hash);
                 
 break;
 case 92:
 
                     vari.hash++;
-                    this.$=new s_print($$[$0-1],_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_print($$[$0-1],_$[$0-3].first_line,_$[$0-3].first_column,vari.archivo,vari.hash);
                 
 break;
 case 93:
 
                     vari.hash++;
-                    this.$=new s_println($$[$0-1],_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_println($$[$0-1],_$[$0-3].first_line,_$[$0-3].first_column,vari.archivo,vari.hash);
                 
 break;
 case 94:
 
                     vari.hash++;
-                    this.$=new ol_and($$[$0-2],$$[$0],_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    this.$=new ol_and($$[$0-2],$$[$0],_$[$0-1].first_line,_$[$0-1].first_column,vari.archivo,vari.hash);
                 
 break;
 case 95:
 
                     vari.hash++;
-                    this.$=new ol_or($$[$0-2],$$[$0],_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    this.$=new ol_or($$[$0-2],$$[$0],_$[$0-1].first_line,_$[$0-1].first_column,vari.archivo,vari.hash);
                 
 break;
 case 96:
 
                     vari.hash++;
-                    this.$=new ol_xor($$[$0-2],$$[$0],_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    this.$=new ol_xor($$[$0-2],$$[$0],_$[$0-1].first_line,_$[$0-1].first_column,vari.archivo,vari.hash);
                 
 break;
 case 97:
 
                     vari.hash++;
-                    this.$=new ol_not($$[$0],_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new ol_not($$[$0],_$[$0-1].first_line,_$[$0-1].first_column,vari.archivo,vari.hash);
                 
 break;
 case 99:
 
                     vari.hash++;
-                    this.$=new o_ternario($$[$0-4],$$[$0-2],$$[$0],_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    this.$=new o_ternario($$[$0-4],$$[$0-2],$$[$0],_$[$0-3].first_line,_$[$0-3].first_column,vari.archivo,vari.hash);
                 
 break;
 case 100:
 
                     vari.hash++;
-                    this.$=new or_relacional($$[$0-1],$$[$0-2],$$[$0],_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    this.$=new or_relacional($$[$0-1],$$[$0-2],$$[$0],_$[$0-1].first_line,_$[$0-1].first_column,vari.archivo,vari.hash);
                 
 break;
 case 102:
@@ -584,43 +602,43 @@ break;
 case 108:
 
                     vari.hash++;
-                    this.$=new oa_suma($$[$0-2],$$[$0],_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    this.$=new oa_suma($$[$0-2],$$[$0],_$[$0-1].first_line,_$[$0-1].first_column,vari.archivo,vari.hash);
                 
 break;
 case 109:
 
                     vari.hash++;
-                    this.$=new oa_resta($$[$0-2],$$[$0],_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    this.$=new oa_resta($$[$0-2],$$[$0],_$[$0-1].first_line,_$[$0-1].first_column,vari.archivo,vari.hash);
                 
 break;
 case 110:
 
                     vari.hash++;
-                    this.$=new oa_multi($$[$0-2],$$[$0],_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    this.$=new oa_multi($$[$0-2],$$[$0],_$[$0-1].first_line,_$[$0-1].first_column,vari.archivo,vari.hash);
                 
 break;
 case 111:
 
                     vari.hash++;
-                    this.$=new oa_division($$[$0-2],$$[$0],_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    this.$=new oa_division($$[$0-2],$$[$0],_$[$0-1].first_line,_$[$0-1].first_column,vari.archivo,vari.hash);
                 
 break;
 case 112:
 
                     vari.hash++;
-                    this.$=new oa_modular($$[$0-2],$$[$0],_$[2].first_line,_$[2].first_column,vari.archivo,vari.hash);
+                    this.$=new oa_modular($$[$0-2],$$[$0],_$[$0-1].first_line,_$[$0-1].first_column,vari.archivo,vari.hash);
                 
 break;
 case 113:
 
                     vari.hash++;
-                    this.$=new oa_potencia($$[$0-3],$$[$0-1],_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new oa_potencia($$[$0-3],$$[$0-1],_$[$0-5].first_line,_$[$0-5].first_column,vari.archivo,vari.hash);
                 
 break;
 case 114:
 
                     vari.hash++;
-                    this.$=new oa_negativo($$[$0],_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new oa_negativo($$[$0],_$[$0-1].first_line,_$[$0-1].first_column,vari.archivo,vari.hash);
                 
 break;
 case 117:
@@ -628,14 +646,14 @@ case 117:
                     vari.hash++;
                     var ace=new s_accesos($$[$0],vari.hash);
                     vari.hash++;
-                    this.$=new o_valorPuntual(null,ace,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new o_valorPuntual(null,ace,_$[$0].first_line,_$[$0].first_column,vari.archivo,vari.hash);
 
                 
 break;
 case 118:
 
                     vari.hash++;
-                    this.$=new oa_casteo($$[$0-2],$$[$0],_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new oa_casteo($$[$0-2],$$[$0],_$[$0-3].first_line,_$[$0-3].first_column,vari.archivo,vari.hash);
                 
 break;
 case 120:
@@ -643,7 +661,7 @@ case 120:
                     var a=yytext+"";
                     a=a.substring(1,a.length-1);
                     vari.hash++;
-                    this.$=new o_valorPuntual(tablaTipos.tipo_cadena,a,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new o_valorPuntual(tablaTipos.tipo_cadena,a,_$[$0].first_line,_$[$0].first_column,vari.archivo,vari.hash);
                 
 break;
 case 121:
@@ -660,43 +678,43 @@ case 121:
                         a=a.charCodeAt();
                     }
                     vari.hash++;
-                    this.$=new o_valorPuntual(tablaTipos.tipo_caracter,a,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new o_valorPuntual(tablaTipos.tipo_caracter,a,_$[$0].first_line,_$[$0].first_column,vari.archivo,vari.hash);
                 
 break;
 case 122:
 
                     vari.hash++;
-                    this.$=new o_valorPuntual(tablaTipos.tipo_entero,yytext,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new o_valorPuntual(tablaTipos.tipo_entero,yytext,_$[$0].first_line,_$[$0].first_column,vari.archivo,vari.hash);
                 
 break;
 case 123:
 
                     vari.hash++;
-                    this.$=new o_valorPuntual(tablaTipos.tipo_doble,yytext,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new o_valorPuntual(tablaTipos.tipo_doble,yytext,_$[$0].first_line,_$[$0].first_column,vari.archivo,vari.hash);
                 
 break;
 case 124:
 
                     vari.hash++;
-                    this.$=new o_valorPuntual(tablaTipos.tipo_booleano,1,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new o_valorPuntual(tablaTipos.tipo_booleano,1,_$[$0].first_line,_$[$0].first_column,vari.archivo,vari.hash);
                 
 break;
 case 125:
 
                     vari.hash++;
-                    this.$=new o_valorPuntual(tablaTipos.tipo_booleano,0,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new o_valorPuntual(tablaTipos.tipo_booleano,0,_$[$0].first_line,_$[$0].first_column,vari.archivo,vari.hash);
                 
 break;
 case 126:
 
                     vari.hash++;
-                    this.$=new o_valorPuntual(tablaTipos.tipo_nulo,null,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new o_valorPuntual(tablaTipos.tipo_nulo,null,_$[$0].first_line,_$[$0].first_column,vari.archivo,vari.hash);
                 
 break;
 case 130:
 
                     vari.hash++;
-                    this.$=new s_acVariable(yytext,_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_acVariable(yytext,_$[$0].first_line,_$[$0].first_column,vari.archivo,vari.hash);
                 
 break;
 case 131:
@@ -709,13 +727,13 @@ break;
 case 133:
 
                     vari.hash++;
-                    this.$=new s_llamada($$[$0-2],new Array(),_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_llamada($$[$0-2],new Array(),_$[$0-2].first_line,_$[$0-2].first_column,vari.archivo,vari.hash);
                 
 break;
 case 134:
 
                     vari.hash++;
-                    this.$=new s_llamada($$[$0-3],$$[$0-1],_$[1].first_line,_$[1].first_column,vari.archivo,vari.hash);
+                    this.$=new s_llamada($$[$0-3],$$[$0-1],_$[$0-3].first_line,_$[$0-3].first_column,vari.archivo,vari.hash);
                 
 break;
 }

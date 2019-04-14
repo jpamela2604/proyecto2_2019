@@ -1,70 +1,80 @@
 digraph lista{ rankdir=TB;node [shape = box, style=rounded]; nodo1[label="FUNCION ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo23[label="void ", fillcolor="orange", style ="filled", shape="circle"]; 
-"nodo1"-> "nodo23" 
-nodo24[label="main ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo24[label="void ", fillcolor="orange", style ="filled", shape="circle"]; 
 "nodo1"-> "nodo24" 
-nodo25[label="PARAMETROS ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo25[label="main ", fillcolor="orange", style ="filled", shape="circle"]; 
 "nodo1"-> "nodo25" 
-nodo26[label="LSENT ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo22[label="IF ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo14[label="BLOQUEIF ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo27[label="COND ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo4[label="> ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo2[label="5|int ", fillcolor="orange", style ="filled", shape="circle"]; 
-"nodo4"-> "nodo2" 
-nodo3[label="8|int ", fillcolor="orange", style ="filled", shape="circle"]; 
-"nodo4"-> "nodo3" 
-"nodo27"-> "nodo4" 
-"nodo14"-> "nodo27" 
-nodo28[label="LSENT ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo13[label="WHILE ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo29[label="COND ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo5[label="1|boolean ", fillcolor="orange", style ="filled", shape="circle"]; 
-"nodo29"-> "nodo5" 
-"nodo13"-> "nodo29" 
-nodo30[label="LSENT ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo6[label="CONTINUE ", fillcolor="orange", style ="filled", shape="circle"]; 
-"nodo30"-> "nodo6" 
-nodo7[label="BREAK ", fillcolor="orange", style ="filled", shape="circle"]; 
-"nodo30"-> "nodo7" 
-nodo8[label="RETORNO ", fillcolor="orange", style ="filled", shape="circle"]; 
-"nodo30"-> "nodo8" 
-nodo12[label="DOWHILE ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo32[label="LSENT ", fillcolor="orange", style ="filled", shape="circle"]; 
-"nodo12"-> "nodo32" 
-nodo31[label="COND ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo11[label="XOR^ ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo9[label="0|boolean ", fillcolor="orange", style ="filled", shape="circle"]; 
-"nodo11"-> "nodo9" 
-nodo10[label="1|boolean ", fillcolor="orange", style ="filled", shape="circle"]; 
-"nodo11"-> "nodo10" 
-"nodo31"-> "nodo11" 
-"nodo12"-> "nodo31" 
-"nodo30"-> "nodo12" 
-"nodo13"-> "nodo30" 
-"nodo28"-> "nodo13" 
-"nodo14"-> "nodo28" 
-"nodo22"-> "nodo14" 
-nodo18[label="BLOQUEIF ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo33[label="COND ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo17[label="== ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo15[label="8|int ", fillcolor="orange", style ="filled", shape="circle"]; 
-"nodo17"-> "nodo15" 
-nodo16[label="5|int ", fillcolor="orange", style ="filled", shape="circle"]; 
-"nodo17"-> "nodo16" 
-"nodo33"-> "nodo17" 
-"nodo18"-> "nodo33" 
-nodo34[label="LSENT ", fillcolor="orange", style ="filled", shape="circle"]; 
-"nodo18"-> "nodo34" 
-"nodo22"-> "nodo18" 
-nodo21[label="BLOQUEIF ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo36[label="LSENT ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo20[label="println ", fillcolor="orange", style ="filled", shape="circle"]; 
-nodo19[label="hola|String ", fillcolor="orange", style ="filled", shape="circle"]; 
-"nodo20"-> "nodo19" 
-"nodo36"-> "nodo20" 
-"nodo21"-> "nodo36" 
-"nodo22"-> "nodo21" 
-"nodo26"-> "nodo22" 
+nodo26[label="PARAMETROS ", fillcolor="orange", style ="filled", shape="circle"]; 
 "nodo1"-> "nodo26" 
+nodo27[label="LSENT ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo4[label="DECLARACION ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo28[label="MODIFICADORES ", fillcolor="orange", style ="filled", shape="circle"]; 
+"nodo4"-> "nodo28" 
+nodo29[label="TIPO ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo30[label="int ", fillcolor="orange", style ="filled", shape="circle"]; 
+"nodo29"-> "nodo30" 
+"nodo4"-> "nodo29" 
+nodo31[label="VARIABLES ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo2[label="VAR ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo32[label="val ", fillcolor="orange", style ="filled", shape="circle"]; 
+"nodo2"-> "nodo32" 
+nodo3[label="2|int ", fillcolor="orange", style ="filled", shape="circle"]; 
+"nodo2"-> "nodo3" 
+"nodo31"-> "nodo2" 
+"nodo4"-> "nodo31" 
+"nodo27"-> "nodo4" 
+nodo23[label="SWITCH ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo33[label="VALOR ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo6[label="ACCESO ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo5[label="val ", fillcolor="orange", style ="filled", shape="circle"]; 
+"nodo6"-> "nodo5" 
+"nodo33"-> "nodo6" 
+"nodo23"-> "nodo33" 
+nodo34[label="CASOS ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo9[label="CASO ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo35[label="VALOR ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo8[label="1|int ", fillcolor="orange", style ="filled", shape="circle"]; 
+"nodo35"-> "nodo8" 
+"nodo9"-> "nodo35" 
+nodo36[label="LSENT ", fillcolor="orange", style ="filled", shape="circle"]; 
+"nodo9"-> "nodo36" 
+"nodo34"-> "nodo9" 
+nodo15[label="CASO ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo37[label="VALOR ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo10[label="2|int ", fillcolor="orange", style ="filled", shape="circle"]; 
+"nodo37"-> "nodo10" 
+"nodo15"-> "nodo37" 
+nodo38[label="LSENT ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo12[label="print ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo11[label="hurt|String ", fillcolor="orange", style ="filled", shape="circle"]; 
+"nodo12"-> "nodo11" 
+"nodo38"-> "nodo12" 
+nodo14[label="print ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo13[label="85|int ", fillcolor="orange", style ="filled", shape="circle"]; 
+"nodo14"-> "nodo13" 
+"nodo38"-> "nodo14" 
+"nodo15"-> "nodo38" 
+"nodo34"-> "nodo15" 
+nodo19[label="CASO ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo39[label="VALOR ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo16[label="10|int ", fillcolor="orange", style ="filled", shape="circle"]; 
+"nodo39"-> "nodo16" 
+"nodo19"-> "nodo39" 
+nodo40[label="LSENT ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo18[label="print ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo17[label="hurt|String ", fillcolor="orange", style ="filled", shape="circle"]; 
+"nodo18"-> "nodo17" 
+"nodo40"-> "nodo18" 
+"nodo19"-> "nodo40" 
+"nodo34"-> "nodo19" 
+nodo41[label="DEFAULT ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo42[label="LSENT ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo21[label="print ", fillcolor="orange", style ="filled", shape="circle"]; 
+nodo20[label="def|String ", fillcolor="orange", style ="filled", shape="circle"]; 
+"nodo21"-> "nodo20" 
+"nodo42"-> "nodo21" 
+"nodo41"-> "nodo42" 
+"nodo34"-> "nodo41" 
+"nodo23"-> "nodo34" 
+"nodo27"-> "nodo23" 
+"nodo1"-> "nodo27" 
 }

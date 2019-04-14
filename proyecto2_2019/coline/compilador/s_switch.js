@@ -4,6 +4,7 @@ const tablaTipos= require("../tablaTipos.js");
 var simbolo = require("../../mng_ts/simbolo.js");
 const vari=require("../../var.js");
 const nodoDisplay=require("../nodoDisplay.js");
+var nodoArbol =require("../nodoArbol.js");
 class s_switch{
     constructor(valor,casos,defecto,linea,columna,archivo,hash) 
     {
@@ -27,23 +28,24 @@ class s_switch{
     {
         var raiz =new nodoArbol("SWITCH",this.hash);
         vari.hash++;
-        var cond=new nodoArbol("VALOR",this.hash);
+        var cond=new nodoArbol("VALOR",vari.hash);
         cond.agregarHijo(this.valor.getTree());
         vari.hash++;
         var sent =new nodoArbol("CASOS",vari.hash);
-        for(var i=0;i<this.sentencias.length;i++)
+        for(var i=0;i<this.casos.length;i++)
         {
-            sent.agregarHijo(this.sentencias[i].getTree());
+            sent.agregarHijo(this.casos[i].getTree());
         }
         // defecto 
         if(this.defecto!=null)
         {
+            vari.hash++;
             var defecto =new nodoArbol("DEFAULT",vari.hash);
             vari.hash++;
             var sentdef =new nodoArbol("LSENT",vari.hash);
             for(var i=0;i<this.defecto.sentencias.length;i++)
             {
-                sent.agregarHijo(this.defecto.sentencias[i].getTree());
+                sentdef.agregarHijo(this.defecto.sentencias[i].getTree());
             }
             defecto.agregarHijo(sentdef);
             sent.agregarHijo(defecto);
@@ -93,19 +95,31 @@ class s_switch{
     traducir(ts,traductor)
     {
         traductor.comentario("SENTENCIA SWITCH");
-        //generar la etiqueta de salida        
-        var minodo=new nodoDisplay(valores.getEtiqueta());
+        //generar la etiqueta de salida 
+        var beout=valores.getEtiqueta();
+        var e_defe=valores.getEtiqueta();    
+        var minodo=new nodoDisplay(beout);
         ts.displayBreaks.push(minodo);
         //valor principal
         var v= this.valor.traducir(ts,traductor);
-        //traducir los casos
+        //valor 
+        tablaTipos.etiquetaToTemp(v,traductor);
+        //traducir las condiciones tradCond(
         for(var i=0;i<this.casos.length;i++)
         {
             var c=this.casos[i];
             c.principal=v;
+            c.tradCond(ts,traductor);
+        }
+        traductor.imprimir("goto "+e_defe+";//ir a etiqueta de defecto");
+        //traducir los casos
+        for(var i=0;i<this.casos.length;i++)
+        {
+            var c=this.casos[i];
             c.traducir(ts,traductor);
         }
-
+        traductor.imprimir("goto "+beout+";//ir a etiqueta salida")
+        traductor.imprimir_L(e_defe+"://etiqueta de defecto")
         //traducir el defecto
         if(this.defecto!=null)
         {
