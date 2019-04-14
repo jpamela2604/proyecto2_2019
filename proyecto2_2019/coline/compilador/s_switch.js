@@ -1,10 +1,8 @@
 const valores = require("../values_manager.js");
 var nodoArbol =require("../nodoArbol.js");
 const tablaTipos= require("../tablaTipos.js");
-var simbolo = require("../../mng_ts/simbolo.js");
 const vari=require("../../var.js");
 const nodoDisplay=require("../nodoDisplay.js");
-var nodoArbol =require("../nodoArbol.js");
 class s_switch{
     constructor(valor,casos,defecto,linea,columna,archivo,hash) 
     {

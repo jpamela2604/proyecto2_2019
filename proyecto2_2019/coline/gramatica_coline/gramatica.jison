@@ -60,6 +60,7 @@ cmulti						"/*" [^*]* "*/"
 "String"                        return 't_string';
 "void"                          return 'vacio';
 "null"                          return 'nulo';
+"for"                           return 'for_';
 //""                            return '';
 "public"                        return 'publico_';
 "protected"                     return 'protegido_';
@@ -122,6 +123,7 @@ cmulti						"/*" [^*]* "*/"
         const s_bloque=require("../compilador/s_bloque.js");
         const s_while=require("../compilador/s_while.js");
         const s_do_while=require("../compilador/s_do_while.js");
+        const s_for=require("../compilador/s_for.js");
         const s_retorno=require("../compilador/s_retorno.js");
         const s_retornoEmpty=require("../compilador/s_retornoEmpty.js");
         const s_break=require("../compilador/s_break.js");
@@ -244,6 +246,10 @@ SENT            : IMPRIMIR ptocoma
                     $$=$1;
                 }
                 |S_WHILE
+                {
+                    $$=$1;
+                }
+                |S_FOR
                 {
                     $$=$1;
                 }
@@ -395,7 +401,7 @@ DEM				:DEM cora corc
                     vari.archivo,vari.hash);
 				}
 				;
-ASIGNACION      :LAC is INICIALIZA
+ASIGNACION      :LAC is INICIALIZA  
                 {
                     vari.hash++;
                     var ace=new s_accesos($1,vari.hash);
@@ -614,7 +620,37 @@ S_DO            :dow llava L llavc while_ para COND parc
                     vari.hash++;
                     $$=new s_do_while($6,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
+                ; 
+S_FOR           :for_ para FINICIO ptocoma COND ptocoma FACTUAL parc llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_for($3,$5,$7,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                |for_ para FINICIO ptocoma COND ptocoma FACTUAL parc llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_for($3,$5,$7,$10,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
                 ;
+FINICIO         :DECLARACION
+                {
+                    $$=$1;
+                }
+                |ASIGNACION
+                {
+                    $$=$1;
+                }
+                ;
+FACTUAL         :ASIGNACION
+                {
+                    $$=$1;
+                }
+                |UNAR
+                {
+                    $$=$1;
+                }
+                ;
+
 S_WHILE         : while_ para COND parc llava L llavc
                 {
                     vari.hash++;

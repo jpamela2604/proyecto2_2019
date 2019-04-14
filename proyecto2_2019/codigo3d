@@ -750,6 +750,107 @@ void metojjpsmain_(){
        call print_olcp2jjps();
        p=p-3;
        L78: //etiqueta de salida del switch
+/*########    SENTENCIA WHILE    ########*/
+/*########    DECLARACION    ########*/
+       t329=p+2;
+       stack[t329]=0;
+   L83: //etiqueta de inicio de ciclo
+       t330=p+2;
+       t331=stack[t330];
+       if (t331<100)  goto L85;
+       goto L86;
+   L85:
+//sentencias
+/*########    SENTENCIA IF    ########*/
+//-----bloque if
+//condicion
+       t332=p+2;
+       t333=stack[t332];
+       if (t333>33)  goto L88;
+       goto L89;
+   L88:
+       t334=p+2;
+       t335=stack[t334];
+       if (t335<79)  goto L90;
+       goto L91;
+   L90:
+//sentencias
+/*########    sentencia break    ########*/
+       goto L86;
+/*########    SENTENCIA println    ########*/
+       t336=h;
+       heap[h]=115;
+       h=h+1;
+       heap[h]=97;
+       h=h+1;
+       heap[h]=108;
+       h=h+1;
+       heap[h]=116;
+       h=h+1;
+       heap[h]=111;
+       h=h+1;
+       heap[h]=557886;
+       h=h+1;
+       t337=p+4;
+       t338=t337+1;
+       stack[t338]=t336;
+       p=p+4;
+       call print_olcp2jjps();
+       p=p-4;
+       print("%c",10);
+/*########    sentencia continue    ########*/
+       goto L84;
+       goto L87;
+   L89:
+   L91:
+   L87:
+/*########    SENTENCIA println    ########*/
+       t339=h;
+       heap[h]=104;
+       h=h+1;
+       heap[h]=111;
+       h=h+1;
+       heap[h]=108;
+       h=h+1;
+       heap[h]=97;
+       h=h+1;
+       heap[h]=557886;
+       h=h+1;
+       t340=p+2;
+       t341=stack[t340];
+       t342=p+4;
+       t343=t342+1;
+       stack[t343]=t341;
+       t344=t342+2;
+       stack[t344]=0;
+       p=p+4;
+       call ftoa();
+       t345=stack[p];
+       p=p-4;
+       t346=p+4;
+       t347=t346+1;
+       stack[t347]=t339;//apuntador o1 heap
+       t348=t346+2;
+       stack[t348]=t345;//apuntador o2 heap
+       p=p+4;
+       call concat_olcp2jjps();
+       t349=stack[p];
+       p=p-4;
+       t350=p+4;
+       t351=t350+1;
+       stack[t351]=t349;
+       p=p+4;
+       call print_olcp2jjps();
+       p=p-4;
+       print("%c",10);
+   L84:
+       t352=p+2;
+       t353=p+2;
+       t354=stack[t353];
+       t355=t354+10;
+       stack[t352]=t355;
+       goto L83;
+   L86:
    L77:
 }
        L1:

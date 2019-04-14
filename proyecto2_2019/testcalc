@@ -18,4 +18,16 @@ void main()
 			print("def");
 		}
 	}
+	for(int a=0;a<100;a=a+10)
+	{
+		
+		if(a>33&&a<79)
+		{
+			break;
+			println("salto");
+			continue;
+		}
+		println("hola"+a);
+	}
+
 }
