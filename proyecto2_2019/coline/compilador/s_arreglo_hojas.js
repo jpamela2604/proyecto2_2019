@@ -1,0 +1,42 @@
+
+var nodoArbol =require("../nodoArbol.js");
+class s_arreglo_hojas{
+    constructor(valores,hash) 
+    {
+        this.valores=valores;
+        this.linea=linea; 
+        this.columna=columna;
+        this.archivo=archivo;
+        this.hash=hash;
+    }
+    comprobacion_global(ts,er)
+    {
+
+    }
+    traduccion_global(ts,traductor)
+    {
+        
+    }
+    getTree()
+    {
+        var raiz =new nodoArbol("BREAK",this.hash);
+        
+        return raiz;
+    }
+    comprobacion(ts,er)
+    {
+        if(!(ts.displayBreaks.hasElements()))
+        {
+            er.addError("break fuera de ciclo",this.linea,this.columna,this.archivo,
+            "SEMANTICO");
+        }
+    }
+    traducir(ts,traductor)
+    {
+        traductor.comentario("sentencia break");
+        var miNodo=ts.displayBreaks.getTopElement();
+        traductor.imprimir("goto "+miNodo.etiqueta+";");
+    }
+}
+
+module.exports = s_arreglo_hojas;

@@ -18,5 +18,6 @@ if(err.size()==0)
 {
     raiz.guardarValores(execute,err);
     raiz.ejecutar(execute,err);
-    console.log(execute.cadena);
+    
+    console.log(execute.cadena==""?"":"<< "+execute.cadena);
 }

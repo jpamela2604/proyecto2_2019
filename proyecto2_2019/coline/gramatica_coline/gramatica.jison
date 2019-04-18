@@ -61,6 +61,20 @@ cmulti						"/*" [^*]* "*/"
 "void"                          return 'vacio';
 "null"                          return 'nulo';
 "for"                           return 'for_';
+"class"                         return 'class_';
+"extends"                       return 'extends_';
+"@Override"                     return 'sobre_';
+"new"                           return 'new_';
+"LinkedList"                    return 'll';
+"import"                        return 'import_';
+"throw"                         return 'throw_';
+"try"                           return 'try_';
+"catch"                         return 'catch_';
+"this"                          return 'this_';
+"super"                         return 'super_';
+"read_file"                     return 'read_file_';
+"write_file"                    return 'write_file_';
+"graph"                         return 'graph_';
 //""                            return '';
 "public"                        return 'publico_';
 "protected"                     return 'protegido_';
@@ -79,7 +93,7 @@ cmulti						"/*" [^*]* "*/"
 \t+                         {}
 \f+                         {}
 <<EOF>>                     return 'ENDOFFILE';
-.                         {ErrorLexico(yytext,yylineno,yylloc.first_column); }
+.                         {}
 /lex
 %{
         const error_manager=require("../../mng_error/error_manager.js");
@@ -131,6 +145,8 @@ cmulti						"/*" [^*]* "*/"
         const s_switch=require("../compilador/s_switch.js");
         const s_decla=require("../compilador/s_decla.js");
         const s_declaracion=require("../compilador/s_declaracion.js");
+        const s_declaracionG=require("../compilador/s_declaracionG.js");
+        const s_declaracionL=require("../compilador/s_declaracionL.js");
         const s_asignacion=require("../compilador/s_asignacion.js");
         const s_accesos=require("../compilador/s_accesos.js");
         const s_acVariable=require("../compilador/s_acVariable.js");
@@ -138,10 +154,35 @@ cmulti						"/*" [^*]* "*/"
         const parametro=require("../../mng_ts/parametro.js");
         const s_metodo=require("../compilador/s_metodo.js");
         const s_llamada=require("../compilador/s_llamada.js");
+        
+        
+        const s_arreglo_lvals=require("../compilador/s_arreglo_lvals.js");
+        const s_arreglo_hojas=require("../compilador/s_arreglo_hojas.js");
+        const s_arreglo_valores=require("../compilador/s_arreglo_valores.js");
+
+        const s_acSuper=require("../compilador/s_acSuper.js");
+        const s_acThis=require("../compilador/s_acThis.js");
+        const archivo=require("../compilador/archivo.js");
+        const myclass=require("../compilador/myclass.js");
+        const nuevaInstancia=require("../compilador/nuevaInstancia.js");
+        const nuevoArreglo=require("../compilador/nuevoArreglo.js");
+        const nuevoLinkedList=require("../compilador/nuevoLinkedList.js");
+        const s_declararArr=require("../compilador/s_declararArr.js");
+        const s_declararLinkedList=require("../compilador/s_declararLinkedList.js");
+        const s_foreach=require("../compilador/s_foreach.js");
+        const s_graph=require("../compilador/s_graph.js");
+        const s_importar=require("../compilador/s_importar.js");
+        const s_metodoConstructor=require("../compilador/s_metodoConstructor.js");
+        const s_metodoOver=require("../compilador/s_metodoOver.js");
+        const s_readFile=require("../compilador/s_readFile.js");
+        const s_throw=require("../compilador/s_throw.js");
+        const s_TryCatch=require("../compilador/s_TryCatch.js");
+        const s_write_file=require("../compilador/s_write_file.js");
+        
         //const s_salida=require("../compilador/s_salida.js");
         const tablaTipos = require("../tablaTipos.js");
-%}
 
+%}
 
 //%right is
 
@@ -178,17 +219,95 @@ cmulti						"/*" [^*]* "*/"
 
 %%
 	
-INICIO		    :	S ENDOFFILE
+INICIO		    :	ARCHIVO ENDOFFILE
 				{
-					//typeof console !== 'undefined' ? console.log($1) : print($1);
-					//console.log("aceptada");
-					return $1;
+					console.log("aceptada");
+                    return $1;
 				}
 				;
-
-S               : LISENT
+ARCHIVO         :IMPORTACIONES CLASES
+                {
+                    vari.hash++;
+                    $$=new archivo($1,$2,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                |CLASES
+                {
+                    vari.hash++;
+                    $$=new archivo(new Array(),$1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                |IMPORTACIONES
+                {
+                    vari.hash++;
+                    $$=new archivo($1,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                ;
+IMPORTACIONES   : IMPORTACIONES IMPORTACION ptocoma
                 {
                     $$=$1;
+                    $$.push($2);
+                }
+                |IMPORTACION ptocoma
+                {
+                    $$=new Array();
+                    $$.push($1);
+                }
+                ;
+IMPORTACION     :import_ COND
+                {
+                    vari.hash++;
+                    $$=new archivo($2,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                ;
+CLASES          :CLASES CLASE
+                {
+                    $$=$1;
+                    $$.push($2);
+                }
+                |CLASE
+                {
+                    $$=new Array();
+                    $$.push($1);
+                }
+                ;
+CLASE           :MODSCAMPO class_ er_id llava llavc
+                {
+                    vari.hash++;
+                    $$=new myclass($1,$3,null,new Array(),@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                |class_ er_id llava llavc
+                {
+                    vari.hash++;
+                    $$=new myclass(new Array(),$2,null,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                |MODSCAMPO class_ er_id llava LISENT llavc
+                {
+                    vari.hash++;
+                    $$=new myclass($1,$3,null,$5,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                |class_ er_id llava LISENT llavc
+                {
+                    vari.hash++;
+                    $$=new myclass(new Array(),$2,null,$4,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                |MODSCAMPO class_ er_id extends_ er_id llava llavc
+                {
+                    vari.hash++;
+                    $$=new myclass($1,$3,$5,new Array(),@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                |class_ er_id extends_ er_id llava llavc
+                {
+                    vari.hash++;
+                    $$=new myclass(new Array(),$2,$4,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                |MODSCAMPO class_ er_id extends_ er_id llava LISENT llavc
+                {
+                    vari.hash++;
+                    $$=new myclass($1,$3,$5,$7,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                |class_ er_id extends_ er_id llava LISENT llavc
+                {
+                    vari.hash++;
+                    $$=new myclass(new Array(),$2,$4,$6,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
 LISENT          :LISENT OPCG
@@ -196,22 +315,554 @@ LISENT          :LISENT OPCG
                     $$=$1;
                     $$.push($2);
                 }
-                |OPCG
+                |OPCG   
                 {
                     $$=new Array();
                     $$.push($1);
-                }
+                }             
                 ;
-OPCG            :DECLAMETO
+OPCG            :DECLAGLOBAL
+                {
+                    $$=$1;
+                }            
+                ;
+                //METODOS
+DECLAGLOBAL     : TIPO er_id para parc llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodo(new Array(),$1,$2,new Array(),0,$6,false
+                    ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO er_id para parc llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodo(new Array(),$1,$2,new Array(),0,new Array(),false
+                    ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO er_id para parc ptocoma
+                {
+                    vari.hash++;
+                    $$=new s_metodo(new Array(),$1,$2,new Array(),0,null,true
+                    ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO er_id para PARAMS parc llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodo(new Array(),$1,$2,$4,0,$7,false
+                    ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO er_id para PARAMS parc llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodo(new Array(),$1,$2,$4,0,new Array(),false
+                    ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO er_id para PARAMS parc ptocoma
+                {
+                    vari.hash++;
+                    $$=new s_metodo(new Array(),$1,$2,$4,0,null,true
+                    ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO er_id para parc MYDIM llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodo(new Array(),$1,$2,new Array(),$5,$7,false
+                    ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO er_id para parc MYDIM llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodo(new Array(),$1,$2,new Array(),$5,new Array(),false
+                    ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO er_id para parc MYDIM ptocoma
+                {
+                    vari.hash++;
+                    $$=new s_metodo(new Array(),$1,$2,new Array(),$5,null,true
+                    ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO er_id para PARAMS parc MYDIM llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodo(new Array(),$1,$2,$4,$6,$8,false
+                    ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO er_id para PARAMS parc MYDIM llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodo(new Array(),$1,$2,$4,$6,new Array(),false
+                    ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO er_id para PARAMS parc MYDIM ptocoma      
+                {
+                    vari.hash++;
+                    $$=new s_metodo(new Array(),$1,$2,$4,$6,null,true
+                    ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }           
+                | MODSCAMPO TIPO er_id para parc llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodo($1,$2,$3,new Array(),0,$7,false
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id para parc llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodo($1,$2,$3,new Array(),0,new Array(),false
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id para parc ptocoma
+                {
+                    vari.hash++;
+                    $$=new s_metodo($1,$2,$3,new Array(),0,null,true
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id para PARAMS parc llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodo($1,$2,$3,$5,0,$8,false
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id para PARAMS parc llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodo($1,$2,$3,$5,0,new Array(),false
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id para PARAMS parc ptocoma
+                {
+                    vari.hash++;
+                    $$=new s_metodo($1,$2,$3,$5,0,null,true
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id para parc MYDIM llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodo($1,$2,$3,new Array(),$6,$8,false
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id para parc MYDIM llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodo($1,$2,$3,new Array(),$6,new Array(),false
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id para parc MYDIM ptocoma
+                {
+                    vari.hash++;
+                    $$=new s_metodo($1,$2,$3,new Array(),$6,null,true
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id para PARAMS parc MYDIM llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodo($1,$2,$3,$5,$7,$9,false
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id para PARAMS parc MYDIM llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodo($1,$2,$3,$5,$7,new Array(),false
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id para PARAMS parc MYDIM ptocoma //fin de metodos
+                {
+                    vari.hash++;
+                    $$=new s_metodo($1,$2,$3,$5,$7,null,true
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                } 
+                //SOBRE ESCRITURA
+                | sobre_ TIPO er_id para parc llava L llavc
+                {//modificadores,tipo,id,parametros,noDimensiones,sentencias
+                    vari.hash++;
+                    $$=new s_metodoOver(new Array(),$2,$3,new Array(),0,$7
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | sobre_ TIPO er_id para parc llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoOver(new Array(),$2,$3,new Array(),0,new Array()
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | sobre_ TIPO er_id para PARAMS parc llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoOver(new Array(),$2,$3,$5,0,$8
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | sobre_ TIPO er_id para PARAMS parc llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoOver(new Array(),$2,$3,$5,0,new Array()
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | sobre_ TIPO er_id para parc MYDIM llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoOver(new Array(),$2,$3,new Array(),$6,$8
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | sobre_ TIPO er_id para parc MYDIM llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoOver(new Array(),$2,$3,new Array(),$6,new Array()
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | sobre_ TIPO er_id para PARAMS parc MYDIM llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoOver(new Array(),$2,$3,$5,$7,$9
+                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | sobre_ TIPO er_id para PARAMS parc MYDIM llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoOver(new Array(),$2,$3,$5,$7,new Array()
+                   ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }              
+                | sobre_ MODSCAMPO TIPO er_id para parc llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoOver($2,$3,$4,new Array(),0,$8
+                    ,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | sobre_ MODSCAMPO TIPO er_id para parc llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoOver($2,$3,$4,new Array(),0,new Array()
+                    ,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | sobre_ MODSCAMPO TIPO er_id para PARAMS parc llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoOver($2,$3,$4,$6,0,$9
+                    ,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | sobre_ MODSCAMPO TIPO er_id para PARAMS parc llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoOver($2,$3,$4,$6,0,new Array()
+                    ,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | sobre_ MODSCAMPO TIPO er_id para parc MYDIM llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoOver($2,$3,$4,new Array(),$7,$9
+                    ,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | sobre_ MODSCAMPO TIPO er_id para parc MYDIM llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoOver($2,$3,$4,new Array(),$7,new Array()
+                    ,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | sobre_ MODSCAMPO TIPO er_id para PARAMS parc MYDIM llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoOver($2,$3,$4,$6,$8,$10
+                    ,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | sobre_ MODSCAMPO TIPO er_id para PARAMS parc MYDIM llava llavc //fin de metodos
+                {
+                    vari.hash++;
+                    $$=new s_metodoOver($2,$3,$4,$6,$8,new Array()
+                    ,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                } 
+                //CONSTRUCTORES
+                | MODSCAMPO er_id para parc llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoConstructor($1,$2,new Array(),$6
+                    ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO er_id para parc llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoConstructor($1,$2,new Array(),new Array()
+                    ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO er_id para PARAMS parc llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoConstructor($1,$2,$4,$7
+                    ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO er_id para PARAMS parc llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoConstructor($1,$2,$4,new Array()
+                    ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | er_id para parc llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoConstructor(new Array(),$1,new Array(),$5
+                    ,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | er_id para parc llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoConstructor(new Array(),$1,new Array(),new Array()
+                    ,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | er_id para PARAMS parc llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoConstructor(new Array(),$1,$3,$6
+                    ,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | er_id para PARAMS parc llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_metodoConstructor(new Array(),$1,$3,new Array()
+                    ,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                //DECLARACION DE CAMPOS
+                | TIPO er_id is INICIALIZA 
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,0,$4,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    //modificadores,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionG(new Array(),$1,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO er_id 
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,0,null,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    //modificadores,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionG(new Array(),$1,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO er_id MYDIM is INICIALIZA 
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,$3,$5,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    //modificadores,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionG(new Array(),$1,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO er_id MYDIM
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,$3,null,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    //modificadores,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionG(new Array(),$1,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO er_id is INICIALIZA coma LDEC
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,0,$4,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$6.length;x++)
+                    {
+                        lista.push($6[x]);
+                    }
+                    //modificadores,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionG(new Array(),$1,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO er_id coma LDEC
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,0,null,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$4.length;x++)
+                    {
+                        lista.push($4[x]);
+                    }
+                    //modificadores,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionG(new Array(),$1,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO er_id MYDIM is INICIALIZA coma LDEC
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,$3,$5,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$7.length;x++)
+                    {
+                        lista.push($7[x]);
+                    }
+                    //modificadores,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionG(new Array(),$1,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO er_id MYDIM coma LDEC
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,$3,null,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$5.length;x++)
+                    {
+                        lista.push($5[x]);
+                    }
+                    //modificadores,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionG(new Array(),$1,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id is INICIALIZA 
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($3,0,$5,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);                    
+                    //modificadores,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionG($1,$2,lista,
+                    @3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id 
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($3,0,null,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);                    
+                    //modificadores,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionG($1,$2,lista,
+                    @3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id MYDIM is INICIALIZA 
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($3,$4,$6,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);                    
+                    //modificadores,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionG($1,$2,lista,
+                    @3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id MYDIM
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($3,$4,null,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);                    
+                    //modificadores,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionG($1,$2,lista,
+                    @3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id is INICIALIZA coma LDEC
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($3,0,$5,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$7.length;x++)
+                    {
+                        lista.push($7[x]);
+                    }
+                    //modificadores,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionG($1,$2,lista,
+                    @3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id coma LDEC
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($3,0,null,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$5.length;x++)
+                    {
+                        lista.push($5[x]);
+                    }
+                    //modificadores,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionG($1,$2,lista,
+                    @3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id MYDIM is INICIALIZA coma LDEC
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($3,$4,$6,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    //modificadores,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionG($1,$2,lista,
+                    @3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | MODSCAMPO TIPO er_id MYDIM coma LDEC
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($3,$4,null,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$6.length;x++)
+                    {
+                        lista.push($6[x]);
+                    }
+                    //modificadores,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionG($1,$2,lista,
+                    @3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                //LinkedList
+                | ll menor TIPO mayor er_id
+                {
+                    vari.hash++;
+                    $$=new s_declararLinkedList(true,$3,$5,null,
+                    @1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | ll menor TIPO mayor er_id is INICIALIZA
+                {
+                    vari.hash++;
+                    $$=new s_declararLinkedList(true,$3,$5,$7,
+                    @1.first_line,@1.first_column,vari.archivo,vari.hash);;
+                }
+                //clase
+                |CLASE
                 {
                     $$=$1;
                 }
-                |DECLARACION ptocoma
-                {
-                    $$=$1;
-                    $$.IsGlobal=true;
-                }                
                 ;
+
+
 L               : L SENT
                 {
                     $$=$1;
@@ -261,38 +912,1061 @@ SENT            : IMPRIMIR ptocoma
                 {
                     $$=$1;
                 }
-                |DECLARACION ptocoma
+                |ALLI ptocoma  
                 {
                     $$=$1;
                 }
-                |ASIGNACION ptocoma
-                {
-                    $$=$1;
-                }
-                |LAC ptocoma
+                |throw_ COND ptocoma
                 {
                     vari.hash++;
-                    $$=new s_accesos($1,vari.hash);
+                    $$=new s_throw($2,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
-                |UNAR ptocoma
-                {
-                    $$=$1;
+                |try_ llava llavc catch para PARAM parc llava llavc  
+                {//sentv,param,senf,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_TryCatch(new Array(),$6,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
-                |error ptocoma
-				{
-					 ErrorSintactico("falta un punto y coma ",yylineno,0);
-                     $$=null;									
-				}
+                |try_ llava llavc catch para PARAM parc llava L llavc 
+                {//sentv,param,senf,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_TryCatch(new Array(),$6,$9,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                |try_ llava L llavc catch para PARAM parc llava llavc 
+                {//sentv,param,senf,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_TryCatch($3,$7,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                |try_ llava L llavc catch para PARAM parc llava L llavc 
+                {//sentv,param,senf,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_TryCatch($3,$7,$10,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
                 ;
-UNAR            :PREFIJO
+                //lac
+ALLI            :LLAMADA
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                }
+                |read_file_ para COND parc
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                }
+                |write_file_ para COND coma COND parc
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                }
+                |graph_ para COND coma COND parc
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                }
+                | er_id punto LAC
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                }
+                | LLAMADA punto LAC
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                }
+                | this_ punto LAC
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                }
+                | super_ punto LAC
+                {
+                    vari.hash++;
+                    var nuevo=new s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                }
+                | read_file_ para COND parc punto LAC
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$6.length;x++)
+                    {
+                        lista.push($6[x]);
+                    }
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                }
+                | write_file_ para COND coma COND parc punto LAC
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                }
+                | graph_ para COND coma COND parc punto LAC
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                }
+                //DECLARACION
+                | er_id er_id is INICIALIZA 
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,0,$4,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    var miType=tablaTipos.getTipoObjeto($1);
+                    vari.hash++;
+                    $$=new s_declaracionL(false,miType,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | er_id er_id 
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,0,null,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    var miType=tablaTipos.getTipoObjeto($1);
+                    vari.hash++;
+                    $$=new s_declaracionL(false,miType,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | er_id er_id MYDIM is INICIALIZA 
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,$3,$5,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    var miType=tablaTipos.getTipoObjeto($1);
+                    vari.hash++;
+                    $$=new s_declaracionL(false,miType,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | er_id er_id MYDIM
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,$3,null,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    var miType=tablaTipos.getTipoObjeto($1);
+                    vari.hash++;
+                    $$=new s_declaracionL(false,miType,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | er_id er_id is INICIALIZA coma LDEC
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,0,$4,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$6;x++)
+                    {
+                        lista.push($6[x]);
+                    }
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    var miType=tablaTipos.getTipoObjeto($1);
+                    vari.hash++;
+                    $$=new s_declaracionL(false,miType,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | er_id er_id coma LDEC
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,0,null,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$4;x++)
+                    {
+                        lista.push($4[x]);
+                    }
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    var miType=tablaTipos.getTipoObjeto($1);
+                    vari.hash++;
+                    $$=new s_declaracionL(false,miType,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | er_id er_id MYDIM is INICIALIZA coma LDEC
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,$3,$5,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$7;x++)
+                    {
+                        lista.push($7[x]);
+                    }
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    var miType=tablaTipos.getTipoObjeto($1);
+                    vari.hash++;
+                    $$=new s_declaracionL(false,miType,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | er_id er_id MYDIM coma LDEC  
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,$3,null,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$5;x++)
+                    {
+                        lista.push($5[x]);
+                    }
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    var miType=tablaTipos.getTipoObjeto($1);
+                    vari.hash++;
+                    $$=new s_declaracionL(false,miType,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO2 er_id is INICIALIZA 
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,0,$4,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionL(false,$1,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO2 er_id 
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,0,null,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionL(false,$1,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO2 er_id MYDIM is INICIALIZA 
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,$3,$5,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionL(false,$1,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO2 er_id MYDIM
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,$3,null,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionL(false,$1,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO2 er_id is INICIALIZA coma LDEC
+                 {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,0,$4,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$6;x++)
+                    {
+                        lista.push($6[x]);
+                    }
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionL(false,$1,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO2 er_id coma LDEC
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,0,null,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$4;x++)
+                    {
+                        lista.push($4[x]);
+                    }
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionL(false,$1,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO2 er_id MYDIM is INICIALIZA coma LDEC
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,$3,$5,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$7;x++)
+                    {
+                        lista.push($7[x]);
+                    }
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionL(false,$1,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | TIPO2 er_id MYDIM coma LDEC
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,$3,null,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$5;x++)
+                    {
+                        lista.push($5[x]);
+                    }
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionL(false,$1,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | ffinal_ TIPO er_id is INICIALIZA 
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($3,0,$5,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionL(true,$2,lista,
+                    @3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | ffinal_ TIPO er_id 
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($3,0,null,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionL(true,$2,lista,
+                    @3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | ffinal_ TIPO er_id MYDIM is INICIALIZA 
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($3,$4,$6,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionL(true,$2,lista,
+                    @3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | ffinal_ TIPO er_id MYDIM
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($3,$4,null,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionL(true,$2,lista,
+                    @3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | ffinal_ TIPO er_id is INICIALIZA coma LDEC
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($3,0,$5,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$7.length;x++)
+                    {
+                        lista.push($7[x]);
+                    }
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionL(true,$2,lista,
+                    @3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | ffinal_ TIPO er_id coma LDEC
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($3,0,null,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$5.length;x++)
+                    {
+                        lista.push($5[x]);
+                    }
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionL(true,$2,lista,
+                    @3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | ffinal_ TIPO er_id MYDIM is INICIALIZA coma LDEC
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($3,$4,$6,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionL(true,$2,lista,
+                    @3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                | ffinal_ TIPO er_id MYDIM coma LDEC
+                {
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($3,$4,null,@3.first_line,@3.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    for(var x=0;x<$6.length;x++)
+                    {
+                        lista.push($6[x]);
+                    }
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionL(true,$2,lista,
+                    @3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                //LinkedList
+                | ll menor TIPO mayor er_id
+                {
+                    vari.hash++;
+                    $$=new s_declararLinkedList(false,$3,$5,null,
+                    @1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | ll menor TIPO mayor er_id is INICIALIZA
+                {
+                    vari.hash++;
+                    $$=new s_declararLinkedList(false,$3,$5,$7,
+                    @1.first_line,@1.first_column,vari.archivo,vari.hash);;
+                }
+                //ASIGNACION
+                | er_id is INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | LLAMADA is INICIALIZA 
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | this_ is INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | super_ is INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc is INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$6,@5.first_line,@5.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc is INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$8,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc is INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$8,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | er_id punto LAC is  INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$5,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | LLAMADA punto LAC is INICIALIZA 
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$5,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                |  this_ punto LAC is  INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$5,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | super_ punto LAC is  INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$5,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc punto LAC is INICIALIZA 
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$6.length;x++)
+                    {
+                        lista.push($6[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$8,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc punto LAC is INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);                    
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$10,@9.first_line,@9.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc punto LAC is  INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$10,@9.first_line,@9.first_column,vari.archivo,vari.hash);
+
+                }
+                //UNAR
+                |PREFIJO
                 {
                     $$=$1;
                 }
-                |POSTFIJO
+                | er_id incr
                 {
-                    $$=$1;
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
+                | LLAMADA incr
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                |  this_ incr
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | super_ incr
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@5.first_line,@5.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | er_id punto LAC incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | LLAMADA punto LAC incr
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | this_ punto LAC incr
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | super_ punto LAC incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc punto LAC incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$6.length;x++)
+                    {
+                        lista.push($6[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc punto LAC incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@9.first_line,@9.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc punto LAC incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@9.first_line,@9.first_column,vari.archivo,vari.hash);
+                }
+                | er_id decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | LLAMADA decr
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | this_ decr
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | super_ decr
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@5.first_line,@5.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | er_id punto LAC decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                   $$=new o_postDecr(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | LLAMADA punto LAC decr 
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | this_ punto LAC decr
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | super_ punto LAC decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc punto LAC decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$6.length;x++)
+                    {
+                        lista.push($6[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc punto LAC decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@9.first_line,@9.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc punto LAC decr  
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@9.first_line,@9.first_column,vari.archivo,vari.hash);
+                }              
                 ;
+
 PREFIJO         : incr  LAC  
                 {
                     vari.hash++;
@@ -307,42 +1981,8 @@ PREFIJO         : incr  LAC
                     vari.hash++;
                     $$=new o_preDecr(aco,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
-                ;
-POSTFIJO        : LAC incr
-                {
-                    vari.hash++;
-                    var aco=new s_accesos($1,vari.hash);
-                    vari.hash++;
-                    $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
-                }
-                | LAC decr
-                {
-                    vari.hash++;
-                    var aco=new s_accesos($1,vari.hash);
-                    vari.hash++;
-                    $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
-                }
-                ;
+                ;           
 
-DECLAMETO       :CABEZAMET llava  L llavc
-                {
-                    $$=$1;
-                    $$.isAbstract=false;
-                    $$.sentencias=$3;
-                }
-                |CABEZAMET llava  llavc
-                {
-                    $$=$1;
-                    $$.isAbstract=false;
-                    $$.sentencias=new Array();
-                }
-                |CABEZAMET ptocoma
-                {
-                    $$=$1;
-                    $$.isAbstract=true;
-                    $$.sentencias=null;
-                }
-                ;
 PARAMS          :PARAMS coma PARAM
                 {
                     $$=$1;
@@ -354,110 +1994,186 @@ PARAMS          :PARAMS coma PARAM
                     $$.push($1); 
                 }
                 ;
-PARAM           :TIPO ARRID
-				{
-                    vari.hash++;
-                    //(tipo,nombre,valor,isFinal,noDimensiones,linea,columna,archivo,hash)
-                    $$=new parametro($1,$2.id,null,false,$2.noDimensiones,$2.linea,$2.columna,
-                    $2.archivo,vari.hash);
-				}
-				|ffinal_ TIPO ARRID
-				{
-                    vari.hash++;
-                    //(tipo,nombre,valor,isFinal,noDimensiones,linea,columna,archivo,hash)
-                    $$=new parametro($2,$3.id,null,true,$3.noDimensiones,$3.linea,$3.columna,
-                    $3.archivo,vari.hash);
-				}
-                ;
-CABEZAMET       :MODSCAMPO TIPO DEM
-				{
-                    $3.tipo=$2;
-                    $3.modificadores=$1;
-                    $$=$3;  
-				}
-				|TIPO DEM
-				{
-                    $2.tipo=$1;
-                    $$=$2;                    
-				}
-				;
-DEM				:DEM cora corc
-				{
-                    $$=$1;
-                    $$.noDimensiones++;
-				}
-				|er_id para PARAMS parc
-				{
-                    vari.hash++;
-                    //isAbstract,id,sentencias,parametros,modificadores,tipo,noDimensiones,linea,columna,archivo,hash) 
-                    $$=new s_metodo(null,$1,null,$3,new Array(),null,0,@1.first_line,@1.first_column,
-                    vari.archivo,vari.hash);
-				}
-                |er_id para  parc
-				{
-                    vari.hash++;
-                    //isAbstract,id,sentencias,parametros,modificadores,tipo,noDimensiones,linea,columna,archivo,hash) 
-                    $$=new s_metodo(null,$1,null,new Array(),new Array(),null,0,@1.first_line,@1.first_column,
-                    vari.archivo,vari.hash);
-				}
-				;
-ASIGNACION      :LAC is INICIALIZA  
+PARAM           :TIPO er_id MYDIM
                 {
                     vari.hash++;
-                    var ace=new s_accesos($1,vari.hash);
-                    vari.hash++;
-                    $$=new s_asignacion(ace,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    //tipo,nombre,valor,isFinal,noDimensiones,linea,columna,archivo,hash
+                    $$=new parametro($1,$2,null,false,$3,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
-                ;
-
-DECLARACION     : MODSCAMPO TIPO LDEC
+                |TIPO er_id
                 {
                     vari.hash++;
-                    $$=new s_declaracion($1,$2,$3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    //tipo,nombre,valor,isFinal,noDimensiones,linea,columna,archivo,hash
+                    $$=new parametro($1,$2,null,false,0,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
-                |TIPO LDEC 
+                |ffinal_ TIPO er_id MYDIM
                 {
                     vari.hash++;
-                    $$=new s_declaracion(new Array(),$1,$2,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    //tipo,nombre,valor,isFinal,noDimensiones,linea,columna,archivo,hash
+                    $$=new parametro($2,$3,null,true,$4,
+                    @3.first_line,@3.first_column,vari.archivo,vari.hash);
+                }
+                |ffinal_ TIPO er_id
+                {
+                    vari.hash++;
+                    //tipo,nombre,valor,isFinal,noDimensiones,linea,columna,archivo,hash
+                    $$=new parametro($2,$3,null,true,0,
+                    @3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }
                 ;
 LDEC            :LDEC coma DEC
                 {
                     $$=$1;
-                    $$.push($2);
-                }   
+                    $$.push($3);
+                } 
                 |DEC
                 {
                     $$=new Array();
                     $$.push($1); 
                 } 
                 ;
-
-DEC             :ARRID is INICIALIZA
+DEC             :er_id is INICIALIZA
                 {
-                    $$=$1;
-                    $$.valor=$3;
+                    vari.hash++;
+                    $$=new s_decla($1,0,$3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
-                |ARRID
+                |er_id    
                 {
-                    $$=$1;
+                    vari.hash++;
+                    $$=new s_decla($1,0,null,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }            
+                |er_id MYDIM is INICIALIZA
+                {
+                    vari.hash++;
+                    $$=new s_decla($1,$2,$4,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }  
+                |er_id MYDIM
+                {
+                    vari.hash++;
+                    $$=new s_decla($1,$2,null,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                } 
+                ;
+MYDIM           :MYDIM cora corc
+                {
+                    $$=$1+1;
+                }
+                |cora corc
+                {
+                    $$=1;
                 }
                 ;
+
 INICIALIZA      :COND
                 {
                     $$=$1;
                 }
-                ;
-ARRID           :ARRID cora corc
-                {
-                    $$=$1;
-                    $$.noDimensiones=$$.noDimensiones+1;
-
+                //INICIALIZA ARREGLO
+                |new_ TIPO TAMDIM
+                {//tipo,dimensiones,linea,columna,archivo,hash) 
+                    vari.hash++;
+                    $$=new nuevoArreglo($2,$3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
-                |er_id 
+                //new LinkedList
+                |new_ ll menor mayor para parc
                 {
                     vari.hash++;
-                    $$=new s_decla($1,0,null,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    $$=new nuevoLinkedList(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                //NUEVO ELEMENTO
+                |new_ er_id para parc
+                {//id,parametros,linea,columna,archivo,hash) 
+                    vari.hash++;
+                    $$=new nuevaInstancia($2,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                |new_ er_id para LCOND parc
+                {//id,parametros,linea,columna,archivo,hash) 
+                    vari.hash++;
+                    $$=new nuevaInstancia($2,$4,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                |VALORES
+                {
+                    $$=$1;
+                }
+                ;
+VALORES         : llava OVAL llavc
+                {
+                    vari.hash++;
+                    $$=new s_arreglo_valores($2,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                ;
+OVAL            :LC2
+                {
+                    vari.hash++;
+                    $$=new s_arreglo_hojas($1,vari.hash);
+                }
+                |LVAL
+                {
+                    vari.hash++;
+                    $$=new s_arreglo_lvals($1,vari.hash);
+                }
+                ;
+LVAL            :LVAL coma VALORES
+                {
+                    $$=$1;
+                    $$.push($3);
+                }
+                |VALORES
+                {
+                    $$=new Array();
+                    $$=$1;
+                }
+                ;
+
+LC2             :LC2 coma OC2
+                {
+                    $$=$1;
+                    $$.push($3);
+                }   
+                |OC2
+                {
+                    $$=new Array();
+                    $$=$1;
+                } 
+                ;
+OC2             :COND
+                {
+                    $$=$1;
+                }
+                //INICIALIZA ARREGLO
+                |new_ TIPO TAMDIM
+                {//tipo,dimensiones,linea,columna,archivo,hash) 
+                    vari.hash++;
+                    $$=new nuevoArreglo($2,$3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                //new LinkedList
+                |new_ ll menor mayor para parc
+                {
+                    vari.hash++;
+                    $$=new nuevoLinkedList(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                //NUEVO ELEMENTO
+                |new_ er_id para parc
+                {//id,parametros,linea,columna,archivo,hash) 
+                    vari.hash++;
+                    $$=new nuevaInstancia($2,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                |new_ er_id para LCOND parc
+                {//id,parametros,linea,columna,archivo,hash) 
+                    vari.hash++;
+                    $$=new nuevaInstancia($2,$4,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                ;
+TAMDIM          :TAMDIM  cora COND corc
+                {
+                    $$=$1;
+                    $$.push($3);
+                }
+                | cora COND corc
+                {
+                    $$=new Array();
+                    $$.push($2);
                 }
                 ;
                 
@@ -485,11 +2201,38 @@ TIPO            :t_int
                 {
                     $$=tablaTipos.tipo_vacio;
                 }
-                /*|er_id
+                |er_id
                 {
                     $$=tablaTipos.getTipoObjeto(yytext);
-                }*/
+                }
+
                 ;
+TIPO2            :t_int
+                {
+                    $$=tablaTipos.tipo_entero;
+                }   
+                |t_char
+                {
+                    $$=tablaTipos.tipo_caracter;
+                }  
+                |t_double
+                {
+                    $$=tablaTipos.tipo_doble;
+                }
+                |t_boolean
+                {
+                    $$=tablaTipos.tipo_booleano;
+                }
+                |t_string
+                {
+                    $$=tablaTipos.tipo_cadena;
+                }
+                |vacio
+                {
+                    $$=tablaTipos.tipo_vacio;
+                }
+                ;
+                
 MODSCAMPO       :MODSCAMPO MOC
                 {
                     $$=$1;
@@ -559,7 +2302,7 @@ DEFECTO         : default_ dosptos
                     $$=new caso(null,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
-LCASOS          : LCASOS CASO
+LCASOS          :  LCASOS CASO
                 {
                     $$=$1;
                     $$.push($2);
@@ -568,7 +2311,7 @@ LCASOS          : LCASOS CASO
                 {
                     $$=new Array();
                     $$.push($1);
-                }
+                }                
                 ;
 CASO            : case_ COND dosptos llava  L llavc
                 {
@@ -631,23 +2374,765 @@ S_FOR           :for_ para FINICIO ptocoma COND ptocoma FACTUAL parc llava llavc
                     vari.hash++;
                     $$=new s_for($3,$5,$7,$10,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
+                |for_ para PARAM dosptos COND parc llava llavc
+                {
+                    vari.hash++;
+                    $$=new s_for($3,$5,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                |for_ para PARAM dosptos COND parc llava L llavc
+                {
+                    vari.hash++;
+                    $$=new s_for($3,$5,$8,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
                 ;
-FINICIO         :DECLARACION
+                //DECLARACION
+FINICIO         :TIPO er_id is INICIALIZA 
                 {
-                    $$=$1;
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,0,$4,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionL(false,$1,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
-                |ASIGNACION
+                //| TIPO er_id 
+                | TIPO er_id MYDIM is INICIALIZA 
                 {
-                    $$=$1;
+                    //id,noDimensiones,valor,linea,columna,archivo,hash
+                    vari.hash++;
+                    var myde=new s_decla($2,$3,$5,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(myde);
+                    //(IsFinal,tipo,declas,linea,columna,archivo,hash
+                    vari.hash++;
+                    $$=new s_declaracionL(false,$1,lista,
+                    @2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                //| TIPO er_id MYDIM
+                //ASIGNACION
+                | er_id is INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | LLAMADA is INICIALIZA 
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | this_ is INICIALIZA 
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | super_ is INICIALIZA 
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc is INICIALIZA 
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$6,@5.first_line,@5.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc is INICIALIZA 
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$8,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc is INICIALIZA 
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$8,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | er_id punto LAC is  INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$5,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | LLAMADA punto LAC is INICIALIZA 
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$5,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | this_ punto LAC is INICIALIZA 
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$5,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | super_ punto LAC is  INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$5,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc punto LAC is INICIALIZA 
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$6.length;x++)
+                    {
+                        lista.push($6[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$8,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc punto LAC is INICIALIZA 
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$10,@9.first_line,@9.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc punto LAC is INICIALIZA 
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$10,@9.first_line,@9.first_column,vari.archivo,vari.hash);
+
                 }
                 ;
-FACTUAL         :ASIGNACION
+                //ASIGNACION
+FACTUAL         :er_id is INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | LLAMADA is INICIALIZA 
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | this_ is INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | super_ is INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc is INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$6,@5.first_line,@5.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc is INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$8,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc is INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$8,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | er_id punto LAC is  INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$5,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | LLAMADA punto LAC is INICIALIZA 
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$5,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | this_ punto LAC is  INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$5,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | super_ punto LAC is  INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$5,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc punto LAC is INICIALIZA 
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$6.length;x++)
+                    {
+                        lista.push($6[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$8,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc punto LAC is INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$10,@9.first_line,@9.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc punto LAC is  INICIALIZA
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$10,@9.first_line,@9.first_column,vari.archivo,vari.hash);
+
+                }
+                //INC DEC
+                | PREFIJO
                 {
                     $$=$1;
                 }
-                |UNAR
+                | er_id incr
                 {
-                    $$=$1;
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | LLAMADA incr
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | this_ incr
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | super_ incr
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@5.first_line,@5.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | er_id punto LAC incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | LLAMADA punto LAC incr
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | this_ punto LAC incr
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+				| super_ punto LAC incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+				| read_file_ para COND parc punto LAC incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$6.length;x++)
+                    {
+                        lista.push($6[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+				| write_file_ para COND coma COND parc punto LAC incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+				| graph_ para COND coma COND parc punto LAC incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@9.first_line,@9.first_column,vari.archivo,vari.hash);
+                }
+                | er_id decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | LLAMADA decr
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | this_ decr
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+				| super_ decr
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+				| read_file_ para COND parc decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@5.first_line,@5.first_column,vari.archivo,vari.hash);
+                }
+				| write_file_ para COND coma COND parc decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+				| graph_ para COND coma COND parc decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | er_id punto LAC decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                   $$=new o_postDecr(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | LLAMADA punto LAC decr   
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | this_ punto LAC decr
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | super_ punto LAC decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc punto LAC decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$6.length;x++)
+                    {
+                        lista.push($6[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc punto LAC decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@9.first_line,@9.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc punto LAC decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@9.first_line,@9.first_column,vari.archivo,vari.hash);
                 }
                 ;
 
@@ -684,6 +3169,7 @@ S_IF            :BS_IF else_ llava L llavc
                     $$=new s_if($1,vari.hash);
                 }
                 ;
+
 BS_IF           :BS_IF SINO
                 {
                     $$=$1;
@@ -695,7 +3181,7 @@ BS_IF           :BS_IF SINO
                     $$.push($1);
                 }
                 ;
-SI              : if_  para COND parc llava llavc
+SI               : if_  para COND parc llava llavc
                 {
                     vari.hash++;
                     $$=new s_bloque($3,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
@@ -706,6 +3192,7 @@ SI              : if_  para COND parc llava llavc
                     $$=new s_bloque($3,$6,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
+
 SINO            : else_ if_ para COND parc llava llavc
                 {
                     vari.hash++;
@@ -717,7 +3204,7 @@ SINO            : else_ if_ para COND parc llava llavc
                     $$=new s_bloque($4,$7,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
-IMPRIMIR        : print_ para COND parc
+IMPRIMIR         : print_ para COND parc
                 {
                     vari.hash++;
                     $$=new s_print($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
@@ -728,7 +3215,8 @@ IMPRIMIR        : print_ para COND parc
                     $$=new s_println($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
-COND            : COND and_ COND
+
+COND            :  COND and_ COND
                 {
                     vari.hash++;
                     $$=new ol_and($1,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
@@ -758,6 +3246,7 @@ COND            : COND and_ COND
                     $$=new o_ternario($1,$3,$5,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 ;
+
 REL             : E OPREL E
                 {
                     vari.hash++;
@@ -794,6 +3283,7 @@ OPREL           :menori
                 }
                 
                 ;
+
 E               : E mas E
                 {
                     vari.hash++;
@@ -836,23 +3326,552 @@ E               : E mas E
                 | PRIM
                 {
                     $$=$1;
-                }
-                |LAC
-                {
-                    vari.hash++;
-                    var ace=new s_accesos($1,vari.hash);
-                    vari.hash++;
-                    $$=new o_valorPuntual(null,ace,@1.first_line,@1.first_column,vari.archivo,vari.hash);
-
-                }
-                |para TIPO parc E
+                }               
+                |para TIPO2 parc E
                 {
                     vari.hash++;
                     $$=new oa_casteo($2,$4,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
-                |UNAR
+                //UNAR
+                | PREFIJO
                 {
                     $$=$1;
+                }
+                | er_id incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | LLAMADA incr
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                |  this_ incr
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | super_ incr
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@5.first_line,@5.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | er_id punto LAC incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | LLAMADA punto LAC incr
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | this_ punto LAC incr
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | super_ punto LAC incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc punto LAC incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$6.length;x++)
+                    {
+                        lista.push($6[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc punto LAC incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc punto LAC incr
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@9.first_line,@9.first_column,vari.archivo,vari.hash);
+                }
+                | er_id decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | LLAMADA decr
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | this_ decr
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | super_ decr
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@5.first_line,@5.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | er_id punto LAC decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                   $$=new o_postDecr(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | LLAMADA punto LAC decr 
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | this_ punto LAC decr
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | super_ punto LAC decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc punto LAC decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$6.length;x++)
+                    {
+                        lista.push($6[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@7.first_line,@7.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc punto LAC decr
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@9.first_line,@9.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc punto LAC decr  
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@9.first_line,@9.first_column,vari.archivo,vari.hash);
+                }
+                //|LAC
+                |LLAMADA//here
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_valorPuntual(null,$$,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+
+                }
+                | er_id
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_valorPuntual(null,$$,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | er_id punto LAC
+                {
+                    vari.hash++;
+                    var nuevo=new s_acVariable($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_valorPuntual(null,$$,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | LLAMADA punto LAC
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_valorPuntual(null,$$,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | this_ 
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_valorPuntual(null,$$,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | super_
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_valorPuntual(null,$$,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_valorPuntual(null,$$,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_valorPuntual(null,$$,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_valorPuntual(null,$$,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | this_ punto LAC
+                {
+                    vari.hash++;
+                    var nuevo=new  s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_valorPuntual(null,$$,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | super_ punto LAC
+                {
+                    vari.hash++;
+                    var nuevo=new s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_valorPuntual(null,$$,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc punto LAC
+                {
+                    vari.hash++;
+                    var nuevo=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$6.length;x++)
+                    {
+                        lista.push($6[x]);
+                    }
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_valorPuntual(null,$$,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc punto LAC
+                {
+                    vari.hash++;
+                    var nuevo=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_valorPuntual(null,$$,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc punto LAC
+                {
+                    vari.hash++;
+                    var nuevo=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    var lista=new Array();
+                    lista.push(nuevo);
+                    for(var x=0;x<$8.length;x++)
+                    {
+                        lista.push($8[x]);
+                    }
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_valorPuntual(null,$$,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
 PRIM            : er_cadena
@@ -924,7 +3943,31 @@ AC              :LLAMADA
                     vari.hash++;
                     $$=new s_acVariable(yytext,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
-                
+                |this_
+                {
+                    vari.hash++;
+                    $$=new s_acThis(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | read_file_ para COND parc
+                {
+                    vari.hash++;
+                    $$=new s_readFile($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | write_file_ para COND coma COND parc
+                {
+                    vari.hash++;
+                    $$=new s_write_file($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | graph_ para COND coma COND parc
+                {
+                    vari.hash++;
+                    $$=new s_graph($3,$5,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | super_
+                {
+                    vari.hash++;
+                    $$=new s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
                 ;
 
 LCOND           :LCOND coma INICIALIZA

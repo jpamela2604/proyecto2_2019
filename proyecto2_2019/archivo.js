@@ -30,37 +30,22 @@ function exec (input) {
     return parser.parse(input);
 }
 
-var lista = exec(bnf);
+var raiz = exec(bnf);
+
 err.adding();
 
-for (x=0;x<lista.length;x++)
-{    
-    lista[x].comprobacion_global(tabla,err);
-}
-for (x=0;x<lista.length;x++)
-{    
-    lista[x].comprobacion(tabla,err);
-}
-
-
-
+raiz.comprobacion_global(tabla,err);
+raiz.comprobacion(tabla,err);
 err.imprimir();
 if(err.size()==0)
 {
-    
-    for (x=0;x<lista.length;x++)
-    {
-        lista[x].traduccion_global(tabla,trad);
-    } 
-    for (x=0;x<lista.length;x++)
-    {
-        lista[x].traducir(tabla,trad);
-    }
+    raiz.traduccion_global(tabla,trad);
+    raiz.traducir(tabla,trad);   
     trad.imprimir(trad.salida+":");
     //trad.imprimir("call metojjpsmain_();");
 }
 
 //trad.save();
 //console.log(lista[0].getTree());
-dibujar.GenerarArbol(lista[0].getTree());
+dibujar.GenerarArbol(raiz.getTree());
 

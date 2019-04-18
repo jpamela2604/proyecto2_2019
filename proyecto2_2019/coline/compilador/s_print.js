@@ -31,7 +31,8 @@ class s_print{
         var va=this.valor.comprobacion(ts,er);
         if(va.tipo.indice==tablaTipos.error||va.tipo.indice==tablaTipos.booleano||
             va.tipo.indice==tablaTipos.entero||va.tipo.indice==tablaTipos.doble||
-            va.tipo.indice==tablaTipos.caracter||va.tipo.indice==tablaTipos.cadena)
+            va.tipo.indice==tablaTipos.caracter||va.tipo.indice==tablaTipos.cadena||
+            va.tipo.indice==tablaTipos.nulo)
         {
            
         }
@@ -106,6 +107,12 @@ class s_print{
             traductor.imprimir("call print_olcp2jjps();");
             traductor.imprimir("p=p-"+ts.getTamActual()+";");
 
+        }else if(va.tipo.indice==tablaTipos.nulo)
+        {
+            traductor.imprimir("print(\"%c\",110);");
+            traductor.imprimir("print(\"%c\",117);");
+            traductor.imprimir("print(\"%c\",108);");
+            traductor.imprimir("print(\"%c\",108);");
         }
         return null;
     }

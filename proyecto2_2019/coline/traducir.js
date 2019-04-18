@@ -18,6 +18,9 @@ class traducir{
         this.getent();
         this.getbooltoStr();
         this.getStringToNum();
+        this.gettoLower();
+        this.getToupper();
+        this.getStringLength();
         this.save("var p=0;\nvar h=0;\n");
         
     }
@@ -59,6 +62,81 @@ class traducir{
         this.save(c);
         //console.log(c);
     }  
+    getStringLength()
+    {
+        var inicio=valores.getEtiqueta();var salida =valores.getEtiqueta();
+        var tx=valores.getTemporal();var ty=valores.getTemporal();var tw=valores.getTemporal();
+        var c=valores.getTemporal();
+        this.save("void stringSize(){\n");
+        this.save("        "+tx+"=p+1;\n");
+        this.save("        "+ty+"=stack["+tx+"];\n");
+        this.save("        "+c+"=0;\n");
+        this.save("    "+inicio+":\n");
+        this.save("        "+tw+"=heap["+ty+"];\n");
+        this.save("        if ("+tw+"=="+tablaTipos.fin_cadena+") goto "+salida+";\n");
+        this.save("        "+c+"="+c+"+1;\n");
+        this.save("        "+ty+"="+ty+"+1;\n");
+        this.save("        goto "+inicio+";\n");
+        this.save("    "+salida+":\n");
+        this.save("        stack[p]="+c+";\n");
+        this.save("}\n");
+    }
+    getToupper()
+    {
+        var tx=valores.getTemporal();var ty=valores.getTemporal();var tw=valores.getTemporal();
+        var inicio=valores.getEtiqueta();var salida =valores.getEtiqueta(); var lv=valores.getEtiqueta();
+        var lf=valores.getEtiqueta();var sif=valores.getEtiqueta();
+        this.save("void toUpper(){\n");
+        this.save("        stack[p]=h;\n");
+        this.save("        "+tx+"=p+1;\n");
+        this.save("        "+ty+"=stack["+tx+"];\n");
+        this.save("    "+inicio+":\n");
+        this.save("        "+tw+"=heap["+ty+"];\n");
+        this.save("        if ("+tw+"=="+tablaTipos.fin_cadena+") goto "+salida+";\n");
+        this.save("        if ("+tw+">96) goto "+lv+";\n");
+        this.save("        if ("+tw+"<123) goto "+lf+";\n");
+        this.save("        goto "+lf+";\n");
+        this.save("    "+lv+":\n");
+        this.save("        "+tw+"="+tw+"-32;\n");
+        this.save("        goto "+sif+";\n");
+        this.save("    "+lf+":\n");
+        this.save("    "+sif+":\n");
+        this.save("        heap[h]="+tw+";\n");
+        this.save("        "+ty+"="+ty+"+1;\n");
+        this.save("        h=h+1;\n");
+        this.save("        goto "+inicio+";\n");
+        this.save("    "+salida+":\n");
+        this.save("        heap[h]="+tablaTipos.fin_cadena+";\n");
+        this.save("        h=h+1;\n");
+        this.save("}\n");
+    }
+    gettoLower()
+    {
+        var tx=valores.getTemporal();var ty=valores.getTemporal();var tw=valores.getTemporal();
+        var inicio=valores.getEtiqueta();var salida =valores.getEtiqueta(); /*var lv=valores.getEtiqueta();*/
+        var lf=valores.getEtiqueta();var sif=valores.getEtiqueta();
+        this.save("void toUpper(){\n");
+        this.save("        stack[p]=h;\n");
+        this.save("        "+tx+"=p+1;\n");
+        this.save("        "+ty+"=stack["+tx+"];\n");
+        this.save("    "+inicio+":\n");
+        this.save("        "+tw+"=heap["+ty+"];\n");
+        this.save("        if ("+tw+"=="+tablaTipos.fin_cadena+") goto "+salida+";\n");
+        this.save("        if ("+tw+"<=64) goto "+lf+";\n");
+        this.save("        if ("+tw+">=92) goto "+lf+";\n");
+        this.save("        "+tw+"="+tw+"+32;\n");
+        this.save("        goto "+sif+";\n");
+        this.save("    "+lf+":\n");
+        this.save("    "+sif+":\n");
+        this.save("        heap[h]="+tw+";\n");
+        this.save("        "+ty+"="+ty+"+1;\n");
+        this.save("        h=h+1;\n");
+        this.save("        goto "+inicio+";\n");
+        this.save("    "+salida+":\n");
+        this.save("        heap[h]="+tablaTipos.fin_cadena+";\n");
+        this.save("        h=h+1;\n");
+        this.save("}\n");
+    }
 
     getcmpstringequal()
     {        

@@ -34,10 +34,10 @@ class s_llamada{
         raiz.agregarHijo(myid);
         vari.hash++;
         var mypar=new nodoArbol("PARAMETROS",vari.hash);
+        
         for(var w=0;w<this.params.length;w++)
-        {
-            var valor=new nodoArbol(this.params[w].valor.getTree());
-            mypar.agregarHijo(valor);
+        {            
+            mypar.agregarHijo(this.params[w].getTree());
         }
         raiz.agregarHijo(mypar);
         return raiz;
@@ -81,16 +81,36 @@ class s_llamada{
     traducir(ts,traductor)
     {
         traductor.comentario("SENTENCIA LLAMADA");
+       
+        // guardo los temporales en la pila;
+        var lista=new Array();        
+        var listanueva=valores.getLista();
+        for(var n=0;n<listanueva.length;n++)
+        {
+            lista.push(listanueva[n]);
+        }
+        //console.log(lista);
+        var pacon=valores.getTemporal();
+        var contador=ts.getPosicion(false);
+        for(var y=0;y<lista.length;y++)
+        {
+            traductor.imprimir(pacon+"=p+"+ts.getPosicion(false)+";");
+            traductor.imprimir("stack["+pacon+"]="+lista[y]+";//guardo temporal")
+            ts.AumentarPos(false);
+        }
         //cambio simulado
         var tsim="";
+        var tactual=ts.getTamActual()-1;
         if(this.params.length>0)
         {
+            ts.posicion++;
             tsim=valores.getTemporal();
-            traductor.imprimir(tsim+"=p+"+ts.getTamActual()+";//cambio simulado");
+            traductor.imprimir(tsim+"=p+"+tactual+";//cambio simulado");
         }
         //paso de parametros
         for(var i=0;i<this.params.length;i++)
         {
+            ts.posicion++;
             var tw=valores.getTemporal();
             traductor.imprimir(tw+"="+tsim+"+"+(i+1)+";");
             var valor=this.params[i].traducir(ts,traductor);
@@ -100,9 +120,11 @@ class s_llamada{
             }
             
             traductor.imprimir("stack["+tw+"]="+valor.aux+";")
+            //ts.posicion=ts.posicion-i-1;
         }
+        
         //cambio real
-        traductor.imprimir("p=p+"+ts.getTamActual()+";//cambio real");
+        traductor.imprimir("p=p+"+tactual+";//cambio real");
         //llamada
         traductor.imprimir("call "+this.sim.getNombre()+"();")
         var aux=null;
@@ -121,7 +143,15 @@ class s_llamada{
 
         }
         //regresar el puntero
-        traductor.imprimir("p=p-"+ts.getTamActual()+";//cambio real");
+        traductor.imprimir("p=p-"+tactual+";//cambio real");
+        //saco temporales
+        for(var y=0;y<lista.length;y++)
+        {
+            traductor.imprimir(pacon+"=p+"+contador+";");
+            traductor.imprimir(lista[y]+"=stack["+pacon+"];//saco temporal")
+            ts.posicion--;
+            contador++;
+        }
         return  new simbolo(this.sim.tipo,aux);
     }
 }

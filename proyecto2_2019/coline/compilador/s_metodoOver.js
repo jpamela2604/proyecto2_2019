@@ -1,14 +1,7 @@
 
-var identificador=require("../../mng_ts/identificador.js");
-const simbolo=require("../../mng_ts/simbolo");
-const tablaTipos= require("../tablaTipos.js");
-const valores = require("../values_manager.js");
-const nodoDisplay=require("../nodoDisplay.js");
-const vari = require("../../var");
-const nodoArbol =require("../nodoArbol.js");
-class s_metodo{
-    //| MODSCAMPO TIPO er_id para PARAMS parc MYDIM llava  L llavc
-    constructor(modificadores,tipo,id,parametros,noDimensiones,sentencias,isAbstract,
+var nodoArbol =require("../nodoArbol.js");
+class s_metodoOver{
+    constructor(modificadores,tipo,id,parametros,noDimensiones,sentencias,
         linea,columna,archivo,hash) 
     {
         this.isAbstract=isAbstract;
@@ -136,7 +129,6 @@ class s_metodo{
        
         if(!this.isAbstract)
         {
-            valores.iniciarLista();
             traductor.imprimirHead("void "+this.sim.getNombre()+"(){");            
             //cambiar ambito
             ts.cambiarAmbito(true);
@@ -182,4 +174,4 @@ class s_metodo{
     }
 }
 
-module.exports = s_metodo;
+module.exports = s_metodoOver;
