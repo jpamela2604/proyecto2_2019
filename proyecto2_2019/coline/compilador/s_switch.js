@@ -66,7 +66,7 @@ class s_switch{
         }
         else if(v.tipo.indice>3)//no es primitivio
         {
-            er.addError("La expresion que evalua el switch debe ser tipo primitivo, no "+t.tipo.nombre,
+            er.addError("La expresion que evalua el switch debe ser tipo primitivo, no "+t.tipo.getName(),
                 this.linea,this.columna,this.archivo,
             "SEMANTICO");
             v=null;

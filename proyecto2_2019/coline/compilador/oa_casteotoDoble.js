@@ -34,7 +34,7 @@ class oa_casteotoDouble{
             respuesta=new simbolo(tablaTipos.tipo_doble,null);
         }else
         {
-            er.addError("No se puede castear(toDouble) un "+val.tipo.nombre,this.linea,this.columna,this.archivo,
+            er.addError("No se puede castear(toDouble) un "+val.tipo.getName(),this.linea,this.columna,this.archivo,
             "SEMANTICO");
         }
         return respuesta;

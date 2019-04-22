@@ -35,7 +35,7 @@ class oa_casteotoString{
             respuesta=new simbolo(tablaTipos.tipo_cadena,null);
         }else
         {
-            er.addError("No se puede castear(toString) un "+val.tipo.nombre,this.linea,this.columna,this.archivo,
+            er.addError("No se puede castear(toString) un "+val.tipo.getName(),this.linea,this.columna,this.archivo,
             "SEMANTICO");
         }
         return respuesta;

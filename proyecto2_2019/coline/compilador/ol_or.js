@@ -44,7 +44,7 @@ class ol_or{
         }else 
         {
             
-            er.addError("Tipos incompatibles: "+o1.tipo.nombre+" || "+o2.tipo.nombre,this.linea,this.columna,this.archivo,
+            er.addError("Tipos incompatibles: "+o1.tipo.getName()+" || "+o2.tipo.getName(),this.linea,this.columna,this.archivo,
             "SEMANTICO");
         }
         return respuesta;

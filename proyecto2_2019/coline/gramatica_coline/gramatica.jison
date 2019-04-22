@@ -154,11 +154,12 @@ cmulti						"/*" [^*]* "*/"
         const parametro=require("../../mng_ts/parametro.js");
         const s_metodo=require("../compilador/s_metodo.js");
         const s_llamada=require("../compilador/s_llamada.js");
-        
+        const s_acArray=require("../compilador/s_acArray.js");
         
         const s_arreglo_lvals=require("../compilador/s_arreglo_lvals.js");
         const s_arreglo_hojas=require("../compilador/s_arreglo_hojas.js");
         const s_arreglo_valores=require("../compilador/s_arreglo_valores.js");
+        const s_arregloV=require("../compilador/s_arregloV.js");
 
         const s_acSuper=require("../compilador/s_acSuper.js");
         const s_acThis=require("../compilador/s_acThis.js");
@@ -950,6 +951,13 @@ ALLI            :LLAMADA
                     vari.hash++;
                     $$=new s_accesos(lista,vari.hash);
                 }
+                |ACCESOARREGLO
+                {
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                }
                 |read_file_ para COND parc
                 {
                     vari.hash++;
@@ -991,6 +999,17 @@ ALLI            :LLAMADA
                     $$=new s_accesos(lista,vari.hash);
                 }
                 | LLAMADA punto LAC
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                }
+                |ACCESOARREGLO  punto LAC
                 {                   
                     var lista=new Array();
                     lista.push($1);
@@ -1126,7 +1145,7 @@ ALLI            :LLAMADA
                     var myde=new s_decla($2,0,$4,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                     var lista=new Array();
                     lista.push(myde);
-                    for(var x=0;x<$6;x++)
+                    for(var x=0;x<$6.length;x++)
                     {
                         lista.push($6[x]);
                     }
@@ -1143,7 +1162,7 @@ ALLI            :LLAMADA
                     var myde=new s_decla($2,0,null,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                     var lista=new Array();
                     lista.push(myde);
-                    for(var x=0;x<$4;x++)
+                    for(var x=0;x<$4.length;x++)
                     {
                         lista.push($4[x]);
                     }
@@ -1160,7 +1179,7 @@ ALLI            :LLAMADA
                     var myde=new s_decla($2,$3,$5,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                     var lista=new Array();
                     lista.push(myde);
-                    for(var x=0;x<$7;x++)
+                    for(var x=0;x<$7.length;x++)
                     {
                         lista.push($7[x]);
                     }
@@ -1177,7 +1196,7 @@ ALLI            :LLAMADA
                     var myde=new s_decla($2,$3,null,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                     var lista=new Array();
                     lista.push(myde);
-                    for(var x=0;x<$5;x++)
+                    for(var x=0;x<$5.length;x++)
                     {
                         lista.push($5[x]);
                     }
@@ -1242,7 +1261,7 @@ ALLI            :LLAMADA
                     var myde=new s_decla($2,0,$4,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                     var lista=new Array();
                     lista.push(myde);
-                    for(var x=0;x<$6;x++)
+                    for(var x=0;x<$6.length;x++)
                     {
                         lista.push($6[x]);
                     }
@@ -1258,7 +1277,7 @@ ALLI            :LLAMADA
                     var myde=new s_decla($2,0,null,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                     var lista=new Array();
                     lista.push(myde);
-                    for(var x=0;x<$4;x++)
+                    for(var x=0;x<$4.length;x++)
                     {
                         lista.push($4[x]);
                     }
@@ -1274,7 +1293,7 @@ ALLI            :LLAMADA
                     var myde=new s_decla($2,$3,$5,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                     var lista=new Array();
                     lista.push(myde);
-                    for(var x=0;x<$7;x++)
+                    for(var x=0;x<$7.length;x++)
                     {
                         lista.push($7[x]);
                     }
@@ -1290,7 +1309,7 @@ ALLI            :LLAMADA
                     var myde=new s_decla($2,$3,null,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                     var lista=new Array();
                     lista.push(myde);
-                    for(var x=0;x<$5;x++)
+                    for(var x=0;x<$5.length;x++)
                     {
                         lista.push($5[x]);
                     }
@@ -1445,6 +1464,15 @@ ALLI            :LLAMADA
                     vari.hash++;
                     $$=new s_asignacion(aco,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
+                |ACCESOARREGLO is INICIALIZA 
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
                 | this_ is INICIALIZA
                 {
                     vari.hash++;
@@ -1516,6 +1544,19 @@ ALLI            :LLAMADA
                     $$=new s_asignacion(aco,$5,@4.first_line,@4.first_column,vari.archivo,vari.hash);
                 }
                 | LLAMADA punto LAC is INICIALIZA 
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$5,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | ACCESOARREGLO punto LAC is INICIALIZA 
                 {                   
                     var lista=new Array();
                     lista.push($1);
@@ -1629,6 +1670,15 @@ ALLI            :LLAMADA
                     vari.hash++;
                     $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
+                |ACCESOARREGLO incr
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
                 |  this_ incr
                 {
                     vari.hash++;
@@ -1700,6 +1750,19 @@ ALLI            :LLAMADA
                     $$=new o_postInc(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
                 }
                 | LLAMADA punto LAC incr
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | ACCESOARREGLO punto LAC incr
                 {                   
                     var lista=new Array();
                     lista.push($1);
@@ -1807,6 +1870,15 @@ ALLI            :LLAMADA
                     vari.hash++;
                     $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
+                | ACCESOARREGLO decr
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
                 | this_ decr
                 {
                     vari.hash++;
@@ -1878,6 +1950,19 @@ ALLI            :LLAMADA
                    $$=new o_postDecr(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
                 }
                 | LLAMADA punto LAC decr 
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | ACCESOARREGLO  punto LAC decr 
                 {                   
                     var lista=new Array();
                     lista.push($1);
@@ -1997,8 +2082,10 @@ PARAMS          :PARAMS coma PARAM
 PARAM           :TIPO er_id MYDIM
                 {
                     vari.hash++;
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$1);
+                    nuevo.dimen=$3;
                     //tipo,nombre,valor,isFinal,noDimensiones,linea,columna,archivo,hash
-                    $$=new parametro($1,$2,null,false,$3,
+                    $$=new parametro(nuevo,$2,null,false,$3,
                     @2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 |TIPO er_id
@@ -2011,8 +2098,10 @@ PARAM           :TIPO er_id MYDIM
                 |ffinal_ TIPO er_id MYDIM
                 {
                     vari.hash++;
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$2);
+                    nuevo.dimen=$4;
                     //tipo,nombre,valor,isFinal,noDimensiones,linea,columna,archivo,hash
-                    $$=new parametro($2,$3,null,true,$4,
+                    $$=new parametro(nuevo,$3,null,true,$4,
                     @3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }
                 |ffinal_ TIPO er_id
@@ -2094,7 +2183,7 @@ INICIALIZA      :COND
                 }
                 |VALORES
                 {
-                    $$=$1;
+                    $$=new s_arregloV($1);
                 }
                 ;
 VALORES         : llava OVAL llavc
@@ -2122,7 +2211,7 @@ LVAL            :LVAL coma VALORES
                 |VALORES
                 {
                     $$=new Array();
-                    $$=$1;
+                    $$.push($1);
                 }
                 ;
 
@@ -2134,7 +2223,7 @@ LC2             :LC2 coma OC2
                 |OC2
                 {
                     $$=new Array();
-                    $$=$1;
+                    $$.push($1);
                 } 
                 ;
 OC2             :COND
@@ -2377,12 +2466,12 @@ S_FOR           :for_ para FINICIO ptocoma COND ptocoma FACTUAL parc llava llavc
                 |for_ para PARAM dosptos COND parc llava llavc
                 {
                     vari.hash++;
-                    $$=new s_for($3,$5,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    $$=new s_foreach($3,$5,new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 |for_ para PARAM dosptos COND parc llava L llavc
                 {
                     vari.hash++;
-                    $$=new s_for($3,$5,$8,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    $$=new s_foreach($3,$5,$8,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
                 //DECLARACION
@@ -2425,6 +2514,15 @@ FINICIO         :TIPO er_id is INICIALIZA
                     $$=new s_asignacion(aco,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 | LLAMADA is INICIALIZA 
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
+                | ACCESOARREGLO is INICIALIZA 
                 {                    
                     var lista=new Array();
                     lista.push($1);
@@ -2504,6 +2602,19 @@ FINICIO         :TIPO er_id is INICIALIZA
                     $$=new s_asignacion(aco,$5,@4.first_line,@4.first_column,vari.archivo,vari.hash);
                 }
                 | LLAMADA punto LAC is INICIALIZA 
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$5,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | ACCESOARREGLO punto LAC is INICIALIZA 
                 {                   
                     var lista=new Array();
                     lista.push($1);
@@ -2614,6 +2725,15 @@ FACTUAL         :er_id is INICIALIZA
                     vari.hash++;
                     $$=new s_asignacion(aco,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
+                | ACCESOARREGLO is INICIALIZA 
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$3,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
                 | this_ is INICIALIZA
                 {
                     vari.hash++;
@@ -2685,6 +2805,19 @@ FACTUAL         :er_id is INICIALIZA
                     $$=new s_asignacion(aco,$5,@4.first_line,@4.first_column,vari.archivo,vari.hash);
                 }
                 | LLAMADA punto LAC is INICIALIZA 
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new s_asignacion(aco,$5,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | ACCESOARREGLO punto LAC is INICIALIZA 
                 {                   
                     var lista=new Array();
                     lista.push($1);
@@ -2798,6 +2931,15 @@ FACTUAL         :er_id is INICIALIZA
                     vari.hash++;
                     $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
+                | ACCESOARREGLO incr
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
                 | this_ incr
                 {
                     vari.hash++;
@@ -2869,6 +3011,19 @@ FACTUAL         :er_id is INICIALIZA
                     $$=new o_postInc(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
                 }
                 | LLAMADA punto LAC incr
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                |ACCESOARREGLO  punto LAC incr
                 {                   
                     var lista=new Array();
                     lista.push($1);
@@ -2976,6 +3131,15 @@ FACTUAL         :er_id is INICIALIZA
                     vari.hash++;
                     $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
+                | ACCESOARREGLO  decr
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
                 | this_ decr
                 {
                     vari.hash++;
@@ -3047,6 +3211,19 @@ FACTUAL         :er_id is INICIALIZA
                    $$=new o_postDecr(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
                 }
                 | LLAMADA punto LAC decr   
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | ACCESOARREGLO punto LAC decr   
                 {                   
                     var lista=new Array();
                     lista.push($1);
@@ -3357,6 +3534,15 @@ E               : E mas E
                     vari.hash++;
                     $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
+                | ACCESOARREGLO incr
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
                 |  this_ incr
                 {
                     vari.hash++;
@@ -3428,6 +3614,19 @@ E               : E mas E
                     $$=new o_postInc(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
                 }
                 | LLAMADA punto LAC incr
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postInc(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                | ACCESOARREGLO punto LAC incr
                 {                   
                     var lista=new Array();
                     lista.push($1);
@@ -3535,6 +3734,15 @@ E               : E mas E
                     vari.hash++;
                     $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
+                | ACCESOARREGLO  decr
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@2.first_line,@2.first_column,vari.archivo,vari.hash);
+                }
                 | this_ decr
                 {
                     vari.hash++;
@@ -3606,6 +3814,19 @@ E               : E mas E
                    $$=new o_postDecr(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
                 }
                 | LLAMADA punto LAC decr 
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    var aco=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_postDecr(aco,@4.first_line,@4.first_column,vari.archivo,vari.hash);
+                }
+                |ACCESOARREGLO  punto LAC decr 
                 {                   
                     var lista=new Array();
                     lista.push($1);
@@ -3704,6 +3925,16 @@ E               : E mas E
                     $$=new o_valorPuntual(null,$$,@1.first_line,@1.first_column,vari.archivo,vari.hash);
 
                 }
+                |ACCESOARREGLO
+                {                    
+                    var lista=new Array();
+                    lista.push($1);
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_valorPuntual(null,$$,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+
+                }
                 | er_id
                 {
                     vari.hash++;
@@ -3731,6 +3962,19 @@ E               : E mas E
                     $$=new o_valorPuntual(null,$$,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 | LLAMADA punto LAC
+                {                   
+                    var lista=new Array();
+                    lista.push($1);
+                    for(var x=0;x<$3.length;x++)
+                    {
+                        lista.push($3[x]);
+                    }
+                    vari.hash++;
+                    $$=new s_accesos(lista,vari.hash);
+                    vari.hash++;
+                    $$=new o_valorPuntual(null,$$,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                |ACCESOARREGLO punto LAC
                 {                   
                     var lista=new Array();
                     lista.push($1);
@@ -3968,8 +4212,24 @@ AC              :LLAMADA
                     vari.hash++;
                     $$=new s_acSuper(@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
+                | ACCESOARREGLO
+                {
+                    $$=$1;
+                }
                 ;
-
+ACCESOARREGLO   :ACCESOARREGLO cora INICIALIZA corc
+                {
+                    $$=$1;
+                    $$.dimensiones.push($3);
+                }
+                |er_id cora INICIALIZA corc
+                {
+                    //(id,linea,columna,archivo,hash)
+                    vari.hash++;
+                    $$=new s_acArray($1,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    $$.dimensiones.push($3); 
+                }
+                ;
 LCOND           :LCOND coma INICIALIZA
                 {
                     $$=$1;

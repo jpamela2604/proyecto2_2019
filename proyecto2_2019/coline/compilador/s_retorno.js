@@ -50,7 +50,7 @@ class s_retorno{
             {
                 if(!(tablaTipos.AsignValid(miNodo.tipo,v.tipo)))
                 {
-                    er.addError("valor de returno "+v.tipo.nombre+" no puede ser convertido a tipo "+miNodo.tipo.nombre,
+                    er.addError("valor de returno "+v.tipo.getName()+" no puede ser convertido a tipo "+miNodo.tipo.getName(),
                     this.linea,this.columna,this.archivo,
                 "SEMANTICO");
                 }   

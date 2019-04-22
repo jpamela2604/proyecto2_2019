@@ -10,6 +10,7 @@ const error=5;
 const vacio=6;
 const objeto=7;
 const nulo=8;
+const arreglo=9;
 const error2=50;
 const allow=51;
 const tipo_booleano = new nodoTipo(booleano,"boolean");
@@ -121,7 +122,11 @@ const casteo=
 function AsignValid(tipo1,tipo2)
 {
     var bandera=true;
-    if(tipo1.indice==objeto&&tipo1.indice==tipo2.indice
+    if(tipo1.indice==tipo2.indice&&tipo1.indice==arreglo)
+    {
+        return AsignValid(tipo1.tipoArr,tipo2.tipoArr)&&tipo1.dimen==tipo2.dimen;
+    }
+    else if(tipo1.indice==objeto&&tipo1.indice==tipo2.indice
         &&!(tipo1.nombre==tipo2.nombre))
     {
         bandera=false;
@@ -130,6 +135,7 @@ function AsignValid(tipo1,tipo2)
         bandera=false;
     }else
     {
+        
         var op=casteo[tipo1.indice][tipo2.indice];
         if(op==error)
         {
@@ -201,4 +207,5 @@ module.exports.AsignValid=AsignValid;
 module.exports.etiquetaToTemp=etiquetaToTemp;
 module.exports.getMod=getMod;
 module.exports.nulo=nulo;
+module.exports.arreglo=arreglo;
 //console.log("a "+suma[3][5]);

@@ -1,6 +1,8 @@
 
 var nodoArbol =require("../nodoArbol.js");
 const vari = require("../../var");
+const nodoTipo=require("../../mng_ts/nodoTipo.js");
+const tablaTipos= require("../tablaTipos.js");
 class s_decla{
     constructor(id,noDimensiones,valor,linea,columna,archivo,hash) 
     {
@@ -11,6 +13,19 @@ class s_decla{
         this.columna=columna;
         this.archivo=archivo;
         this.hash=hash;
+        this.tipo=null;
+    }
+    setTipo(tipo)
+    {
+        if(this.noDimensiones>0)
+        {
+            this.tipo=new nodoTipo(tablaTipos.arreglo,"",tipo);
+            this.tipo.dimen=this.noDimensiones;
+        }else
+        {
+            this.tipo=tipo;
+            this.tipo.dimen=0;
+        }
     }
     comprobacion_global(ts,er)
     {

@@ -49,7 +49,7 @@ class or_relacional{
                 respuesta = new simbolo(tablaTipos.tipo_booleano); 
             }else
             {
-                er.addError("Tipos incompatibles: "+o1.tipo.nombre+oprel+o2.tipo.nombre,this.linea,this.columna,this.archivo,
+                er.addError("Tipos incompatibles: "+o1.tipo.getName()+oprel+o2.tipo.getName(),this.linea,this.columna,this.archivo,
             "SEMANTICO");
             }              
         }else if(ope==tablaTipos.error)

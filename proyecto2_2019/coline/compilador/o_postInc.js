@@ -39,20 +39,25 @@ class o_postInc{
             return new simbolo(a.tipo);
         }else
         {
-            er.addError("Tipos incompatibles: no se puede incrementar un valor de tipo "+a.tipo.nombre,this.linea,this.columna,this.archivo,
+            er.addError("Tipos incompatibles: no se puede incrementar un valor de tipo "+a.tipo.getName(),this.linea,this.columna,this.archivo,
                             "SEMANTICO");
         }
         return respuesta;
     }
     traducir(ts,traductor)
     {
-        var tx=valores.getTemporal();var ty=valores.getTemporal();
+        var ty=valores.getTemporal();
         traductor.comentario("post incremento");
         var a=this.accesos.traducir(ts,traductor);
-        traductor.imprimir(tx+"=stack["+a.aux+"];");
-        traductor.imprimir(ty+"="+tx+"+1;");
-        traductor.imprimir("stack["+a.aux+"]="+ty+";");
-        return new simbolo(a.tipo,tx);
+        traductor.imprimir(ty+"="+a.aux+"+1;");
+        if(a.modificaStack)
+        {
+            traductor.imprimir("stack["+a.referencia+"]="+ty+";");
+        }else
+        {
+            traductor.imprimir("heap["+a.referencia+"]="+ty+";");
+        }
+        return new simbolo(a.tipo,a.aux);
     }
 }
 

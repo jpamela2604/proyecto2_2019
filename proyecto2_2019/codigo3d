@@ -733,904 +733,653 @@ void stringSize(){
     L87:
         stack[p]=t326;
 }
+void initArray(){
+        stack[p]=h;
+        t327=p+1;
+        t328=stack[t327];
+        t327=p+2;
+        t330=stack[t327];
+        t327=p+3;
+        t331=stack[t327];
+        t327=p+4;
+        t332=stack[t327];
+        t333=t330+t328;
+        t334=heap[t333];
+        heap[h]=t334;
+        h=h+1;
+        if(t331==1) goto L88;
+        t335=h;
+        t336=0;
+    L89:
+        if(t336>=t334) goto L90;
+        h=h+1;
+        t336=t336+1;
+        goto L89;
+    L90:
+        t336=0;
+    L91:
+        if(t336>=t334) goto L92;
+        t337=t328+1;
+        t338=t331-1;
+        t329=p+5;
+        stack[t329]=t327;
+        t329=p+6;
+        stack[t329]=t328;
+        t329=p+7;
+        stack[t329]=t330;
+        t329=p+8;
+        stack[t329]=t331;
+        t329=p+9;
+        stack[t329]=t332;
+        t329=p+10;
+        stack[t329]=t333;
+        t329=p+11;
+        stack[t329]=t334;
+        t329=p+12;
+        stack[t329]=t335;
+        t329=p+13;
+        stack[t329]=t336;
+        t329=p+14;
+        stack[t329]=t337;
+        t329=p+15;
+        stack[t329]=t338;
+        t339=p+16;
+        t340=t339+1;
+        stack[t340]=t337;
+        t341=t339+2;
+        stack[t341]=t330;
+        t342=t339+3;
+        stack[t342]=t338;
+        t343=t339+4;
+        stack[t343]=t332;
+        p=p+ 16;
+        call initArray();
+        t344=stack[p];
+        p=p- 16;
+        t329=p+5;
+        t327=stack[t329];
+        t329=p+6;
+        t328=stack[t329];
+        t329=p+7;
+        t330=stack[t329];
+        t329=p+8;
+        t331=stack[t329];
+        t329=p+9;
+        t332=stack[t329];
+        t329=p+10;
+        t333=stack[t329];
+        t329=p+11;
+        t334=stack[t329];
+        t329=p+12;
+        t335=stack[t329];
+        t329=p+13;
+        t336=stack[t329];
+        t329=p+14;
+        t337=stack[t329];
+        t329=p+15;
+        t338=stack[t329];
+        t345=t335+t336;
+        heap[t345]=t344;
+        t336=t336+1;
+        goto L91;
+    L92:
+        goto L95;
+    L88:
+        t346=0;
+    L93:
+        if(t346>=t334) goto L94;
+        heap[h]=t332;
+        h=h+1;
+        t346=t346+1;
+        goto L93;
+    L94:
+    L95:
+}
+void getSize(){
+        t347=p+1;
+        t348=stack[t347];
+        t350=p+2;
+        t351=stack[t350];
+        if(t351!=1) goto L96;
+        t352=heap[t348];
+        stack[p]=t352;
+        goto L99;
+    L96:
+        t353=0;
+        t354=heap[t348];
+        t355=0;
+    L97:
+        if(t355>=t354) goto L98;
+        t356=t355+t348;
+        t357=1+t356;
+        t358=heap[t357];
+        t359=t351-1;
+        t349=p+3;
+        stack[t349]=t347;
+        t349=p+4;
+        stack[t349]=t348;
+        t349=p+5;
+        stack[t349]=t350;
+        t349=p+6;
+        stack[t349]=t351;
+        t349=p+7;
+        stack[t349]=t352;
+        t349=p+8;
+        stack[t349]=t353;
+        t349=p+9;
+        stack[t349]=t354;
+        t349=p+10;
+        stack[t349]=t355;
+        t349=p+11;
+        stack[t349]=t356;
+        t349=p+12;
+        stack[t349]=t357;
+        t349=p+13;
+        stack[t349]=t358;
+        t349=p+14;
+        stack[t349]=t359;
+        t360=p+15;
+        t361=t360+1;
+        stack[t361]=t358;
+        t362=t360+2;
+        stack[t362]=t359;
+        p=p+15;
+        call getSize();
+        t363=stack[p];
+        p=p-15;
+        t349=p+3;
+        t347=stack[t349];
+        t349=p+4;
+        t348=stack[t349];
+        t349=p+5;
+        t350=stack[t349];
+        t349=p+6;
+        t351=stack[t349];
+        t349=p+7;
+        t352=stack[t349];
+        t349=p+8;
+        t353=stack[t349];
+        t349=p+9;
+        t354=stack[t349];
+        t349=p+10;
+        t355=stack[t349];
+        t349=p+11;
+        t356=stack[t349];
+        t349=p+12;
+        t357=stack[t349];
+        t349=p+13;
+        t358=stack[t349];
+        t349=p+14;
+        t359=stack[t349];
+        t364=t353+t363;
+        t353=t364;
+        t355=t355+1;
+        goto L97;
+    L98:
+        stack[p]=t353;
+    L99:
+}
 var p=0;
 var h=0;
 void metojjpsmain_(){
 /*########    DECLARACION    ########*/
-       t327=p+1;
-       stack[t327]=2;
-/*########    SENTENCIA SWITCH    ########*/
-       t328=p+1;
-       t329=stack[t328];
-       if (t329==1)  goto L91;
-       if (t329==2)  goto L92;
-       if (t329==10)  goto L93;
-       goto L90;//ir a etiqueta de defecto
-   L91:
-   L92:
-/*########    SENTENCIA PRINT    ########*/
-       t330=h;
-       heap[h]=104;
+       t365=p+1;
+       t366=h;
+       heap[h]=3;
        h=h+1;
-       heap[h]=117;
+       t367=h;
        h=h+1;
-       heap[h]=114;
        h=h+1;
-       heap[h]=116;
        h=h+1;
-       heap[h]=557886;
+       t369=h;
+       heap[h]=2;
        h=h+1;
-       t331=p+3;
-       t332=t331+1;
-       stack[t332]=t330;
-       p=p+3;
-       call print_olcp2jjps();
-       p=p-3;
-/*########    SENTENCIA PRINT    ########*/
-       print("%e",85);
-   L93:
-/*########    SENTENCIA PRINT    ########*/
-       t333=h;
-       heap[h]=104;
+       t370=h;
        h=h+1;
-       heap[h]=117;
        h=h+1;
-       heap[h]=114;
+       t372=h;
+       heap[h]=4;
        h=h+1;
-       heap[h]=116;
-       h=h+1;
-       heap[h]=557886;
-       h=h+1;
-       t334=p+3;
-       t335=t334+1;
-       stack[t335]=t333;
-       p=p+3;
-       call print_olcp2jjps();
-       p=p-3;
-       goto L89;//ir a etiqueta salida
-   L90://etiqueta de defecto
-//sentencias default
-/*########    SENTENCIA PRINT    ########*/
-       t336=h;
        heap[h]=100;
        h=h+1;
-       heap[h]=101;
+       heap[h]=200;
        h=h+1;
-       heap[h]=102;
+       heap[h]=300;
        h=h+1;
-       heap[h]=557886;
+       heap[h]=400;
        h=h+1;
-       t337=p+3;
-       t338=t337+1;
-       stack[t338]=t336;
-       p=p+3;
-       call print_olcp2jjps();
-       p=p-3;
-       L89: //etiqueta de salida del switch
-/*########    SENTENCIA WHILE    ########*/
-/*########    DECLARACION    ########*/
-       t339=p+2;
-       stack[t339]=0;
-   L94: //etiqueta de inicio de ciclo
-       t340=p+2;
-       t341=stack[t340];
-       if (t341<100)  goto L96;
-       goto L97;
-   L96:
-//sentencias
-/*########    SENTENCIA IF    ########*/
-//-----bloque if
-//condicion
-       t342=p+2;
-       t343=stack[t342];
-       if (t343>33)  goto L99;
-       goto L100;
-   L99:
-       t344=p+2;
-       t345=stack[t344];
-       if (t345<79)  goto L101;
-       goto L102;
-   L101:
-//sentencias
-/*########    sentencia continue    ########*/
-       goto L95;
-       goto L98;
-   L100:
-   L102:
-   L98:
-/*########    SENTENCIA println    ########*/
-       t346=h;
-       heap[h]=104;
+       heap[t370]=t372;
+       t370=t370+1;
+       t373=h;
+       heap[h]=4;
        h=h+1;
-       heap[h]=111;
+       heap[h]=500;
        h=h+1;
-       heap[h]=108;
+       heap[h]=600;
        h=h+1;
-       heap[h]=97;
+       heap[h]=700;
        h=h+1;
-       heap[h]=557886;
+       heap[h]=800;
        h=h+1;
-       t347=p+2;
-       t348=stack[t347];
-       t349=p+4;
-       t350=t349+1;
-       stack[t350]=t348;
-       t351=t349+2;
-       stack[t351]=0;
-       p=p+4;
-       call ftoa();
-       t352=stack[p];
-       p=p-4;
-       t353=p+4;
-       t354=t353+1;
-       stack[t354]=t346;//apuntador o1 heap
-       t355=t353+2;
-       stack[t355]=t352;//apuntador o2 heap
-       p=p+4;
-       call concat_olcp2jjps();
-       t356=stack[p];
-       p=p-4;
-       t357=p+4;
-       t358=t357+1;
-       stack[t358]=t356;
-       p=p+4;
-       call print_olcp2jjps();
-       p=p-4;
-       print("%c",10);
-   L95:
-       t359=p+2;
-       t360=p+2;
-       t361=stack[t360];
-       t362=t361+10;
-       stack[t359]=t362;
-       goto L94;
-   L97:
-/*########    SENTENCIA println    ########*/
-/*########    SENTENCIA LLAMADA    ########*/
-       t363=p+2;
-       stack[t363]=t327;//guardo temporal
-       t363=p+3;
-       stack[t363]=t328;//guardo temporal
-       t363=p+4;
-       stack[t363]=t329;//guardo temporal
-       t363=p+5;
-       stack[t363]=t330;//guardo temporal
-       t363=p+6;
-       stack[t363]=t331;//guardo temporal
-       t363=p+7;
-       stack[t363]=t332;//guardo temporal
-       t363=p+8;
-       stack[t363]=t333;//guardo temporal
-       t363=p+9;
-       stack[t363]=t334;//guardo temporal
-       t363=p+10;
-       stack[t363]=t335;//guardo temporal
-       t363=p+11;
-       stack[t363]=t336;//guardo temporal
-       t363=p+12;
-       stack[t363]=t337;//guardo temporal
-       t363=p+13;
-       stack[t363]=t338;//guardo temporal
-       t363=p+14;
-       stack[t363]=t339;//guardo temporal
-       t363=p+15;
-       stack[t363]=t340;//guardo temporal
-       t363=p+16;
-       stack[t363]=t341;//guardo temporal
-       t363=p+17;
-       stack[t363]=t342;//guardo temporal
-       t363=p+18;
-       stack[t363]=t343;//guardo temporal
-       t363=p+19;
-       stack[t363]=t344;//guardo temporal
-       t363=p+20;
-       stack[t363]=t345;//guardo temporal
-       t363=p+21;
-       stack[t363]=t346;//guardo temporal
-       t363=p+22;
-       stack[t363]=t347;//guardo temporal
-       t363=p+23;
-       stack[t363]=t348;//guardo temporal
-       t363=p+24;
-       stack[t363]=t349;//guardo temporal
-       t363=p+25;
-       stack[t363]=t350;//guardo temporal
-       t363=p+26;
-       stack[t363]=t351;//guardo temporal
-       t363=p+27;
-       stack[t363]=t352;//guardo temporal
-       t363=p+28;
-       stack[t363]=t353;//guardo temporal
-       t363=p+29;
-       stack[t363]=t354;//guardo temporal
-       t363=p+30;
-       stack[t363]=t355;//guardo temporal
-       t363=p+31;
-       stack[t363]=t356;//guardo temporal
-       t363=p+32;
-       stack[t363]=t357;//guardo temporal
-       t363=p+33;
-       stack[t363]=t358;//guardo temporal
-       t363=p+34;
-       stack[t363]=t359;//guardo temporal
-       t363=p+35;
-       stack[t363]=t360;//guardo temporal
-       t363=p+36;
-       stack[t363]=t361;//guardo temporal
-       t363=p+37;
-       stack[t363]=t362;//guardo temporal
-       t364=p+38;//cambio simulado
-       t365=t364+1;
-       t366=5+2;
+       heap[t370]=t373;
+       t370=t370+1;
+       heap[t367]=t369;
+       t367=t367+1;
+       t374=h;
+       heap[h]=2;
+       h=h+1;
+       t375=h;
+       h=h+1;
+       h=h+1;
+       t377=h;
+       heap[h]=4;
+       h=h+1;
+       heap[h]=900;
+       h=h+1;
+       heap[h]=1000;
+       h=h+1;
+       heap[h]=1100;
+       h=h+1;
+       heap[h]=1200;
+       h=h+1;
+       heap[t375]=t377;
+       t375=t375+1;
+       t378=h;
+       heap[h]=4;
+       h=h+1;
+       heap[h]=1300;
+       h=h+1;
+       heap[h]=1400;
+       h=h+1;
+       heap[h]=1500;
+       h=h+1;
+       heap[h]=1600;
+       h=h+1;
+       heap[t375]=t378;
+       t375=t375+1;
+       heap[t367]=t374;
+       t367=t367+1;
+       t379=h;
+       heap[h]=2;
+       h=h+1;
+       t380=h;
+       h=h+1;
+       h=h+1;
+       t382=h;
+       heap[h]=4;
+       h=h+1;
+       heap[h]=1700;
+       h=h+1;
+       heap[h]=1800;
+       h=h+1;
+       heap[h]=1900;
+       h=h+1;
+       heap[h]=2000;
+       h=h+1;
+       heap[t380]=t382;
+       t380=t380+1;
+       t383=h;
+       heap[h]=4;
+       h=h+1;
+       heap[h]=2100;
+       h=h+1;
+       heap[h]=2200;
+       h=h+1;
+       heap[h]=2300;
+       h=h+1;
+       heap[h]=2400;
+       h=h+1;
+       heap[t380]=t383;
+       t380=t380+1;
+       heap[t367]=t379;
+       t367=t367+1;
        stack[t365]=t366;
-       p=p+38;//cambio real
-       call metojjpsfactorial_int_();
-//valor retorno
-       t367=p+0;
-       t368=stack[t367];
-       p=p-38;//cambio real
-       t363=p+2;
-       t327=stack[t363];//saco temporal
-       t363=p+3;
-       t328=stack[t363];//saco temporal
-       t363=p+4;
-       t329=stack[t363];//saco temporal
-       t363=p+5;
-       t330=stack[t363];//saco temporal
-       t363=p+6;
-       t331=stack[t363];//saco temporal
-       t363=p+7;
-       t332=stack[t363];//saco temporal
-       t363=p+8;
-       t333=stack[t363];//saco temporal
-       t363=p+9;
-       t334=stack[t363];//saco temporal
-       t363=p+10;
-       t335=stack[t363];//saco temporal
-       t363=p+11;
-       t336=stack[t363];//saco temporal
-       t363=p+12;
-       t337=stack[t363];//saco temporal
-       t363=p+13;
-       t338=stack[t363];//saco temporal
-       t363=p+14;
-       t339=stack[t363];//saco temporal
-       t363=p+15;
-       t340=stack[t363];//saco temporal
-       t363=p+16;
-       t341=stack[t363];//saco temporal
-       t363=p+17;
-       t342=stack[t363];//saco temporal
-       t363=p+18;
-       t343=stack[t363];//saco temporal
-       t363=p+19;
-       t344=stack[t363];//saco temporal
-       t363=p+20;
-       t345=stack[t363];//saco temporal
-       t363=p+21;
-       t346=stack[t363];//saco temporal
-       t363=p+22;
-       t347=stack[t363];//saco temporal
-       t363=p+23;
-       t348=stack[t363];//saco temporal
-       t363=p+24;
-       t349=stack[t363];//saco temporal
-       t363=p+25;
-       t350=stack[t363];//saco temporal
-       t363=p+26;
-       t351=stack[t363];//saco temporal
-       t363=p+27;
-       t352=stack[t363];//saco temporal
-       t363=p+28;
-       t353=stack[t363];//saco temporal
-       t363=p+29;
-       t354=stack[t363];//saco temporal
-       t363=p+30;
-       t355=stack[t363];//saco temporal
-       t363=p+31;
-       t356=stack[t363];//saco temporal
-       t363=p+32;
-       t357=stack[t363];//saco temporal
-       t363=p+33;
-       t358=stack[t363];//saco temporal
-       t363=p+34;
-       t359=stack[t363];//saco temporal
-       t363=p+35;
-       t360=stack[t363];//saco temporal
-       t363=p+36;
-       t361=stack[t363];//saco temporal
-       t363=p+37;
-       t362=stack[t363];//saco temporal
-       print("%e",t368);
+/*########    SENTENCIA println    ########*/
+       t384=p+1;//pos arr
+       t385=stack[t384];//referencia al heap
+       t386=heap[t385];
+       if (2>=t386) goto L1;
+       t387=1+2;
+       t388=t385+t387;
+       t389=heap[t388];
+       t390=heap[t389];
+       if (1>=t390) goto L1;
+       t391=1+1;
+       t392=t389+t391;
+       t393=heap[t392];
+       t394=heap[t393];
+       if (3>=t394) goto L1;
+       t395=1+3;
+       t396=t393+t395;
+       t397=heap[t396];
+       print("%e",t397);
+       print("%c",10);
+       t398=p+1;//pos arr
+       t399=stack[t398];//referencia al heap
+       t400=heap[t399];
+       if (2>=t400) goto L1;
+       t401=1+2;
+       t402=t399+t401;
+       t403=heap[t402];
+       t404=heap[t403];
+       if (1>=t404) goto L1;
+       t405=1+1;
+       t406=t403+t405;
+       t407=heap[t406];
+       t408=heap[t407];
+       if (3>=t408) goto L1;
+       t409=1+3;
+       t410=t407+t409;
+       t411=heap[t410];
+       t412=p+1;//pos arr
+       t413=stack[t412];//referencia al heap
+       t414=heap[t413];
+       if (0>=t414) goto L1;
+       t415=1+0;
+       t416=t413+t415;
+       t417=heap[t416];
+       t418=heap[t417];
+       if (0>=t418) goto L1;
+       t419=1+0;
+       t420=t417+t419;
+       t421=heap[t420];
+       t422=heap[t421];
+       if (0>=t422) goto L1;
+       t423=1+0;
+       t424=t421+t423;
+       t425=heap[t424];
+       heap[t410]=t425;
+/*########    SENTENCIA println    ########*/
+       t426=p+1;//pos arr
+       t427=stack[t426];//referencia al heap
+       t428=heap[t427];
+       if (2>=t428) goto L1;
+       t429=1+2;
+       t430=t427+t429;
+       t431=heap[t430];
+       t432=heap[t431];
+       if (1>=t432) goto L1;
+       t433=1+1;
+       t434=t431+t433;
+       t435=heap[t434];
+       t436=heap[t435];
+       if (3>=t436) goto L1;
+       t437=1+3;
+       t438=t435+t437;
+       t439=heap[t438];
+       print("%e",t439);
+       print("%c",10);
+/*########    DECLARACION    ########*/
+       t440=p+2;
+       stack[t440]=50;
+/*########    SENTENCIA println    ########*/
+       t441=p+2;
+       t442=stack[t441];
+       print("%e",t442);
        print("%c",10);
 /*########    SENTENCIA println    ########*/
-/*########    SENTENCIA LLAMADA    ########*/
-       t369=p+4;
-       stack[t369]=t327;//guardo temporal
-       t369=p+5;
-       stack[t369]=t328;//guardo temporal
-       t369=p+6;
-       stack[t369]=t329;//guardo temporal
-       t369=p+7;
-       stack[t369]=t330;//guardo temporal
-       t369=p+8;
-       stack[t369]=t331;//guardo temporal
-       t369=p+9;
-       stack[t369]=t332;//guardo temporal
-       t369=p+10;
-       stack[t369]=t333;//guardo temporal
-       t369=p+11;
-       stack[t369]=t334;//guardo temporal
-       t369=p+12;
-       stack[t369]=t335;//guardo temporal
-       t369=p+13;
-       stack[t369]=t336;//guardo temporal
-       t369=p+14;
-       stack[t369]=t337;//guardo temporal
-       t369=p+15;
-       stack[t369]=t338;//guardo temporal
-       t369=p+16;
-       stack[t369]=t339;//guardo temporal
-       t369=p+17;
-       stack[t369]=t340;//guardo temporal
-       t369=p+18;
-       stack[t369]=t341;//guardo temporal
-       t369=p+19;
-       stack[t369]=t342;//guardo temporal
-       t369=p+20;
-       stack[t369]=t343;//guardo temporal
-       t369=p+21;
-       stack[t369]=t344;//guardo temporal
-       t369=p+22;
-       stack[t369]=t345;//guardo temporal
-       t369=p+23;
-       stack[t369]=t346;//guardo temporal
-       t369=p+24;
-       stack[t369]=t347;//guardo temporal
-       t369=p+25;
-       stack[t369]=t348;//guardo temporal
-       t369=p+26;
-       stack[t369]=t349;//guardo temporal
-       t369=p+27;
-       stack[t369]=t350;//guardo temporal
-       t369=p+28;
-       stack[t369]=t351;//guardo temporal
-       t369=p+29;
-       stack[t369]=t352;//guardo temporal
-       t369=p+30;
-       stack[t369]=t353;//guardo temporal
-       t369=p+31;
-       stack[t369]=t354;//guardo temporal
-       t369=p+32;
-       stack[t369]=t355;//guardo temporal
-       t369=p+33;
-       stack[t369]=t356;//guardo temporal
-       t369=p+34;
-       stack[t369]=t357;//guardo temporal
-       t369=p+35;
-       stack[t369]=t358;//guardo temporal
-       t369=p+36;
-       stack[t369]=t359;//guardo temporal
-       t369=p+37;
-       stack[t369]=t360;//guardo temporal
-       t369=p+38;
-       stack[t369]=t361;//guardo temporal
-       t369=p+39;
-       stack[t369]=t362;//guardo temporal
-       t369=p+40;
-       stack[t369]=t363;//guardo temporal
-       t369=p+41;
-       stack[t369]=t364;//guardo temporal
-       t369=p+42;
-       stack[t369]=t365;//guardo temporal
-       t369=p+43;
-       stack[t369]=t366;//guardo temporal
-       t369=p+44;
-       stack[t369]=t367;//guardo temporal
-       t369=p+45;
-       stack[t369]=t368;//guardo temporal
-       t370=p+46;//cambio simulado
-       t371=t370+1;
-       stack[t371]=3;
-       t372=t370+2;
-       stack[t372]=4;
-       p=p+46;//cambio real
-       call metojjpsackermann_int_int_();
-//valor retorno
-       t373=p+0;
-       t374=stack[t373];
-       p=p-46;//cambio real
-       t369=p+4;
-       t327=stack[t369];//saco temporal
-       t369=p+5;
-       t328=stack[t369];//saco temporal
-       t369=p+6;
-       t329=stack[t369];//saco temporal
-       t369=p+7;
-       t330=stack[t369];//saco temporal
-       t369=p+8;
-       t331=stack[t369];//saco temporal
-       t369=p+9;
-       t332=stack[t369];//saco temporal
-       t369=p+10;
-       t333=stack[t369];//saco temporal
-       t369=p+11;
-       t334=stack[t369];//saco temporal
-       t369=p+12;
-       t335=stack[t369];//saco temporal
-       t369=p+13;
-       t336=stack[t369];//saco temporal
-       t369=p+14;
-       t337=stack[t369];//saco temporal
-       t369=p+15;
-       t338=stack[t369];//saco temporal
-       t369=p+16;
-       t339=stack[t369];//saco temporal
-       t369=p+17;
-       t340=stack[t369];//saco temporal
-       t369=p+18;
-       t341=stack[t369];//saco temporal
-       t369=p+19;
-       t342=stack[t369];//saco temporal
-       t369=p+20;
-       t343=stack[t369];//saco temporal
-       t369=p+21;
-       t344=stack[t369];//saco temporal
-       t369=p+22;
-       t345=stack[t369];//saco temporal
-       t369=p+23;
-       t346=stack[t369];//saco temporal
-       t369=p+24;
-       t347=stack[t369];//saco temporal
-       t369=p+25;
-       t348=stack[t369];//saco temporal
-       t369=p+26;
-       t349=stack[t369];//saco temporal
-       t369=p+27;
-       t350=stack[t369];//saco temporal
-       t369=p+28;
-       t351=stack[t369];//saco temporal
-       t369=p+29;
-       t352=stack[t369];//saco temporal
-       t369=p+30;
-       t353=stack[t369];//saco temporal
-       t369=p+31;
-       t354=stack[t369];//saco temporal
-       t369=p+32;
-       t355=stack[t369];//saco temporal
-       t369=p+33;
-       t356=stack[t369];//saco temporal
-       t369=p+34;
-       t357=stack[t369];//saco temporal
-       t369=p+35;
-       t358=stack[t369];//saco temporal
-       t369=p+36;
-       t359=stack[t369];//saco temporal
-       t369=p+37;
-       t360=stack[t369];//saco temporal
-       t369=p+38;
-       t361=stack[t369];//saco temporal
-       t369=p+39;
-       t362=stack[t369];//saco temporal
-       t369=p+40;
-       t363=stack[t369];//saco temporal
-       t369=p+41;
-       t364=stack[t369];//saco temporal
-       t369=p+42;
-       t365=stack[t369];//saco temporal
-       t369=p+43;
-       t366=stack[t369];//saco temporal
-       t369=p+44;
-       t367=stack[t369];//saco temporal
-       t369=p+45;
-       t368=stack[t369];//saco temporal
-       print("%e",t374);
+/*########    post incremento    ########*/
+       t444=p+2;
+       t445=stack[t444];
+       t443=t445+1;
+       stack[t444]=t443;
+       print("%e",t445);
        print("%c",10);
-/*########    SENTENCIA PRINT    ########*/
-       print("%c",110);
-       print("%c",117);
-       print("%c",108);
-       print("%c",108);
-   L88:
-}
-void metojjpsfactorial_int_(){
-/*########    SENTENCIA IF    ########*/
-//-----bloque if
-//condicion
-       t375=p+1;
-       t376=stack[t375];
-       if (t376==0)  goto L105;
-       goto L106;
-   L105:
-//sentencias
-/*########    sentencia return    ########*/
-       t377=p+0;
-       stack[t377]=1;
-       goto L103;
-       goto L104;
-   L106:
-//-----bloque if
-//sentencias
-/*########    sentencia return    ########*/
-       t378=p+0;
-       t379=p+1;
-       t380=stack[t379];
-/*########    SENTENCIA LLAMADA    ########*/
-       t381=p+2;
-       stack[t381]=t375;//guardo temporal
-       t381=p+3;
-       stack[t381]=t376;//guardo temporal
-       t381=p+4;
-       stack[t381]=t377;//guardo temporal
-       t381=p+5;
-       stack[t381]=t378;//guardo temporal
-       t381=p+6;
-       stack[t381]=t379;//guardo temporal
-       t381=p+7;
-       stack[t381]=t380;//guardo temporal
-       t382=p+8;//cambio simulado
-       t383=t382+1;
-       t384=p+1;
-       t385=stack[t384];
-       t386=t385-1;
-       stack[t383]=t386;
-       p=p+8;//cambio real
-       call metojjpsfactorial_int_();
-//valor retorno
-       t387=p+0;
-       t388=stack[t387];
-       p=p-8;//cambio real
-       t381=p+2;
-       t375=stack[t381];//saco temporal
-       t381=p+3;
-       t376=stack[t381];//saco temporal
-       t381=p+4;
-       t377=stack[t381];//saco temporal
-       t381=p+5;
-       t378=stack[t381];//saco temporal
-       t381=p+6;
-       t379=stack[t381];//saco temporal
-       t381=p+7;
-       t380=stack[t381];//saco temporal
-       t389=t380*t388;
-       stack[t378]=t389;
-       goto L103;
-   L104:
-   L103:
-}
-void metojjpsackermann_int_int_(){
-/*########    SENTENCIA IF    ########*/
-//-----bloque if
-//condicion
-       t390=p+1;
-       t391=stack[t390];
-       if (t391==0)  goto L109;
-       goto L110;
-   L109:
-//sentencias
-/*########    sentencia return    ########*/
-       t392=p+0;
-       t393=p+2;
-       t394=stack[t393];
-       t395=t394+1;
-       stack[t392]=t395;
-       goto L107;
-       goto L108;
-   L110:
-//-----bloque if
-//condicion
-       t396=p+1;
-       t397=stack[t396];
-       if (t397>0)  goto L111;
-       goto L112;
-   L111:
-       t398=p+2;
-       t399=stack[t398];
-       if (t399==0)  goto L113;
-       goto L114;
-   L113:
-//sentencias
-/*########    sentencia return    ########*/
-       t400=p+0;
-/*########    SENTENCIA LLAMADA    ########*/
-       t401=p+3;
-       stack[t401]=t390;//guardo temporal
-       t401=p+4;
-       stack[t401]=t391;//guardo temporal
-       t401=p+5;
-       stack[t401]=t392;//guardo temporal
-       t401=p+6;
-       stack[t401]=t393;//guardo temporal
-       t401=p+7;
-       stack[t401]=t394;//guardo temporal
-       t401=p+8;
-       stack[t401]=t395;//guardo temporal
-       t401=p+9;
-       stack[t401]=t396;//guardo temporal
-       t401=p+10;
-       stack[t401]=t397;//guardo temporal
-       t401=p+11;
-       stack[t401]=t398;//guardo temporal
-       t401=p+12;
-       stack[t401]=t399;//guardo temporal
-       t401=p+13;
-       stack[t401]=t400;//guardo temporal
-       t402=p+14;//cambio simulado
-       t403=t402+1;
-       t404=p+1;
-       t405=stack[t404];
-       t406=t405-1;
-       stack[t403]=t406;
-       t407=t402+2;
-       stack[t407]=1;
-       p=p+14;//cambio real
-       call metojjpsackermann_int_int_();
-//valor retorno
-       t408=p+0;
-       t409=stack[t408];
-       p=p-14;//cambio real
-       t401=p+3;
-       t390=stack[t401];//saco temporal
-       t401=p+4;
-       t391=stack[t401];//saco temporal
-       t401=p+5;
-       t392=stack[t401];//saco temporal
-       t401=p+6;
-       t393=stack[t401];//saco temporal
-       t401=p+7;
-       t394=stack[t401];//saco temporal
-       t401=p+8;
-       t395=stack[t401];//saco temporal
-       t401=p+9;
-       t396=stack[t401];//saco temporal
-       t401=p+10;
-       t397=stack[t401];//saco temporal
-       t401=p+11;
-       t398=stack[t401];//saco temporal
-       t401=p+12;
-       t399=stack[t401];//saco temporal
-       t401=p+13;
-       t400=stack[t401];//saco temporal
-       stack[t400]=t409;
-       goto L107;
-       goto L108;
-   L112:
-   L114:
-//-----bloque if
-//sentencias
-/*########    sentencia return    ########*/
-       t410=p+0;
-/*########    SENTENCIA LLAMADA    ########*/
-       t411=p+3;
-       stack[t411]=t390;//guardo temporal
-       t411=p+4;
-       stack[t411]=t391;//guardo temporal
-       t411=p+5;
-       stack[t411]=t392;//guardo temporal
-       t411=p+6;
-       stack[t411]=t393;//guardo temporal
-       t411=p+7;
-       stack[t411]=t394;//guardo temporal
-       t411=p+8;
-       stack[t411]=t395;//guardo temporal
-       t411=p+9;
-       stack[t411]=t396;//guardo temporal
-       t411=p+10;
-       stack[t411]=t397;//guardo temporal
-       t411=p+11;
-       stack[t411]=t398;//guardo temporal
-       t411=p+12;
-       stack[t411]=t399;//guardo temporal
-       t411=p+13;
-       stack[t411]=t400;//guardo temporal
-       t411=p+14;
-       stack[t411]=t401;//guardo temporal
-       t411=p+15;
-       stack[t411]=t402;//guardo temporal
-       t411=p+16;
-       stack[t411]=t403;//guardo temporal
-       t411=p+17;
-       stack[t411]=t404;//guardo temporal
-       t411=p+18;
-       stack[t411]=t405;//guardo temporal
-       t411=p+19;
-       stack[t411]=t406;//guardo temporal
-       t411=p+20;
-       stack[t411]=t407;//guardo temporal
-       t411=p+21;
-       stack[t411]=t408;//guardo temporal
-       t411=p+22;
-       stack[t411]=t409;//guardo temporal
-       t411=p+23;
-       stack[t411]=t410;//guardo temporal
-       t412=p+24;//cambio simulado
-       t413=t412+1;
-       t414=p+1;
-       t415=stack[t414];
-       t416=t415-1;
-       stack[t413]=t416;
-       t417=t412+2;
-/*########    SENTENCIA LLAMADA    ########*/
-       t418=p+27;
-       stack[t418]=t390;//guardo temporal
-       t418=p+28;
-       stack[t418]=t391;//guardo temporal
-       t418=p+29;
-       stack[t418]=t392;//guardo temporal
-       t418=p+30;
-       stack[t418]=t393;//guardo temporal
-       t418=p+31;
-       stack[t418]=t394;//guardo temporal
-       t418=p+32;
-       stack[t418]=t395;//guardo temporal
-       t418=p+33;
-       stack[t418]=t396;//guardo temporal
-       t418=p+34;
-       stack[t418]=t397;//guardo temporal
-       t418=p+35;
-       stack[t418]=t398;//guardo temporal
-       t418=p+36;
-       stack[t418]=t399;//guardo temporal
-       t418=p+37;
-       stack[t418]=t400;//guardo temporal
-       t418=p+38;
-       stack[t418]=t401;//guardo temporal
-       t418=p+39;
-       stack[t418]=t402;//guardo temporal
-       t418=p+40;
-       stack[t418]=t403;//guardo temporal
-       t418=p+41;
-       stack[t418]=t404;//guardo temporal
-       t418=p+42;
-       stack[t418]=t405;//guardo temporal
-       t418=p+43;
-       stack[t418]=t406;//guardo temporal
-       t418=p+44;
-       stack[t418]=t407;//guardo temporal
-       t418=p+45;
-       stack[t418]=t408;//guardo temporal
-       t418=p+46;
-       stack[t418]=t409;//guardo temporal
-       t418=p+47;
-       stack[t418]=t410;//guardo temporal
-       t418=p+48;
-       stack[t418]=t411;//guardo temporal
-       t418=p+49;
-       stack[t418]=t412;//guardo temporal
-       t418=p+50;
-       stack[t418]=t413;//guardo temporal
-       t418=p+51;
-       stack[t418]=t414;//guardo temporal
-       t418=p+52;
-       stack[t418]=t415;//guardo temporal
-       t418=p+53;
-       stack[t418]=t416;//guardo temporal
-       t418=p+54;
-       stack[t418]=t417;//guardo temporal
-       t419=p+55;//cambio simulado
-       t420=t419+1;
-       t421=p+1;
-       t422=stack[t421];
-       stack[t420]=t422;
-       t423=t419+2;
-       t424=p+2;
-       t425=stack[t424];
-       t426=t425-1;
-       stack[t423]=t426;
-       p=p+55;//cambio real
-       call metojjpsackermann_int_int_();
-//valor retorno
-       t427=p+0;
-       t428=stack[t427];
-       p=p-55;//cambio real
-       t418=p+27;
-       t390=stack[t418];//saco temporal
-       t418=p+28;
-       t391=stack[t418];//saco temporal
-       t418=p+29;
-       t392=stack[t418];//saco temporal
-       t418=p+30;
-       t393=stack[t418];//saco temporal
-       t418=p+31;
-       t394=stack[t418];//saco temporal
-       t418=p+32;
-       t395=stack[t418];//saco temporal
-       t418=p+33;
-       t396=stack[t418];//saco temporal
-       t418=p+34;
-       t397=stack[t418];//saco temporal
-       t418=p+35;
-       t398=stack[t418];//saco temporal
-       t418=p+36;
-       t399=stack[t418];//saco temporal
-       t418=p+37;
-       t400=stack[t418];//saco temporal
-       t418=p+38;
-       t401=stack[t418];//saco temporal
-       t418=p+39;
-       t402=stack[t418];//saco temporal
-       t418=p+40;
-       t403=stack[t418];//saco temporal
-       t418=p+41;
-       t404=stack[t418];//saco temporal
-       t418=p+42;
-       t405=stack[t418];//saco temporal
-       t418=p+43;
-       t406=stack[t418];//saco temporal
-       t418=p+44;
-       t407=stack[t418];//saco temporal
-       t418=p+45;
-       t408=stack[t418];//saco temporal
-       t418=p+46;
-       t409=stack[t418];//saco temporal
-       t418=p+47;
-       t410=stack[t418];//saco temporal
-       t418=p+48;
-       t411=stack[t418];//saco temporal
-       t418=p+49;
-       t412=stack[t418];//saco temporal
-       t418=p+50;
-       t413=stack[t418];//saco temporal
-       t418=p+51;
-       t414=stack[t418];//saco temporal
-       t418=p+52;
-       t415=stack[t418];//saco temporal
-       t418=p+53;
-       t416=stack[t418];//saco temporal
-       t418=p+54;
-       t417=stack[t418];//saco temporal
-       stack[t417]=t428;
-       p=p+24;//cambio real
-       call metojjpsackermann_int_int_();
-//valor retorno
-       t429=p+0;
-       t430=stack[t429];
-       p=p-24;//cambio real
-       t411=p+3;
-       t390=stack[t411];//saco temporal
-       t411=p+4;
-       t391=stack[t411];//saco temporal
-       t411=p+5;
-       t392=stack[t411];//saco temporal
-       t411=p+6;
-       t393=stack[t411];//saco temporal
-       t411=p+7;
-       t394=stack[t411];//saco temporal
-       t411=p+8;
-       t395=stack[t411];//saco temporal
-       t411=p+9;
-       t396=stack[t411];//saco temporal
-       t411=p+10;
-       t397=stack[t411];//saco temporal
-       t411=p+11;
-       t398=stack[t411];//saco temporal
-       t411=p+12;
-       t399=stack[t411];//saco temporal
-       t411=p+13;
-       t400=stack[t411];//saco temporal
-       t411=p+14;
-       t401=stack[t411];//saco temporal
-       t411=p+15;
-       t402=stack[t411];//saco temporal
-       t411=p+16;
-       t403=stack[t411];//saco temporal
-       t411=p+17;
-       t404=stack[t411];//saco temporal
-       t411=p+18;
-       t405=stack[t411];//saco temporal
-       t411=p+19;
-       t406=stack[t411];//saco temporal
-       t411=p+20;
-       t407=stack[t411];//saco temporal
-       t411=p+21;
-       t408=stack[t411];//saco temporal
-       t411=p+22;
-       t409=stack[t411];//saco temporal
-       t411=p+23;
-       t410=stack[t411];//saco temporal
-       stack[t410]=t430;
-       goto L107;
-   L108:
-   L107:
+/*########    SENTENCIA println    ########*/
+       t446=p+2;
+       t447=stack[t446];
+       print("%e",t447);
+       print("%c",10);
+/*########    SENTENCIA println    ########*/
+/*########    pre incremento    ########*/
+       t450=p+2;
+       t451=stack[t450];
+       t449=t451+1;
+       stack[t450]=t449;
+       print("%e",t449);
+       print("%c",10);
+/*########    SENTENCIA println    ########*/
+       t452=p+2;
+       t453=stack[t452];
+       print("%e",t453);
+       print("%c",10);
+/*########    SENTENCIA println    ########*/
+/*########    post decremento    ########*/
+       t455=p+2;
+       t456=stack[t455];
+       t454=t456-1;
+       stack[t455]=t454;
+       print("%e",t456);
+       print("%c",10);
+/*########    SENTENCIA println    ########*/
+       t457=p+2;
+       t458=stack[t457];
+       print("%e",t458);
+       print("%c",10);
+/*########    SENTENCIA println    ########*/
+/*########    pre decremento    ########*/
+       t461=p+2;
+       t462=stack[t461];
+       t460=t462-1;
+       stack[t461]=t460;
+       print("%e",t460);
+       print("%c",10);
+/*########    SENTENCIA println    ########*/
+       t463=p+2;
+       t464=stack[t463];
+       print("%e",t464);
+       print("%c",10);
+/*########    SENTENCIA println    ########*/
+       t465=h;
+       heap[h]=45;
+       h=h+1;
+       heap[h]=45;
+       h=h+1;
+       heap[h]=45;
+       h=h+1;
+       heap[h]=45;
+       h=h+1;
+       heap[h]=557886;
+       h=h+1;
+       t466=p+4;
+       t467=t466+1;
+       stack[t467]=t465;
+       p=p+4;
+       call print_olcp2jjps();
+       p=p-4;
+       print("%c",10);
+/*########    SENTENCIA println    ########*/
+       t468=p+1;//pos arr
+       t469=stack[t468];//referencia al heap
+       t470=heap[t469];
+       if (2>=t470) goto L1;
+       t471=1+2;
+       t472=t469+t471;
+       t473=heap[t472];
+       t474=heap[t473];
+       if (1>=t474) goto L1;
+       t475=1+1;
+       t476=t473+t475;
+       t477=heap[t476];
+       t478=heap[t477];
+       if (3>=t478) goto L1;
+       t479=1+3;
+       t480=t477+t479;
+       t481=heap[t480];
+       print("%e",t481);
+       print("%c",10);
+/*########    SENTENCIA println    ########*/
+/*########    post incremento    ########*/
+       t483=p+1;//pos arr
+       t484=stack[t483];//referencia al heap
+       t485=heap[t484];
+       if (2>=t485) goto L1;
+       t486=1+2;
+       t487=t484+t486;
+       t488=heap[t487];
+       t489=heap[t488];
+       if (1>=t489) goto L1;
+       t490=1+1;
+       t491=t488+t490;
+       t492=heap[t491];
+       t493=heap[t492];
+       if (3>=t493) goto L1;
+       t494=1+3;
+       t495=t492+t494;
+       t496=heap[t495];
+       t482=t496+1;
+       heap[t495]=t482;
+       print("%e",t496);
+       print("%c",10);
+/*########    SENTENCIA println    ########*/
+       t497=p+1;//pos arr
+       t498=stack[t497];//referencia al heap
+       t499=heap[t498];
+       if (2>=t499) goto L1;
+       t500=1+2;
+       t501=t498+t500;
+       t502=heap[t501];
+       t503=heap[t502];
+       if (1>=t503) goto L1;
+       t504=1+1;
+       t505=t502+t504;
+       t506=heap[t505];
+       t507=heap[t506];
+       if (3>=t507) goto L1;
+       t508=1+3;
+       t509=t506+t508;
+       t510=heap[t509];
+       print("%e",t510);
+       print("%c",10);
+/*########    SENTENCIA println    ########*/
+/*########    pre incremento    ########*/
+       t513=p+1;//pos arr
+       t514=stack[t513];//referencia al heap
+       t515=heap[t514];
+       if (2>=t515) goto L1;
+       t516=1+2;
+       t517=t514+t516;
+       t518=heap[t517];
+       t519=heap[t518];
+       if (1>=t519) goto L1;
+       t520=1+1;
+       t521=t518+t520;
+       t522=heap[t521];
+       t523=heap[t522];
+       if (3>=t523) goto L1;
+       t524=1+3;
+       t525=t522+t524;
+       t526=heap[t525];
+       t512=t526+1;
+       heap[t525]=t512;
+       print("%e",t512);
+       print("%c",10);
+/*########    SENTENCIA println    ########*/
+       t527=p+1;//pos arr
+       t528=stack[t527];//referencia al heap
+       t529=heap[t528];
+       if (2>=t529) goto L1;
+       t530=1+2;
+       t531=t528+t530;
+       t532=heap[t531];
+       t533=heap[t532];
+       if (1>=t533) goto L1;
+       t534=1+1;
+       t535=t532+t534;
+       t536=heap[t535];
+       t537=heap[t536];
+       if (3>=t537) goto L1;
+       t538=1+3;
+       t539=t536+t538;
+       t540=heap[t539];
+       print("%e",t540);
+       print("%c",10);
+/*########    SENTENCIA println    ########*/
+/*########    post decremento    ########*/
+       t542=p+1;//pos arr
+       t543=stack[t542];//referencia al heap
+       t544=heap[t543];
+       if (2>=t544) goto L1;
+       t545=1+2;
+       t546=t543+t545;
+       t547=heap[t546];
+       t548=heap[t547];
+       if (1>=t548) goto L1;
+       t549=1+1;
+       t550=t547+t549;
+       t551=heap[t550];
+       t552=heap[t551];
+       if (3>=t552) goto L1;
+       t553=1+3;
+       t554=t551+t553;
+       t555=heap[t554];
+       t541=t555-1;
+       heap[t554]=t541;
+       print("%e",t555);
+       print("%c",10);
+/*########    SENTENCIA println    ########*/
+       t556=p+1;//pos arr
+       t557=stack[t556];//referencia al heap
+       t558=heap[t557];
+       if (2>=t558) goto L1;
+       t559=1+2;
+       t560=t557+t559;
+       t561=heap[t560];
+       t562=heap[t561];
+       if (1>=t562) goto L1;
+       t563=1+1;
+       t564=t561+t563;
+       t565=heap[t564];
+       t566=heap[t565];
+       if (3>=t566) goto L1;
+       t567=1+3;
+       t568=t565+t567;
+       t569=heap[t568];
+       print("%e",t569);
+       print("%c",10);
+/*########    SENTENCIA println    ########*/
+/*########    pre decremento    ########*/
+       t572=p+1;//pos arr
+       t573=stack[t572];//referencia al heap
+       t574=heap[t573];
+       if (2>=t574) goto L1;
+       t575=1+2;
+       t576=t573+t575;
+       t577=heap[t576];
+       t578=heap[t577];
+       if (1>=t578) goto L1;
+       t579=1+1;
+       t580=t577+t579;
+       t581=heap[t580];
+       t582=heap[t581];
+       if (3>=t582) goto L1;
+       t583=1+3;
+       t584=t581+t583;
+       t585=heap[t584];
+       t571=t585-1;
+       heap[t584]=t571;
+       print("%e",t571);
+       print("%c",10);
+/*########    SENTENCIA println    ########*/
+       t586=p+1;//pos arr
+       t587=stack[t586];//referencia al heap
+       t588=heap[t587];
+       if (2>=t588) goto L1;
+       t589=1+2;
+       t590=t587+t589;
+       t591=heap[t590];
+       t592=heap[t591];
+       if (1>=t592) goto L1;
+       t593=1+1;
+       t594=t591+t593;
+       t595=heap[t594];
+       t596=heap[t595];
+       if (3>=t596) goto L1;
+       t597=1+3;
+       t598=t595+t597;
+       t599=heap[t598];
+       print("%e",t599);
+       print("%c",10);
+   L100:
 }
        L1:

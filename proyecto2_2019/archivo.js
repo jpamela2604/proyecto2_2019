@@ -47,5 +47,18 @@ if(err.size()==0)
 
 //trad.save();
 //console.log(lista[0].getTree());
-dibujar.GenerarArbol(raiz.getTree());
+//dibujar.GenerarArbol(raiz.getTree());
+/*
+var arreglo=[[1,2],[3,4],[5,6]];
+
+console.log(arreglo[2][0]);
+
+
+var arreglo=[[[1,2,3,4],[5,6,7,8]],[[9,10,11,12],[13,14,15,16]],[[17,18,19,20],[21,22,23,24]]];
+arreglo={{{10,20,30,40},{50,60}},{{90,100,110},{130,140,150,160}},{{170},{210,220,230,240,250}}};					
+
+var arreglo=[[[1,2,3,4],[5,6,7,8]],[[9,10,11,12],[13,14,15,16]],[[17,18,19,20],[21,22,23,24]]];
+
+console.log(arreglo[3][1][2]);
+*/
 

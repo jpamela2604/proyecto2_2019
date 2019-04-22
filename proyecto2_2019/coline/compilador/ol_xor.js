@@ -42,7 +42,7 @@ class ol_or{
             respuesta = new simbolo(tablaTipos.tipo_booleano);
         }else 
         {
-            er.addError("Tipos incompatibles: "+o1.tipo.nombre+" XOR "+o2.tipo.nombre,this.linea,this.columna,this.archivo,
+            er.addError("Tipos incompatibles: "+o1.tipo.getName()+" XOR "+o2.tipo.getName(),this.linea,this.columna,this.archivo,
             "SEMANTICO");
         }
         return respuesta;

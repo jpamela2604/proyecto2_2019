@@ -35,7 +35,7 @@ class oa_casteotoChar{
             respuesta=new simbolo(tablaTipos.tipo_caracter,null);
         }else
         {
-            er.addError("No se puede castear(toChar) un "+val.tipo.nombre,this.linea,this.columna,this.archivo,
+            er.addError("No se puede castear(toChar) un "+val.tipo.getName(),this.linea,this.columna,this.archivo,
             "SEMANTICO");
         }
         return respuesta;

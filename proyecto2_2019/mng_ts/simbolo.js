@@ -5,7 +5,7 @@ class simbolo{
     constructor(tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador)
     {        
         this.tipo=tipo;
-        this.aux=aux;
+        this.aux=aux;//valor
         this.id=id;
         this.rol=rol;
         this.posicion=posicion;
@@ -13,6 +13,8 @@ class simbolo{
         this.dimensiones=dimensiones;        
         this.visibilidad=visibilidad;
         this.modificador=modificador;
+        this.referencia=null;
+        this.modificaStack=true;
     }
     IsGlobal()
     {

@@ -1,5 +1,7 @@
 
 var nodoArbol =require("../nodoArbol.js");
+const tablaTipos= require("../tablaTipos.js");
+const simbolo = require("../../mng_ts/simbolo.js");
 class s_arreglo_valores{
     constructor(values,linea,columna,archivo,hash) 
     {
@@ -25,17 +27,20 @@ class s_arreglo_valores{
     }
     comprobacion(ts,er)
     {
-        if(!(ts.displayBreaks.hasElements()))
+        var r=this.values.comprobacion(ts,er);
+        
+        if(r.tipo.indice==tablaTipos.error&&(r.message!=undefined&&r.message!=null&&r.message!=""))
         {
-            er.addError("break fuera de ciclo",this.linea,this.columna,this.archivo,
+            er.addError(r.message,this.linea,this.columna,this.archivo,
             "SEMANTICO");
+            r.message="";
         }
+        r.dimension=r.dimension+1;
+        return r;
     }
     traducir(ts,traductor)
     {
-        traductor.comentario("sentencia break");
-        var miNodo=ts.displayBreaks.getTopElement();
-        traductor.imprimir("goto "+miNodo.etiqueta+";");
+        return this.values.traducir(ts,traductor);
     }
 }
 

@@ -1,12 +1,13 @@
 
 var nodoArbol =require("../nodoArbol.js");
+const simbolo = require("../../mng_ts/simbolo.js");
+const tablaTipos= require("../tablaTipos.js");
+const nodoDimension=require("./nodoDimension.js");
+const valores = require("../values_manager.js");
 class s_arreglo_hojas{
     constructor(valores,hash) 
     {
         this.valores=valores;
-        this.linea=linea; 
-        this.columna=columna;
-        this.archivo=archivo;
         this.hash=hash;
     }
     comprobacion_global(ts,er)
@@ -25,17 +26,63 @@ class s_arreglo_hojas{
     }
     comprobacion(ts,er)
     {
-        if(!(ts.displayBreaks.hasElements()))
+        //var respuesta=new simbolo(tablaTipos.tipo_error);
+        var tipos=new Array();
+        for(var i=0;i<this.valores.length;i++)
         {
-            er.addError("break fuera de ciclo",this.linea,this.columna,this.archivo,
-            "SEMANTICO");
+            var r=this.valores[i].comprobacion(ts,er);
+            
+            if(r.tipo.indice==tablaTipos.error)
+            {
+                return new nodoDimension(tablaTipos.tipo_error,new Array(),"");
+            }
+            tipos.push(r.tipo);
+        }
+        if(this.valuaTipos(tipos))
+        {
+            var l=new Array();
+            l.push(this.valores.length);
+           
+            return new nodoDimension(tipos[0],l,"");
+        }else
+        {
+            return new nodoDimension(tablaTipos.tipo_error,new Array(),"Los valores del arreglo no son del mismo tipo");
         }
     }
     traducir(ts,traductor)
     {
-        traductor.comentario("sentencia break");
-        var miNodo=ts.displayBreaks.getTopElement();
-        traductor.imprimir("goto "+miNodo.etiqueta+";");
+        var tx=valores.getTemporal();
+        traductor.imprimir(tx+"=h;");
+        traductor.imprimir("heap[h]="+this.valores.length+";");
+        traductor.imprimir("h=h+1;");
+        for(var x=0;x<this.valores.length;x++)
+        {
+            var v=this.valores[x].traducir(ts,traductor);
+            if(v.tipo.indice==tablaTipos.booleano)
+            {
+                etiquetaToTemp(v);
+            }
+            traductor.imprimir("heap[h]="+v.aux+";");
+            traductor.imprimir("h=h+1;");
+        }
+
+        return tx;
+    }
+    valuaTipos(tipos)
+    {
+        var refe=tipos[tipos.length-1];
+        for(var i=0;i<tipos.length-1;i++)
+        {
+            var otro=tipos[i];
+            if(refe.nombre!=otro.nombre||
+                (refe.indice==otro.indice&&refe.indice==tablaTipos.arreglo&&
+                    refe.tipoArr.nombre!=otro.tipoArr.nombre))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
 

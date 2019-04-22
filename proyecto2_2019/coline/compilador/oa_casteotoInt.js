@@ -35,7 +35,7 @@ class oa_casteotoInt{
             respuesta=new simbolo(tablaTipos.tipo_entero,null);
         }else
         {
-            er.addError("No se puede castear(toInt) un "+val.tipo.nombre,this.linea,this.columna,this.archivo,
+            er.addError("No se puede castear(toInt) un "+val.tipo.getName(),this.linea,this.columna,this.archivo,
             "SEMANTICO");
         }
         return respuesta;

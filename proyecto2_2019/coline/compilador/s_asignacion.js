@@ -38,7 +38,7 @@ class s_asignacion{
         {
             if(!(tablaTipos.AsignValid(a.tipo,b.tipo)))
             {
-                er.addError("Tipos incompatibles: asignacion "+a.tipo.nombre+" = "+b.tipo.nombre,this.linea,this.columna,this.archivo,
+                er.addError("Tipos incompatibles: asignacion "+a.tipo.getName()+" = "+b.tipo.getName(),this.linea,this.columna,this.archivo,
                             "SEMANTICO");
             }
         }
@@ -51,7 +51,13 @@ class s_asignacion{
         {
             tablaTipos.etiquetaToTemp(b,traductor);
         }
-        traductor.imprimir("stack["+a.aux+"]="+b.aux+";");
+        if(a.modificaStack==true)
+        {
+            traductor.imprimir("stack["+a.referencia+"]="+b.aux+";");
+        }else
+        {
+            traductor.imprimir("heap["+a.referencia+"]="+b.aux+";");
+        }
         
     }
 }

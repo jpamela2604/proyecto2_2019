@@ -79,6 +79,7 @@
         
         if(this.ambitoActual.hasItem(simb.getNombre()))
         {
+            
             return this.ambitoActual.getItem(simb.getNombre());
         }
         var respuesta=null;

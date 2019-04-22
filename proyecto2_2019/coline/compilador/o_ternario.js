@@ -51,14 +51,14 @@ class o_ternario{
                     return new simbolo(this.tipo);   
                 }else
                 {
-                    er.addError("Tipos incompatibles: ambos valores de operacion ternaria deben ser del mismo tipo ("+v1.tipo.nombre+"!="+v2.tipo.nombre+")",
+                    er.addError("Tipos incompatibles: ambos valores de operacion ternaria deben ser del mismo tipo ("+v1.tipo.getName()+"!="+v2.tipo.getName()+")",
                 this.linea,this.columna,this.archivo,
             "SEMANTICO");
                 }
             }
         }else
         {
-            er.addError("Tipos incompatibles: La condicion del if ternario debe ser tipo boolean, no "+c.tipo.nombre,
+            er.addError("Tipos incompatibles: La condicion del if ternario debe ser tipo boolean, no "+c.tipo.getName(),
                 this.linea,this.columna,this.archivo,
             "SEMANTICO");
         }

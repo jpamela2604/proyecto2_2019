@@ -7,6 +7,7 @@ class s_acSuper{
         this.columna=columna;
         this.archivo=archivo;
         this.hash=hash;
+        this.IsExp=false;
     }
     comprobacion_global(ts,er)
     {

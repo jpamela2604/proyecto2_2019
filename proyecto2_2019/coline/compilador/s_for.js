@@ -57,7 +57,7 @@ class s_for{
             return;
         }else if(t.tipo.indice!=tablaTipos.booleano)
         {
-            er.addError("Tipos incompatibles: La condicion del if debe ser tipo boolean, no "+t.tipo.nombre,
+            er.addError("Tipos incompatibles: La condicion del if debe ser tipo boolean, no "+t.tipo.getName(),
                 this.linea,this.columna,this.archivo,
             "SEMANTICO");
         }
@@ -66,6 +66,8 @@ class s_for{
             this.sentencias[i].comprobacion(ts,er);
         }
         this.cambio.comprobacion(ts,er);
+        ts.displayBreaks.pop();
+        ts.displayContinue.pop();
         ts.regresarAmbito(false);
     }
     traducir(ts,traductor)
@@ -75,7 +77,7 @@ class s_for{
         var incremento=valores.getEtiqueta();
         var minodo2=new nodoDisplay(incremento);
         ts.displayContinue.push(minodo2);
-        traductor.comentario("SENTENCIA WHILE");
+        traductor.comentario("SENTENCIA FOR");
         this.declaracion.traducir(ts,traductor);
         traductor.imprimir_L(inicio+": //etiqueta de inicio de ciclo");
         var c=this.cond.traducir(ts,traductor);

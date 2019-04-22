@@ -38,7 +38,7 @@ class oa_negativo{
             respuesta = new simbolo(tablaTipos.tipo_doble);   
         }else if(ope==tablaTipos.error)
         {
-            er.addError("Tipos incompatibles: negativo(-) "+o1.tipo.nombre,this.linea,this.columna,this.archivo,
+            er.addError("Tipos incompatibles: negativo(-) "+o1.tipo.getName(),this.linea,this.columna,this.archivo,
             "SEMANTICO");
         }
         return respuesta;

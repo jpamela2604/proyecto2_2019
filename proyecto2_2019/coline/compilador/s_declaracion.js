@@ -202,7 +202,7 @@ class s_declaracion{
                             ts.AgregarSimbolo(simb,this.IsGlobal,mide.linea,mide.columna,mide.archivo);
                         }else
                         {
-                            er.addError("Tipos incompatibles: declaracion "+this.tipo.nombre+" = "+myval.tipo.nombre,this.linea,this.columna,this.archivo,
+                            er.addError("Tipos incompatibles: declaracion "+this.tipo.getName()+" = "+myval.tipo.getName(),this.linea,this.columna,this.archivo,
                             "SEMANTICO");
                         }
                     }

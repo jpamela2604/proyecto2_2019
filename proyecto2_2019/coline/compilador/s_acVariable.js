@@ -55,13 +55,12 @@ class s_acVariable{
             var tx=valores.getTemporal();
             traductor.imprimir(tx+"=p+"+r.posicion+";");
         }
-        if(this.IsExp)
-        {
-            var tw=valores.getTemporal();
-            traductor.imprimir(tw+"=stack["+tx+"];");
-            tx=tw;
-        }
-        return new simbolo(r.tipo,tx);
+        var tw=valores.getTemporal();
+        traductor.imprimir(tw+"=stack["+tx+"];");
+        
+        var retorno=new simbolo(r.tipo,tw);
+        retorno.referencia=tx;
+        return retorno
         
     }
 }

@@ -2,9 +2,6 @@
 const nodoArbol =require("../nodoArbol.js");
 const tablaTipos= require("../tablaTipos.js");
 const simbolo = require("../../mng_ts/simbolo.js");
-const s_llamada=require("./s_llamada.js");
-const s_acVariable=require("./s_acVariable.js");
-const valores = require("../values_manager.js");
 class s_accesos{
     constructor(accesos,hash) 
     {

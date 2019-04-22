@@ -53,15 +53,16 @@ class s_declaracionL{
     }
     traducir(ts,traductor)
     {
+        
        traductor.comentario("DECLARACION");
             var visibilidad=0;
             var modificador=0;
             for(var i=0;i<this.declas.length;i++)
-            {
+            {                
                 var mide=this.declas[i];
                 var posicion=ts.getPosicion(false);
                 var iden=new identificador(mide.id,null);
-                var simb=new simbolo(this.tipo,null,iden,tablaTipos.rol_variable,posicion,
+                var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
                 ts.getAmbito(false),mide.noDimensiones,visibilidad,modificador
                                 );
                 ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
@@ -70,7 +71,7 @@ class s_declaracionL{
                 traductor.imprimir(tx+"=p+"+posicion+";");
                 if(mide.valor==null)
                 {
-                    traductor.imprimir("stack["+tx+"]="+this.getValorDefault()+";");
+                    traductor.imprimir("stack["+tx+"]="+this.getValorDefault(mide.tipo)+";");
 
                 }else
                 {
@@ -85,18 +86,18 @@ class s_declaracionL{
         
     }
 
-    getValorDefault()
+    getValorDefault(tipo)
     {
-        if(this.tipo.indice==tablaTipos.entero)
+        if(tipo.indice==tablaTipos.entero)
         {
             return 0;
-        }else if(this.tipo.indice==tablaTipos.doble)
+        }else if(tipo.indice==tablaTipos.doble)
         {
             return 0.0;
-        }else if(this.tipo.indice==tablaTipos.caracter)
+        }else if(tipo.indice==tablaTipos.caracter)
         {
             return tablaTipos.caracter_nulo;
-        }else if(this.tipo.indice==tablaTipos.booleano)
+        }else if(tipo.indice==tablaTipos.booleano)
         {
             return 0;
         }else
@@ -108,6 +109,7 @@ class s_declaracionL{
 
     testthis(ts,er)
     {
+        //console.log(this.declas);
         if(this.tipo.indice==tablaTipos.vacio)
         {
             er.addError("void no es un tipo de variable permitida",
@@ -118,6 +120,7 @@ class s_declaracionL{
         
         for(var i=0;i<this.declas.length;i++)
         {
+            this.declas[i].setTipo(this.tipo);
             var mide=this.declas[i];
             var visibilidad=0;
             var modificador=0;
@@ -128,7 +131,7 @@ class s_declaracionL{
                 //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador)
                 var posicion=0;//ts.getPosicion(this.IsGlobal);
                 var iden=new identificador(mide.id,null);
-                var simb=new simbolo(this.tipo,null,iden,tablaTipos.rol_variable,posicion,
+                var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
                 ts.getAmbito(false),mide.noDimensiones,visibilidad,modificador
                 );
                 ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
@@ -144,17 +147,19 @@ class s_declaracionL{
                         "SEMANTICO");
                     }else
                     {
-                        if(tablaTipos.AsignValid(this.tipo,myval.tipo))
+                        
+                        if(tablaTipos.AsignValid(mide.tipo,myval.tipo))
                         {
                             var posicion=0;//ts.getPosicion(this.IsGlobal);
                             var iden=new identificador(mide.id,null);
-                            var simb=new simbolo(this.tipo,null,iden,tablaTipos.rol_variable,posicion,
+                            var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
                             ts.getAmbito(false),mide.noDimensiones,visibilidad,modificador
                             );
                             ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
                         }else
                         {
-                            er.addError("Tipos incompatibles: declaracion "+this.tipo.nombre+" = "+myval.tipo.nombre,this.linea,this.columna,this.archivo,
+                            //console.log(myval);
+                            er.addError("Tipos incompatibles: declaracion "+mide.tipo.getName()+" = "+myval.tipo.getName(),this.linea,this.columna,this.archivo,
                             "SEMANTICO");
                         }
                     }

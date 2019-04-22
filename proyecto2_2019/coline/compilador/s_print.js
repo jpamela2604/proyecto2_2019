@@ -38,7 +38,7 @@ class s_print{
         }
         else
         {
-            er.addError("Tipos incompatibles: No se puede imprimir un valor de tipo "+va.tipo.nombre
+            er.addError("Tipos incompatibles: No se puede imprimir un valor de tipo "+va.tipo.getName()
             ,this.linea,this.columna,this.archivo,
             "SEMANTICO");
         }

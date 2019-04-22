@@ -108,7 +108,7 @@ class s_bloque{
                 return;
             }else if(t.tipo.indice!=tablaTipos.booleano)
             {
-                er.addError("Tipos incompatibles: La condicion del if debe ser tipo boolean, no "+t.tipo.nombre,
+                er.addError("Tipos incompatibles: La condicion del if debe ser tipo boolean, no "+t.tipo.getName(),
                 this.linea,this.columna,this.archivo,
             "SEMANTICO");
             }
