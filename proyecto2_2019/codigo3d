@@ -1000,320 +1000,71 @@ void getForEach(){
     L105:
     L103:
 }
+void toCharArray(){
+        stack[p]=h;
+        t384=p+1;
+        t385=stack[t384];
+        t387=p+3;
+        stack[t387]=t385;
+        p=p+2;
+        call stringSize();
+        t386=stack[p];
+        p=p-2;
+        heap[h]=t386;
+        h=h+1;
+    L106:
+        t388=heap[t385];
+        if(t388==557886)goto L107;
+        heap[h]=t388;
+        h=h+1;
+        t385=t385+1;
+        goto L106;
+    L107:
+}
 var p=0;
 var h=0;
 void metojjpsmain_(){
 /*########    DECLARACION    ########*/
-       t384=p+1;
-       t385=h;
-       heap[h]=3;
+       t389=p+1;
+       t390=h;
+       heap[h]=112;
        h=h+1;
-       t386=h;
+       heap[h]=97;
        h=h+1;
+       heap[h]=109;
        h=h+1;
+       heap[h]=101;
        h=h+1;
-       t388=h;
-       heap[h]=2;
+       heap[h]=108;
        h=h+1;
-       t389=h;
-       h=h+1;
-       h=h+1;
-       t391=h;
-       heap[h]=4;
-       h=h+1;
-       heap[h]=100;
-       h=h+1;
-       heap[h]=200;
-       h=h+1;
-       heap[h]=300;
-       h=h+1;
-       heap[h]=400;
-       h=h+1;
-       heap[t389]=t391;
-       t389=t389+1;
-       t392=h;
-       heap[h]=4;
-       h=h+1;
-       heap[h]=500;
-       h=h+1;
-       heap[h]=600;
-       h=h+1;
-       heap[h]=700;
-       h=h+1;
-       heap[h]=800;
-       h=h+1;
-       heap[t389]=t392;
-       t389=t389+1;
-       heap[t386]=t388;
-       t386=t386+1;
-       t393=h;
-       heap[h]=2;
-       h=h+1;
-       t394=h;
-       h=h+1;
-       h=h+1;
-       t396=h;
-       heap[h]=4;
-       h=h+1;
-       heap[h]=900;
-       h=h+1;
-       heap[h]=1000;
-       h=h+1;
-       heap[h]=1100;
-       h=h+1;
-       heap[h]=1200;
-       h=h+1;
-       heap[t394]=t396;
-       t394=t394+1;
-       t397=h;
-       heap[h]=4;
-       h=h+1;
-       heap[h]=1300;
-       h=h+1;
-       heap[h]=1400;
-       h=h+1;
-       heap[h]=1500;
-       h=h+1;
-       heap[h]=1600;
-       h=h+1;
-       heap[t394]=t397;
-       t394=t394+1;
-       heap[t386]=t393;
-       t386=t386+1;
-       t398=h;
-       heap[h]=2;
-       h=h+1;
-       t399=h;
-       h=h+1;
-       h=h+1;
-       t401=h;
-       heap[h]=4;
-       h=h+1;
-       heap[h]=1700;
-       h=h+1;
-       heap[h]=1800;
-       h=h+1;
-       heap[h]=1900;
-       h=h+1;
-       heap[h]=2000;
-       h=h+1;
-       heap[t399]=t401;
-       t399=t399+1;
-       t402=h;
-       heap[h]=4;
-       h=h+1;
-       heap[h]=2100;
-       h=h+1;
-       heap[h]=2200;
-       h=h+1;
-       heap[h]=2300;
-       h=h+1;
-       heap[h]=2400;
-       h=h+1;
-       heap[t399]=t402;
-       t399=t399+1;
-       heap[t386]=t398;
-       t386=t386+1;
-       stack[t384]=t385;
-/*########    SENTENCIA FOREACH    ########*/
-       t403=p+1;
-       t404=stack[t403];
-       t410=p+3;
-       t411=t410+1;
-       stack[t411]=t404;
-       t412=t410+2;
-       stack[t412]=3;
-       p=p+3;
-       call  getSize();
-       t406=stack[p];
-       p=p-3;
-       t405=h;
-       t410=p+3;
-       t411=t410+1;
-       stack[t411]=t404;
-       t412=t410+2;
-       stack[t412]=3;
-       p=p+3;
-       call  getForEach();
-       p=p-3;
-       t413=0;
-   L108: //etiqueta de inicio de ciclo
-       if (t413>=t406) goto L107;
-       t407=t413+t405;
-       t408=heap[t407];
-       t409=p+2;
-       stack[t409]=t408;
-//sentencias
-/*########    SENTENCIA println    ########*/
-       t414=p+2;
-       t415=stack[t414];
-       print("%e",t415);
-       print("%c",10);
-   L109:
-       t413=t413+1;
-       goto L108;
-   L107:
-/*########    SENTENCIA println    ########*/
-       t416=h;
-       heap[h]=45;
-       h=h+1;
-       heap[h]=45;
-       h=h+1;
-       heap[h]=45;
-       h=h+1;
-       heap[h]=45;
-       h=h+1;
-       heap[h]=45;
+       heap[h]=97;
        h=h+1;
        heap[h]=557886;
        h=h+1;
-       t417=p+3;
-       t418=t417+1;
-       stack[t418]=t416;
-       p=p+3;
-       call print_olcp2jjps();
-       p=p-3;
-       print("%c",10);
-/*########    DECLARACION    ########*/
-       t419=p+2;
-       t420=h;
-       heap[h]=3;
-       h=h+1;
-       t421=h;
-       h=h+1;
-       h=h+1;
-       h=h+1;
-       t423=h;
-       heap[h]=2;
-       h=h+1;
-       t424=h;
-       h=h+1;
-       h=h+1;
-       t426=h;
-       heap[h]=4;
-       h=h+1;
-       heap[h]=10;
-       h=h+1;
-       heap[h]=20;
-       h=h+1;
-       heap[h]=30;
-       h=h+1;
-       heap[h]=40;
-       h=h+1;
-       heap[t424]=t426;
-       t424=t424+1;
-       t427=h;
-       heap[h]=2;
-       h=h+1;
-       heap[h]=50;
-       h=h+1;
-       heap[h]=60;
-       h=h+1;
-       heap[t424]=t427;
-       t424=t424+1;
-       heap[t421]=t423;
-       t421=t421+1;
-       t428=h;
-       heap[h]=2;
-       h=h+1;
-       t429=h;
-       h=h+1;
-       h=h+1;
-       t431=h;
-       heap[h]=3;
-       h=h+1;
-       heap[h]=90;
-       h=h+1;
-       heap[h]=100;
-       h=h+1;
-       heap[h]=110;
-       h=h+1;
-       heap[t429]=t431;
-       t429=t429+1;
-       t432=h;
-       heap[h]=4;
-       h=h+1;
-       heap[h]=130;
-       h=h+1;
-       heap[h]=140;
-       h=h+1;
-       heap[h]=150;
-       h=h+1;
-       heap[h]=160;
-       h=h+1;
-       heap[t429]=t432;
-       t429=t429+1;
-       heap[t421]=t428;
-       t421=t421+1;
-       t433=h;
-       heap[h]=2;
-       h=h+1;
-       t434=h;
-       h=h+1;
-       h=h+1;
-       t436=h;
-       heap[h]=1;
-       h=h+1;
-       heap[h]=170;
-       h=h+1;
-       heap[t434]=t436;
-       t434=t434+1;
-       t437=h;
-       heap[h]=5;
-       h=h+1;
-       heap[h]=210;
-       h=h+1;
-       heap[h]=220;
-       h=h+1;
-       heap[h]=230;
-       h=h+1;
-       heap[h]=240;
-       h=h+1;
-       heap[h]=250;
-       h=h+1;
-       heap[t434]=t437;
-       t434=t434+1;
-       heap[t421]=t433;
-       t421=t421+1;
-       stack[t419]=t420;
-/*########    SENTENCIA FOREACH    ########*/
-       t438=p+2;
-       t439=stack[t438];
-       t445=p+4;
-       t446=t445+1;
-       stack[t446]=t439;
-       t447=t445+2;
-       stack[t447]=3;
-       p=p+4;
-       call  getSize();
-       t441=stack[p];
-       p=p-4;
-       t440=h;
-       t445=p+4;
-       t446=t445+1;
-       stack[t446]=t439;
-       t447=t445+2;
-       stack[t447]=3;
-       p=p+4;
-       call  getForEach();
-       p=p-4;
-       t448=0;
-   L111: //etiqueta de inicio de ciclo
-       if (t448>=t441) goto L110;
-       t442=t448+t440;
-       t443=heap[t442];
-       t444=p+3;
-       stack[t444]=t443;
-//sentencias
-/*########    SENTENCIA println    ########*/
-       t449=p+3;
-       t450=stack[t449];
-       print("%e",t450);
-       print("%c",10);
-   L112:
-       t448=t448+1;
-       goto L111;
-   L110:
-   L106:
+       stack[t389]=t390;
+/*########    SENTENCIA LLAMADA    ########*/
+       t391=p+2;
+       stack[t391]=t389;//guardo temporal
+       t391=p+3;
+       stack[t391]=t390;//guardo temporal
+       t392=p+4;//cambio simulado
+       t393=t392+1;
+       t394=p+1;
+       t395=stack[t394];
+       stack[t393]=t395;
+       p=p+4;//cambio real
+       call metojjpshola_String_();
+//valor retorno
+       t396=p+0;
+       t397=stack[t396];
+       p=p-4;//cambio real
+       t391=p+2;
+       t389=stack[t391];//saco temporal
+       t391=p+3;
+       t390=stack[t391];//saco temporal
+   L108:
+}
+void metojjpshola_String_(){
+   L109:
 }
        L1:

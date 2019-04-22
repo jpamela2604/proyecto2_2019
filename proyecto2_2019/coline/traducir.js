@@ -24,6 +24,7 @@ class traducir{
         this.getInitArray();
         this.getSizeArray();
         this.getforEach();
+        this.gettoCharArray();
         this.save("var p=0;\nvar h=0;\n");
         
     }
@@ -385,7 +386,35 @@ class traducir{
         this.save("    "+l0+":\n");
         this.save("}\n");
         
-    }  
+    }
+    
+    gettoCharArray()
+    {
+        var inicio=valores.getEtiqueta();var salida =valores.getEtiqueta();
+        var t1=valores.getTemporal();var t2=valores.getTemporal();var tr=valores.getTemporal();
+        var t3=valores.getTemporal();var t4=valores.getTemporal();
+        this.save("void toCharArray(){\n");
+        this.save("        stack[p]=h;\n");
+        this.save("        "+t1+"=p+1;\n");
+        this.save("        "+t2+"=stack["+t1+"];\n");
+        this.save("        "+t3+"=p+3;\n");
+        this.save("        stack["+t3+"]="+t2+";\n");
+        this.save("        p=p+2;\n");
+        this.save("        call stringSize();\n");
+        this.save("        "+tr+"=stack[p];\n");
+        this.save("        p=p-2;\n");
+        this.save("        heap[h]="+tr+";\n");
+        this.save("        h=h+1;\n");
+        this.save("    "+inicio+":\n");
+        this.save("        "+t4+"=heap["+t2+"];\n");
+        this.save("        if("+t4+"=="+tablaTipos.fin_cadena+")goto "+salida+";\n");
+        this.save("        heap[h]="+t4+";\n");
+        this.save("        h=h+1;\n");
+        this.save("        "+t2+"="+t2+"+1;\n");
+        this.save("        goto "+inicio+";\n");
+        this.save("    "+salida+":\n");
+        this.save("}\n");
+    }
     getStringLength()
     {
         var inicio=valores.getEtiqueta();var salida =valores.getEtiqueta();
