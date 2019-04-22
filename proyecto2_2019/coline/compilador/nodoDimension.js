@@ -16,6 +16,7 @@ class nodoDimension{
         
         if(this.tipo.indice==r.tipo.indice&&this.tipo.nombre==r.tipo.nombre)
         {
+            /*
             if(this.tam.length==r.tam.length)
             {
                 for(var x=0;x<this.tam.length;x++)
@@ -31,6 +32,7 @@ class nodoDimension{
                 r.message="Las dimensiones del arreglo no tienen el mismo tamaño";
                 return false;
             }
+            */
         }else
         {
             

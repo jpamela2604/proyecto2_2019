@@ -103,7 +103,7 @@ class s_for{
         }
         traductor.imprimir_L(incremento+":");
         this.cambio.traducir(ts,traductor);
-        traductor.imprimir("goto "+inicio+";")
+        traductor.imprimir("goto "+inicio+";");
         ts.regresarAmbito(false);
         for(var i=0;i<c.aux.falso.length;i++)
         {

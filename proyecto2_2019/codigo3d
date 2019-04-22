@@ -919,25 +919,106 @@ void getSize(){
         stack[p]=t353;
     L99:
 }
+void getForEach(){
+        t365=p+1;
+        t366=stack[t365];
+        t368=p+2;
+        t369=stack[t368];
+        if(t369==1) goto L100;
+        t370=heap[t366];
+        t371=0;
+    L101:
+        if(t371>=t370) goto L102;
+        t372=t371+t366;
+        t373=t372+1;
+        t374=heap[t373];
+        t375=t369-1;
+        t367=p+3;
+        stack[t367]=t365;
+        t367=p+4;
+        stack[t367]=t366;
+        t367=p+5;
+        stack[t367]=t368;
+        t367=p+6;
+        stack[t367]=t369;
+        t367=p+7;
+        stack[t367]=t370;
+        t367=p+8;
+        stack[t367]=t371;
+        t367=p+9;
+        stack[t367]=t372;
+        t367=p+10;
+        stack[t367]=t373;
+        t367=p+11;
+        stack[t367]=t374;
+        t367=p+12;
+        stack[t367]=t375;
+        t376=p+13;
+        t377=t376+1;
+        stack[t377]=t374;
+        t378=t376+2;
+        stack[t378]=t375;
+        p=p+13;
+        call getForEach();
+        p=p-13;
+        t367=p+3;
+        t365=stack[t367];
+        t367=p+4;
+        t366=stack[t367];
+        t367=p+5;
+        t368=stack[t367];
+        t367=p+6;
+        t369=stack[t367];
+        t367=p+7;
+        t370=stack[t367];
+        t367=p+8;
+        t371=stack[t367];
+        t367=p+9;
+        t372=stack[t367];
+        t367=p+10;
+        t373=stack[t367];
+        t367=p+11;
+        t374=stack[t367];
+        t367=p+12;
+        t375=stack[t367];
+        t371=t371+1;
+        goto L101;
+    L102:
+        goto L103;
+    L100:
+        t379=heap[t366];
+        t380=0;
+    L104:
+        if(t380>=t379) goto L105;
+        t381=t366+t380;
+        t382=t381+1;
+        t383=heap[t382];
+        heap[h]=t383;
+        h=h+1;
+        t380=t380+1;
+        goto L104;
+    L105:
+    L103:
+}
 var p=0;
 var h=0;
 void metojjpsmain_(){
 /*########    DECLARACION    ########*/
-       t365=p+1;
-       t366=h;
+       t384=p+1;
+       t385=h;
        heap[h]=3;
        h=h+1;
-       t367=h;
+       t386=h;
        h=h+1;
        h=h+1;
        h=h+1;
-       t369=h;
+       t388=h;
        heap[h]=2;
        h=h+1;
-       t370=h;
+       t389=h;
        h=h+1;
        h=h+1;
-       t372=h;
+       t391=h;
        heap[h]=4;
        h=h+1;
        heap[h]=100;
@@ -948,9 +1029,9 @@ void metojjpsmain_(){
        h=h+1;
        heap[h]=400;
        h=h+1;
-       heap[t370]=t372;
-       t370=t370+1;
-       t373=h;
+       heap[t389]=t391;
+       t389=t389+1;
+       t392=h;
        heap[h]=4;
        h=h+1;
        heap[h]=500;
@@ -961,17 +1042,17 @@ void metojjpsmain_(){
        h=h+1;
        heap[h]=800;
        h=h+1;
-       heap[t370]=t373;
-       t370=t370+1;
-       heap[t367]=t369;
-       t367=t367+1;
-       t374=h;
+       heap[t389]=t392;
+       t389=t389+1;
+       heap[t386]=t388;
+       t386=t386+1;
+       t393=h;
        heap[h]=2;
        h=h+1;
-       t375=h;
+       t394=h;
        h=h+1;
        h=h+1;
-       t377=h;
+       t396=h;
        heap[h]=4;
        h=h+1;
        heap[h]=900;
@@ -982,9 +1063,9 @@ void metojjpsmain_(){
        h=h+1;
        heap[h]=1200;
        h=h+1;
-       heap[t375]=t377;
-       t375=t375+1;
-       t378=h;
+       heap[t394]=t396;
+       t394=t394+1;
+       t397=h;
        heap[h]=4;
        h=h+1;
        heap[h]=1300;
@@ -995,17 +1076,17 @@ void metojjpsmain_(){
        h=h+1;
        heap[h]=1600;
        h=h+1;
-       heap[t375]=t378;
-       t375=t375+1;
-       heap[t367]=t374;
-       t367=t367+1;
-       t379=h;
+       heap[t394]=t397;
+       t394=t394+1;
+       heap[t386]=t393;
+       t386=t386+1;
+       t398=h;
        heap[h]=2;
        h=h+1;
-       t380=h;
+       t399=h;
        h=h+1;
        h=h+1;
-       t382=h;
+       t401=h;
        heap[h]=4;
        h=h+1;
        heap[h]=1700;
@@ -1016,9 +1097,9 @@ void metojjpsmain_(){
        h=h+1;
        heap[h]=2000;
        h=h+1;
-       heap[t380]=t382;
-       t380=t380+1;
-       t383=h;
+       heap[t399]=t401;
+       t399=t399+1;
+       t402=h;
        heap[h]=4;
        h=h+1;
        heap[h]=2100;
@@ -1029,148 +1110,53 @@ void metojjpsmain_(){
        h=h+1;
        heap[h]=2400;
        h=h+1;
-       heap[t380]=t383;
-       t380=t380+1;
-       heap[t367]=t379;
-       t367=t367+1;
-       stack[t365]=t366;
-/*########    SENTENCIA println    ########*/
-       t384=p+1;//pos arr
-       t385=stack[t384];//referencia al heap
-       t386=heap[t385];
-       if (2>=t386) goto L1;
-       t387=1+2;
-       t388=t385+t387;
-       t389=heap[t388];
-       t390=heap[t389];
-       if (1>=t390) goto L1;
-       t391=1+1;
-       t392=t389+t391;
-       t393=heap[t392];
-       t394=heap[t393];
-       if (3>=t394) goto L1;
-       t395=1+3;
-       t396=t393+t395;
-       t397=heap[t396];
-       print("%e",t397);
-       print("%c",10);
-       t398=p+1;//pos arr
-       t399=stack[t398];//referencia al heap
-       t400=heap[t399];
-       if (2>=t400) goto L1;
-       t401=1+2;
-       t402=t399+t401;
-       t403=heap[t402];
-       t404=heap[t403];
-       if (1>=t404) goto L1;
-       t405=1+1;
-       t406=t403+t405;
-       t407=heap[t406];
+       heap[t399]=t402;
+       t399=t399+1;
+       heap[t386]=t398;
+       t386=t386+1;
+       stack[t384]=t385;
+/*########    SENTENCIA FOREACH    ########*/
+       t403=p+1;
+       t404=stack[t403];
+       t410=p+3;
+       t411=t410+1;
+       stack[t411]=t404;
+       t412=t410+2;
+       stack[t412]=3;
+       p=p+3;
+       call  getSize();
+       t406=stack[p];
+       p=p-3;
+       t405=h;
+       t410=p+3;
+       t411=t410+1;
+       stack[t411]=t404;
+       t412=t410+2;
+       stack[t412]=3;
+       p=p+3;
+       call  getForEach();
+       p=p-3;
+       t413=0;
+   L108: //etiqueta de inicio de ciclo
+       if (t413>=t406) goto L107;
+       t407=t413+t405;
        t408=heap[t407];
-       if (3>=t408) goto L1;
-       t409=1+3;
-       t410=t407+t409;
-       t411=heap[t410];
-       t412=p+1;//pos arr
-       t413=stack[t412];//referencia al heap
-       t414=heap[t413];
-       if (0>=t414) goto L1;
-       t415=1+0;
-       t416=t413+t415;
-       t417=heap[t416];
-       t418=heap[t417];
-       if (0>=t418) goto L1;
-       t419=1+0;
-       t420=t417+t419;
-       t421=heap[t420];
-       t422=heap[t421];
-       if (0>=t422) goto L1;
-       t423=1+0;
-       t424=t421+t423;
-       t425=heap[t424];
-       heap[t410]=t425;
+       t409=p+2;
+       stack[t409]=t408;
+//sentencias
 /*########    SENTENCIA println    ########*/
-       t426=p+1;//pos arr
-       t427=stack[t426];//referencia al heap
-       t428=heap[t427];
-       if (2>=t428) goto L1;
-       t429=1+2;
-       t430=t427+t429;
-       t431=heap[t430];
-       t432=heap[t431];
-       if (1>=t432) goto L1;
-       t433=1+1;
-       t434=t431+t433;
-       t435=heap[t434];
-       t436=heap[t435];
-       if (3>=t436) goto L1;
-       t437=1+3;
-       t438=t435+t437;
-       t439=heap[t438];
-       print("%e",t439);
+       t414=p+2;
+       t415=stack[t414];
+       print("%e",t415);
        print("%c",10);
-/*########    DECLARACION    ########*/
-       t440=p+2;
-       stack[t440]=50;
+   L109:
+       t413=t413+1;
+       goto L108;
+   L107:
 /*########    SENTENCIA println    ########*/
-       t441=p+2;
-       t442=stack[t441];
-       print("%e",t442);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-/*########    post incremento    ########*/
-       t444=p+2;
-       t445=stack[t444];
-       t443=t445+1;
-       stack[t444]=t443;
-       print("%e",t445);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-       t446=p+2;
-       t447=stack[t446];
-       print("%e",t447);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-/*########    pre incremento    ########*/
-       t450=p+2;
-       t451=stack[t450];
-       t449=t451+1;
-       stack[t450]=t449;
-       print("%e",t449);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-       t452=p+2;
-       t453=stack[t452];
-       print("%e",t453);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-/*########    post decremento    ########*/
-       t455=p+2;
-       t456=stack[t455];
-       t454=t456-1;
-       stack[t455]=t454;
-       print("%e",t456);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-       t457=p+2;
-       t458=stack[t457];
-       print("%e",t458);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-/*########    pre decremento    ########*/
-       t461=p+2;
-       t462=stack[t461];
-       t460=t462-1;
-       stack[t461]=t460;
-       print("%e",t460);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-       t463=p+2;
-       t464=stack[t463];
-       print("%e",t464);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-       t465=h;
+       t416=h;
+       heap[h]=45;
+       h=h+1;
        heap[h]=45;
        h=h+1;
        heap[h]=45;
@@ -1181,205 +1167,153 @@ void metojjpsmain_(){
        h=h+1;
        heap[h]=557886;
        h=h+1;
-       t466=p+4;
-       t467=t466+1;
-       stack[t467]=t465;
-       p=p+4;
+       t417=p+3;
+       t418=t417+1;
+       stack[t418]=t416;
+       p=p+3;
        call print_olcp2jjps();
+       p=p-3;
+       print("%c",10);
+/*########    DECLARACION    ########*/
+       t419=p+2;
+       t420=h;
+       heap[h]=3;
+       h=h+1;
+       t421=h;
+       h=h+1;
+       h=h+1;
+       h=h+1;
+       t423=h;
+       heap[h]=2;
+       h=h+1;
+       t424=h;
+       h=h+1;
+       h=h+1;
+       t426=h;
+       heap[h]=4;
+       h=h+1;
+       heap[h]=10;
+       h=h+1;
+       heap[h]=20;
+       h=h+1;
+       heap[h]=30;
+       h=h+1;
+       heap[h]=40;
+       h=h+1;
+       heap[t424]=t426;
+       t424=t424+1;
+       t427=h;
+       heap[h]=2;
+       h=h+1;
+       heap[h]=50;
+       h=h+1;
+       heap[h]=60;
+       h=h+1;
+       heap[t424]=t427;
+       t424=t424+1;
+       heap[t421]=t423;
+       t421=t421+1;
+       t428=h;
+       heap[h]=2;
+       h=h+1;
+       t429=h;
+       h=h+1;
+       h=h+1;
+       t431=h;
+       heap[h]=3;
+       h=h+1;
+       heap[h]=90;
+       h=h+1;
+       heap[h]=100;
+       h=h+1;
+       heap[h]=110;
+       h=h+1;
+       heap[t429]=t431;
+       t429=t429+1;
+       t432=h;
+       heap[h]=4;
+       h=h+1;
+       heap[h]=130;
+       h=h+1;
+       heap[h]=140;
+       h=h+1;
+       heap[h]=150;
+       h=h+1;
+       heap[h]=160;
+       h=h+1;
+       heap[t429]=t432;
+       t429=t429+1;
+       heap[t421]=t428;
+       t421=t421+1;
+       t433=h;
+       heap[h]=2;
+       h=h+1;
+       t434=h;
+       h=h+1;
+       h=h+1;
+       t436=h;
+       heap[h]=1;
+       h=h+1;
+       heap[h]=170;
+       h=h+1;
+       heap[t434]=t436;
+       t434=t434+1;
+       t437=h;
+       heap[h]=5;
+       h=h+1;
+       heap[h]=210;
+       h=h+1;
+       heap[h]=220;
+       h=h+1;
+       heap[h]=230;
+       h=h+1;
+       heap[h]=240;
+       h=h+1;
+       heap[h]=250;
+       h=h+1;
+       heap[t434]=t437;
+       t434=t434+1;
+       heap[t421]=t433;
+       t421=t421+1;
+       stack[t419]=t420;
+/*########    SENTENCIA FOREACH    ########*/
+       t438=p+2;
+       t439=stack[t438];
+       t445=p+4;
+       t446=t445+1;
+       stack[t446]=t439;
+       t447=t445+2;
+       stack[t447]=3;
+       p=p+4;
+       call  getSize();
+       t441=stack[p];
        p=p-4;
-       print("%c",10);
+       t440=h;
+       t445=p+4;
+       t446=t445+1;
+       stack[t446]=t439;
+       t447=t445+2;
+       stack[t447]=3;
+       p=p+4;
+       call  getForEach();
+       p=p-4;
+       t448=0;
+   L111: //etiqueta de inicio de ciclo
+       if (t448>=t441) goto L110;
+       t442=t448+t440;
+       t443=heap[t442];
+       t444=p+3;
+       stack[t444]=t443;
+//sentencias
 /*########    SENTENCIA println    ########*/
-       t468=p+1;//pos arr
-       t469=stack[t468];//referencia al heap
-       t470=heap[t469];
-       if (2>=t470) goto L1;
-       t471=1+2;
-       t472=t469+t471;
-       t473=heap[t472];
-       t474=heap[t473];
-       if (1>=t474) goto L1;
-       t475=1+1;
-       t476=t473+t475;
-       t477=heap[t476];
-       t478=heap[t477];
-       if (3>=t478) goto L1;
-       t479=1+3;
-       t480=t477+t479;
-       t481=heap[t480];
-       print("%e",t481);
+       t449=p+3;
+       t450=stack[t449];
+       print("%e",t450);
        print("%c",10);
-/*########    SENTENCIA println    ########*/
-/*########    post incremento    ########*/
-       t483=p+1;//pos arr
-       t484=stack[t483];//referencia al heap
-       t485=heap[t484];
-       if (2>=t485) goto L1;
-       t486=1+2;
-       t487=t484+t486;
-       t488=heap[t487];
-       t489=heap[t488];
-       if (1>=t489) goto L1;
-       t490=1+1;
-       t491=t488+t490;
-       t492=heap[t491];
-       t493=heap[t492];
-       if (3>=t493) goto L1;
-       t494=1+3;
-       t495=t492+t494;
-       t496=heap[t495];
-       t482=t496+1;
-       heap[t495]=t482;
-       print("%e",t496);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-       t497=p+1;//pos arr
-       t498=stack[t497];//referencia al heap
-       t499=heap[t498];
-       if (2>=t499) goto L1;
-       t500=1+2;
-       t501=t498+t500;
-       t502=heap[t501];
-       t503=heap[t502];
-       if (1>=t503) goto L1;
-       t504=1+1;
-       t505=t502+t504;
-       t506=heap[t505];
-       t507=heap[t506];
-       if (3>=t507) goto L1;
-       t508=1+3;
-       t509=t506+t508;
-       t510=heap[t509];
-       print("%e",t510);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-/*########    pre incremento    ########*/
-       t513=p+1;//pos arr
-       t514=stack[t513];//referencia al heap
-       t515=heap[t514];
-       if (2>=t515) goto L1;
-       t516=1+2;
-       t517=t514+t516;
-       t518=heap[t517];
-       t519=heap[t518];
-       if (1>=t519) goto L1;
-       t520=1+1;
-       t521=t518+t520;
-       t522=heap[t521];
-       t523=heap[t522];
-       if (3>=t523) goto L1;
-       t524=1+3;
-       t525=t522+t524;
-       t526=heap[t525];
-       t512=t526+1;
-       heap[t525]=t512;
-       print("%e",t512);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-       t527=p+1;//pos arr
-       t528=stack[t527];//referencia al heap
-       t529=heap[t528];
-       if (2>=t529) goto L1;
-       t530=1+2;
-       t531=t528+t530;
-       t532=heap[t531];
-       t533=heap[t532];
-       if (1>=t533) goto L1;
-       t534=1+1;
-       t535=t532+t534;
-       t536=heap[t535];
-       t537=heap[t536];
-       if (3>=t537) goto L1;
-       t538=1+3;
-       t539=t536+t538;
-       t540=heap[t539];
-       print("%e",t540);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-/*########    post decremento    ########*/
-       t542=p+1;//pos arr
-       t543=stack[t542];//referencia al heap
-       t544=heap[t543];
-       if (2>=t544) goto L1;
-       t545=1+2;
-       t546=t543+t545;
-       t547=heap[t546];
-       t548=heap[t547];
-       if (1>=t548) goto L1;
-       t549=1+1;
-       t550=t547+t549;
-       t551=heap[t550];
-       t552=heap[t551];
-       if (3>=t552) goto L1;
-       t553=1+3;
-       t554=t551+t553;
-       t555=heap[t554];
-       t541=t555-1;
-       heap[t554]=t541;
-       print("%e",t555);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-       t556=p+1;//pos arr
-       t557=stack[t556];//referencia al heap
-       t558=heap[t557];
-       if (2>=t558) goto L1;
-       t559=1+2;
-       t560=t557+t559;
-       t561=heap[t560];
-       t562=heap[t561];
-       if (1>=t562) goto L1;
-       t563=1+1;
-       t564=t561+t563;
-       t565=heap[t564];
-       t566=heap[t565];
-       if (3>=t566) goto L1;
-       t567=1+3;
-       t568=t565+t567;
-       t569=heap[t568];
-       print("%e",t569);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-/*########    pre decremento    ########*/
-       t572=p+1;//pos arr
-       t573=stack[t572];//referencia al heap
-       t574=heap[t573];
-       if (2>=t574) goto L1;
-       t575=1+2;
-       t576=t573+t575;
-       t577=heap[t576];
-       t578=heap[t577];
-       if (1>=t578) goto L1;
-       t579=1+1;
-       t580=t577+t579;
-       t581=heap[t580];
-       t582=heap[t581];
-       if (3>=t582) goto L1;
-       t583=1+3;
-       t584=t581+t583;
-       t585=heap[t584];
-       t571=t585-1;
-       heap[t584]=t571;
-       print("%e",t571);
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-       t586=p+1;//pos arr
-       t587=stack[t586];//referencia al heap
-       t588=heap[t587];
-       if (2>=t588) goto L1;
-       t589=1+2;
-       t590=t587+t589;
-       t591=heap[t590];
-       t592=heap[t591];
-       if (1>=t592) goto L1;
-       t593=1+1;
-       t594=t591+t593;
-       t595=heap[t594];
-       t596=heap[t595];
-       if (3>=t596) goto L1;
-       t597=1+3;
-       t598=t595+t597;
-       t599=heap[t598];
-       print("%e",t599);
-       print("%c",10);
-   L100:
+   L112:
+       t448=t448+1;
+       goto L111;
+   L110:
+   L106:
 }
        L1:

@@ -4,30 +4,17 @@ class miclas
 	{
 		
 		int arr[][][]={{{100,200,300,400},{500,600,700,800}},{{900,1000,1100,1200},{1300,1400,1500,1600}},{{1700,1800,1900,2000},{2100,2200,2300,2400}}};
-		println(arr[2][1][3]);
-		arr[2][1][3]=arr[0][0][0];
-		println(arr[2][1][3]);
-		//int arr[][]=new int [2][4];
-		int hola=50;
-		println(hola);
-		println(hola++);
-		println(hola);
-		println(++hola);
-		println(hola);
-		println(hola--);
-		println(hola);
-		println(--hola);
-		println(hola);
-		println("----");
-		println(arr[2][1][3]);
-		println(arr[2][1][3]++);
-		println(arr[2][1][3]);
-		println(++arr[2][1][3]);
-		println(arr[2][1][3]);
-		println(arr[2][1][3]--);
-		println(arr[2][1][3]);
-		println(--arr[2][1][3]);
-		println(arr[2][1][3]);
+		
+		for(int i:arr)
+		{
+			println(i);
+		}
+		println("-----");
+		int arr2[][][]={{{10,20,30,40},{50,60}},{{90,100,110},{130,140,150,160}},{{170},{210,220,230,240,250}}};	
+		for(int i:arr2)
+		{
+			println(i);
+		}
 	}
 
 }

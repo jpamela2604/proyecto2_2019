@@ -119,7 +119,7 @@ class ejecucion{
     }
     save(cad)
     {
-        //fs.appendFileSync("debuggin.txt",cad);
+        fs.appendFileSync("debuggin.txt",cad);
     }
 
 }

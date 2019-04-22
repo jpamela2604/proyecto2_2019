@@ -23,6 +23,7 @@ class traducir{
         this.getStringLength();
         this.getInitArray();
         this.getSizeArray();
+        this.getforEach();
         this.save("var p=0;\nvar h=0;\n");
         
     }
@@ -63,6 +64,107 @@ class traducir{
         var c="/*########    "+cadena+"    ########*/"+"\n";
         this.save(c);
         //console.log(c);
+    }
+    getforEach()
+    {
+        var t1=valores.getTemporal();var t2=valores.getTemporal();var ta=valores.getTemporal();
+        var t3=valores.getTemporal();var t4=valores.getTemporal();
+        var t5=valores.getTemporal();var t6=valores.getTemporal();
+        var t7=valores.getTemporal();var t8=valores.getTemporal();
+        var t9=valores.getTemporal();var t10=valores.getTemporal();
+        var t11=valores.getTemporal();var t12=valores.getTemporal();
+        var t13=valores.getTemporal();var t14=valores.getTemporal();
+        var t15=valores.getTemporal();var t16=valores.getTemporal();
+        var t17=valores.getTemporal();var t18=valores.getTemporal();
+        var l1=valores.getEtiqueta();var l2=valores.getEtiqueta();
+        var l3=valores.getEtiqueta();var l0=valores.getEtiqueta();var l4=valores.getEtiqueta();
+        var l5=valores.getEtiqueta();
+        this.save("void getForEach(){\n");
+        this.save("        "+t1+"=p+1;\n");
+        this.save("        "+t2+"=stack["+t1+"];\n");
+        this.save("        "+t3+"=p+2;\n");
+        this.save("        "+t4+"=stack["+t3+"];\n");
+        this.save("        if("+t4+"==1) goto "+l1+";\n");
+        this.save("        "+t5+"=heap["+t2+"];\n");
+        this.save("        "+t6+"=0;\n");
+        this.save("    "+l2+":\n");
+        this.save("        if("+t6+">="+t5+") goto "+l3+";\n");
+        this.save("        "+t7+"="+t6+"+"+t2+";\n");
+        this.save("        "+t8+"="+t7+"+1;\n");
+        this.save("        "+t9+"=heap["+t8+"];\n");
+        this.save("        "+t10+"="+t4+"-1;\n");
+        
+        this.save("        "+ta+"=p+3;\n");        
+        this.save("        stack["+ta+"]="+t1+";\n");
+        this.save("        "+ta+"=p+4;\n");        
+        this.save("        stack["+ta+"]="+t2+";\n");
+        this.save("        "+ta+"=p+5;\n");        
+        this.save("        stack["+ta+"]="+t3+";\n");
+        this.save("        "+ta+"=p+6;\n");        
+        this.save("        stack["+ta+"]="+t4+";\n");
+        this.save("        "+ta+"=p+7;\n");        
+        this.save("        stack["+ta+"]="+t5+";\n");
+        this.save("        "+ta+"=p+8;\n");        
+        this.save("        stack["+ta+"]="+t6+";\n");
+        this.save("        "+ta+"=p+9;\n");        
+        this.save("        stack["+ta+"]="+t7+";\n");
+        this.save("        "+ta+"=p+10;\n");        
+        this.save("        stack["+ta+"]="+t8+";\n");
+        this.save("        "+ta+"=p+11;\n");        
+        this.save("        stack["+ta+"]="+t9+";\n");
+        this.save("        "+ta+"=p+12;\n");        
+        this.save("        stack["+ta+"]="+t10+";\n");
+
+        this.save("        "+t11+"=p+13;\n");
+        this.save("        "+t12+"="+t11+"+1;\n");
+        this.save("        stack["+t12+"]="+t9+";\n");
+        this.save("        "+t13+"="+t11+"+2;\n");
+        this.save("        stack["+t13+"]="+t10+";\n");
+        this.save("        p=p+13;\n");
+        this.save("        call getForEach();\n");
+        this.save("        p=p-13;\n");
+
+        this.save("        "+ta+"=p+3;\n");
+        this.save("        "+t1+"=stack["+ta+"];\n");
+        this.save("        "+ta+"=p+4;\n");
+        this.save("        "+t2+"=stack["+ta+"];\n");
+        this.save("        "+ta+"=p+5;\n");
+        this.save("        "+t3+"=stack["+ta+"];\n");
+        this.save("        "+ta+"=p+6;\n");
+        this.save("        "+t4+"=stack["+ta+"];\n");
+        this.save("        "+ta+"=p+7;\n");
+        this.save("        "+t5+"=stack["+ta+"];\n");
+        this.save("        "+ta+"=p+8;\n");
+        this.save("        "+t6+"=stack["+ta+"];\n");
+        this.save("        "+ta+"=p+9;\n");
+        this.save("        "+t7+"=stack["+ta+"];\n");
+        this.save("        "+ta+"=p+10;\n");
+        this.save("        "+t8+"=stack["+ta+"];\n");
+        this.save("        "+ta+"=p+11;\n");
+        this.save("        "+t9+"=stack["+ta+"];\n");
+        this.save("        "+ta+"=p+12;\n");
+        this.save("        "+t10+"=stack["+ta+"];\n");
+
+        this.save("        "+t6+"="+t6+"+1;\n");
+        this.save("        goto "+l2+";\n");
+        this.save("    "+l3+":\n");
+        this.save("        goto "+l0+";\n");
+        this.save("    "+l1+":\n");
+
+        this.save("        "+t14+"=heap["+t2+"];\n");
+        this.save("        "+t15+"=0;\n");
+        this.save("    "+l4+":\n");
+        this.save("        if("+t15+">="+t14+") goto "+l5+";\n");
+        this.save("        "+t16+"="+t2+"+"+t15+";\n");
+        this.save("        "+t17+"="+t16+"+1;\n");
+        this.save("        "+t18+"=heap["+t17+"];\n");
+        this.save("        heap[h]="+t18+";\n");
+        this.save("        h=h+1;\n");
+        this.save("        "+t15+"="+t15+"+1;\n");
+        this.save("        goto "+l4+";\n");
+        this.save("    "+l5+":\n");
+        this.save("    "+l0+":\n");
+        this.save("}\n");
     }
     getSizeArray()
     {

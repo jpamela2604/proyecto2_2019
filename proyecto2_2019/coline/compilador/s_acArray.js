@@ -72,12 +72,12 @@ class s_acArray{
             //console.log(r.tipo);
         }else
         {
-            var nuevo=new nodoTipo(tablaTipos.arreglo,"",r.tipo);
+            var nuevo=new nodoTipo(tablaTipos.arreglo,"",r.tipo.tipoArr);
             nuevo.dimen=nuevasdim;
             this.elsimb=new simbolo(nuevo);           
         }
         this.c=r;
-       
+        //console.log(this.elsimb.tipo);
         return this.elsimb;
     }
     traducir(ts,traductor)
