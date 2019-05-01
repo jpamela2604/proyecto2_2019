@@ -61,6 +61,9 @@ function getMod(m)
 //rol
 const rol_variable=300;
 const rol_metodo=301;
+const rol_constructor=302;
+const rol_main=303;
+const rol_this=304;
 
 function getTipoObjeto(nombre)
 {
@@ -126,10 +129,13 @@ function AsignValid(tipo1,tipo2)
     {
         return AsignValid(tipo1.tipoArr,tipo2.tipoArr)&&tipo1.dimen==tipo2.dimen;
     }
-    else if(tipo1.indice==objeto&&tipo1.indice==tipo2.indice
-        &&!(tipo1.nombre==tipo2.nombre))
+    else if(tipo1.indice==objeto&&tipo1.indice==tipo2.indice)
     {
-        bandera=false;
+        if(tipo1.nombre==tipo2.nombre)
+        {
+            return true;
+        }
+        return false;
     }else if(tipo1.indice>6||tipo2.indice>6)
     {
         bandera=false;
@@ -200,6 +206,9 @@ module.exports.objeto=objeto;
 module.exports.getTipoObjeto=getTipoObjeto;
 module.exports.rol_variable=rol_variable;
 module.exports.rol_metodo=rol_metodo;
+module.exports.rol_constructor=rol_constructor;
+module.exports.rol_main=rol_main;
+module.exports.rol_this=rol_this;
 module.exports.caracter_nulo=caracter_nulo;
 module.exports.allow=allow;
 module.exports.casteo=casteo;

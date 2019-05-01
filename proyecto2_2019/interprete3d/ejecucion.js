@@ -4,6 +4,7 @@ const fs = require('fs');
 class ejecucion{
     constructor() 
     {
+        fs.writeFileSync("./debuggin.txt", "");
         this.cadena="";
         this.temporales = new HashTable();
         this.funciones = new HashTable();

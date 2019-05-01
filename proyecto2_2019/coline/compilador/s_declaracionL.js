@@ -65,8 +65,10 @@ class s_declaracionL{
                 var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
                 ts.getAmbito(false),mide.noDimensiones,visibilidad,modificador
                                 );
+               
                 ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
                 ts.AumentarPos(false);
+                
                 var tx=valores.getTemporal();
                 traductor.imprimir(tx+"=p+"+posicion+";");
                 if(mide.valor==null)
@@ -76,6 +78,7 @@ class s_declaracionL{
                 }else
                 {
                     var val=mide.valor. traducir(ts,traductor);
+                    simb.vars=val.vars;
                     if(val.tipo.indice==tablaTipos.booleano)
                     {
                         tablaTipos.etiquetaToTemp(val,traductor);
@@ -109,6 +112,17 @@ class s_declaracionL{
 
     testthis(ts,er)
     {
+        //comprobar que el tipo sea valido
+        if(this.tipo.indice==tablaTipos.objeto)
+        {
+            //console.log(this.tipo);
+            if(!ts.ispermitido(this.tipo.nombre))
+            {
+                er.addError("No se encontro la clase "+this.tipo.nombre,this.linea,this.columna,this.archivo,
+                "SEMANTICO");
+                return ;
+            }
+        }
         //console.log(this.declas);
         if(this.tipo.indice==tablaTipos.vacio)
         {
@@ -155,7 +169,9 @@ class s_declaracionL{
                             var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
                             ts.getAmbito(false),mide.noDimensiones,visibilidad,modificador
                             );
+                            simb.vars=myval.vars;
                             ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
+
                         }else
                         {
                             //console.log(myval);

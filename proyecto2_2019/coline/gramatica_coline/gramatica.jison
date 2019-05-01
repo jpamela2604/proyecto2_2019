@@ -152,6 +152,7 @@ cmulti						"/*" [^*]* "*/"
         const s_acVariable=require("../compilador/s_acVariable.js");
         const caso=require("../compilador/caso.js");
         const parametro=require("../../mng_ts/parametro.js");
+        const nodoTipo=require("../../mng_ts/nodoTipo.js");
         const s_metodo=require("../compilador/s_metodo.js");
         const s_llamada=require("../compilador/s_llamada.js");
         const s_acArray=require("../compilador/s_acArray.js");
@@ -367,37 +368,49 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                 | TIPO er_id para parc MYDIM llava L llavc
                 {
                     vari.hash++;
-                    $$=new s_metodo(new Array(),$1,$2,new Array(),$5,$7,false
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$1);
+                    nuevo.dimen=$5;
+                    $$=new s_metodo(new Array(),nuevo,$2,new Array(),$5,$7,false
                     ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 | TIPO er_id para parc MYDIM llava llavc
                 {
                     vari.hash++;
-                    $$=new s_metodo(new Array(),$1,$2,new Array(),$5,new Array(),false
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$1);
+                    nuevo.dimen=$5;
+                    $$=new s_metodo(new Array(),nuevo,$2,new Array(),$5,new Array(),false
                     ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 | TIPO er_id para parc MYDIM ptocoma
                 {
                     vari.hash++;
-                    $$=new s_metodo(new Array(),$1,$2,new Array(),$5,null,true
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$1);
+                    nuevo.dimen=$5;
+                    $$=new s_metodo(new Array(),nuevo,$2,new Array(),$5,null,true
                     ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 | TIPO er_id para PARAMS parc MYDIM llava L llavc
                 {
                     vari.hash++;
-                    $$=new s_metodo(new Array(),$1,$2,$4,$6,$8,false
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$1);
+                    nuevo.dimen=$6;
+                    $$=new s_metodo(new Array(),nuevo,$2,$4,$6,$8,false
                     ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 | TIPO er_id para PARAMS parc MYDIM llava llavc
                 {
                     vari.hash++;
-                    $$=new s_metodo(new Array(),$1,$2,$4,$6,new Array(),false
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$1);
+                    nuevo.dimen=$6;
+                    $$=new s_metodo(new Array(),nuevo,$2,$4,$6,new Array(),false
                     ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
                 | TIPO er_id para PARAMS parc MYDIM ptocoma      
                 {
                     vari.hash++;
-                    $$=new s_metodo(new Array(),$1,$2,$4,$6,null,true
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$1);
+                    nuevo.dimen=$6;
+                    $$=new s_metodo(new Array(),nuevo,$2,$4,$6,null,true
                     ,@2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }           
                 | MODSCAMPO TIPO er_id para parc llava L llavc
@@ -439,37 +452,49 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                 | MODSCAMPO TIPO er_id para parc MYDIM llava L llavc
                 {
                     vari.hash++;
-                    $$=new s_metodo($1,$2,$3,new Array(),$6,$8,false
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$2);
+                    nuevo.dimen=$6;
+                    $$=new s_metodo($1,nuevo,$3,new Array(),$6,$8,false
                     ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }
                 | MODSCAMPO TIPO er_id para parc MYDIM llava llavc
                 {
                     vari.hash++;
-                    $$=new s_metodo($1,$2,$3,new Array(),$6,new Array(),false
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$2);
+                    nuevo.dimen=$6;
+                    $$=new s_metodo($1,nuevo,$3,new Array(),$6,new Array(),false
                     ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }
                 | MODSCAMPO TIPO er_id para parc MYDIM ptocoma
                 {
                     vari.hash++;
-                    $$=new s_metodo($1,$2,$3,new Array(),$6,null,true
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$2);
+                    nuevo.dimen=$6;
+                    $$=new s_metodo($1,nuevo,$3,new Array(),$6,null,true
                     ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }
                 | MODSCAMPO TIPO er_id para PARAMS parc MYDIM llava L llavc
                 {
                     vari.hash++;
-                    $$=new s_metodo($1,$2,$3,$5,$7,$9,false
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$2);
+                    nuevo.dimen=$7;
+                    $$=new s_metodo($1,nuevo,$3,$5,$7,$9,false
                     ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }
                 | MODSCAMPO TIPO er_id para PARAMS parc MYDIM llava llavc
                 {
                     vari.hash++;
-                    $$=new s_metodo($1,$2,$3,$5,$7,new Array(),false
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$2);
+                    nuevo.dimen=$7;
+                    $$=new s_metodo($1,nuevo,$3,$5,$7,new Array(),false
                     ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }
                 | MODSCAMPO TIPO er_id para PARAMS parc MYDIM ptocoma //fin de metodos
                 {
                     vari.hash++;
-                    $$=new s_metodo($1,$2,$3,$5,$7,null,true
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$2);
+                    nuevo.dimen=$7;
+                    $$=new s_metodo($1,nuevo,$3,$5,$7,null,true
                     ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
                 } 
                 //SOBRE ESCRITURA
@@ -500,25 +525,33 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                 | sobre_ TIPO er_id para parc MYDIM llava L llavc
                 {
                     vari.hash++;
-                    $$=new s_metodoOver(new Array(),$2,$3,new Array(),$6,$8
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$2);
+                    nuevo.dimen=$6;
+                    $$=new s_metodoOver(new Array(),nuevo,$3,new Array(),$6,$8
                     ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }
                 | sobre_ TIPO er_id para parc MYDIM llava llavc
                 {
                     vari.hash++;
-                    $$=new s_metodoOver(new Array(),$2,$3,new Array(),$6,new Array()
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$2);
+                    nuevo.dimen=$6;
+                    $$=new s_metodoOver(new Array(),nuevo,$3,new Array(),$6,new Array()
                     ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }
                 | sobre_ TIPO er_id para PARAMS parc MYDIM llava L llavc
                 {
                     vari.hash++;
-                    $$=new s_metodoOver(new Array(),$2,$3,$5,$7,$9
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$2);
+                    nuevo.dimen=$7;
+                    $$=new s_metodoOver(new Array(),nuevo,$3,$5,$7,$9
                     ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }
                 | sobre_ TIPO er_id para PARAMS parc MYDIM llava llavc
                 {
                     vari.hash++;
-                    $$=new s_metodoOver(new Array(),$2,$3,$5,$7,new Array()
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$2);
+                    nuevo.dimen=$7;
+                    $$=new s_metodoOver(new Array(),nuevo,$3,$5,$7,new Array()
                    ,@3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }              
                 | sobre_ MODSCAMPO TIPO er_id para parc llava L llavc
@@ -548,25 +581,33 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                 | sobre_ MODSCAMPO TIPO er_id para parc MYDIM llava L llavc
                 {
                     vari.hash++;
-                    $$=new s_metodoOver($2,$3,$4,new Array(),$7,$9
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$3);
+                    nuevo.dimen=$7;
+                    $$=new s_metodoOver($2,nuevo,$4,new Array(),$7,$9
                     ,@4.first_line,@4.first_column,vari.archivo,vari.hash);
                 }
                 | sobre_ MODSCAMPO TIPO er_id para parc MYDIM llava llavc
                 {
                     vari.hash++;
-                    $$=new s_metodoOver($2,$3,$4,new Array(),$7,new Array()
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$3);
+                    nuevo.dimen=$7;
+                    $$=new s_metodoOver($2,nuevo,$4,new Array(),$7,new Array()
                     ,@4.first_line,@4.first_column,vari.archivo,vari.hash);
                 }
                 | sobre_ MODSCAMPO TIPO er_id para PARAMS parc MYDIM llava L llavc
                 {
                     vari.hash++;
-                    $$=new s_metodoOver($2,$3,$4,$6,$8,$10
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$3);
+                    nuevo.dimen=$8;
+                    $$=new s_metodoOver($2,nuevo,$4,$6,$8,$10
                     ,@4.first_line,@4.first_column,vari.archivo,vari.hash);
                 }
                 | sobre_ MODSCAMPO TIPO er_id para PARAMS parc MYDIM llava llavc //fin de metodos
                 {
                     vari.hash++;
-                    $$=new s_metodoOver($2,$3,$4,$6,$8,new Array()
+                    var nuevo=new nodoTipo(tablaTipos.arreglo,"",$3);
+                    nuevo.dimen=$8;
+                    $$=new s_metodoOver($2,nuevo,$4,$6,$8,new Array()
                     ,@4.first_line,@4.first_column,vari.archivo,vari.hash);
                 } 
                 //CONSTRUCTORES
@@ -619,7 +660,7 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                     ,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 //DECLARACION DE CAMPOS
-                | TIPO er_id is INICIALIZA 
+                | TIPO er_id is INICIALIZA ptocoma
                 {
                     //id,noDimensiones,valor,linea,columna,archivo,hash
                     vari.hash++;
@@ -631,7 +672,7 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                     $$=new s_declaracionG(new Array(),$1,lista,
                     @2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
-                | TIPO er_id 
+                | TIPO er_id  ptocoma
                 {
                     //id,noDimensiones,valor,linea,columna,archivo,hash
                     vari.hash++;
@@ -643,7 +684,7 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                     $$=new s_declaracionG(new Array(),$1,lista,
                     @2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
-                | TIPO er_id MYDIM is INICIALIZA 
+                | TIPO er_id MYDIM is INICIALIZA  ptocoma
                 {
                     //id,noDimensiones,valor,linea,columna,archivo,hash
                     vari.hash++;
@@ -655,7 +696,7 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                     $$=new s_declaracionG(new Array(),$1,lista,
                     @2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
-                | TIPO er_id MYDIM
+                | TIPO er_id MYDIM ptocoma
                 {
                     //id,noDimensiones,valor,linea,columna,archivo,hash
                     vari.hash++;
@@ -667,7 +708,7 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                     $$=new s_declaracionG(new Array(),$1,lista,
                     @2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
-                | TIPO er_id is INICIALIZA coma LDEC
+                | TIPO er_id is INICIALIZA coma LDEC ptocoma
                 {
                     //id,noDimensiones,valor,linea,columna,archivo,hash
                     vari.hash++;
@@ -683,7 +724,7 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                     $$=new s_declaracionG(new Array(),$1,lista,
                     @2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
-                | TIPO er_id coma LDEC
+                | TIPO er_id coma LDEC ptocoma
                 {
                     //id,noDimensiones,valor,linea,columna,archivo,hash
                     vari.hash++;
@@ -699,7 +740,7 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                     $$=new s_declaracionG(new Array(),$1,lista,
                     @2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
-                | TIPO er_id MYDIM is INICIALIZA coma LDEC
+                | TIPO er_id MYDIM is INICIALIZA coma LDEC ptocoma
                 {
                     //id,noDimensiones,valor,linea,columna,archivo,hash
                     vari.hash++;
@@ -715,7 +756,7 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                     $$=new s_declaracionG(new Array(),$1,lista,
                     @2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
-                | TIPO er_id MYDIM coma LDEC
+                | TIPO er_id MYDIM coma LDEC ptocoma
                 {
                     //id,noDimensiones,valor,linea,columna,archivo,hash
                     vari.hash++;
@@ -731,7 +772,7 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                     $$=new s_declaracionG(new Array(),$1,lista,
                     @2.first_line,@2.first_column,vari.archivo,vari.hash);
                 }
-                | MODSCAMPO TIPO er_id is INICIALIZA 
+                | MODSCAMPO TIPO er_id is INICIALIZA  ptocoma
                 {
                     //id,noDimensiones,valor,linea,columna,archivo,hash
                     vari.hash++;
@@ -743,7 +784,7 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                     $$=new s_declaracionG($1,$2,lista,
                     @3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }
-                | MODSCAMPO TIPO er_id 
+                | MODSCAMPO TIPO er_id  ptocoma
                 {
                     //id,noDimensiones,valor,linea,columna,archivo,hash
                     vari.hash++;
@@ -755,7 +796,7 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                     $$=new s_declaracionG($1,$2,lista,
                     @3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }
-                | MODSCAMPO TIPO er_id MYDIM is INICIALIZA 
+                | MODSCAMPO TIPO er_id MYDIM is INICIALIZA  ptocoma
                 {
                     //id,noDimensiones,valor,linea,columna,archivo,hash
                     vari.hash++;
@@ -767,7 +808,7 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                     $$=new s_declaracionG($1,$2,lista,
                     @3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }
-                | MODSCAMPO TIPO er_id MYDIM
+                | MODSCAMPO TIPO er_id MYDIM ptocoma
                 {
                     //id,noDimensiones,valor,linea,columna,archivo,hash
                     vari.hash++;
@@ -779,7 +820,7 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                     $$=new s_declaracionG($1,$2,lista,
                     @3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }
-                | MODSCAMPO TIPO er_id is INICIALIZA coma LDEC
+                | MODSCAMPO TIPO er_id is INICIALIZA coma LDEC ptocoma
                 {
                     //id,noDimensiones,valor,linea,columna,archivo,hash
                     vari.hash++;
@@ -795,7 +836,7 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                     $$=new s_declaracionG($1,$2,lista,
                     @3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }
-                | MODSCAMPO TIPO er_id coma LDEC
+                | MODSCAMPO TIPO er_id coma LDEC ptocoma
                 {
                     //id,noDimensiones,valor,linea,columna,archivo,hash
                     vari.hash++;
@@ -811,7 +852,7 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                     $$=new s_declaracionG($1,$2,lista,
                     @3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }
-                | MODSCAMPO TIPO er_id MYDIM is INICIALIZA coma LDEC
+                | MODSCAMPO TIPO er_id MYDIM is INICIALIZA coma LDEC ptocoma
                 {
                     //id,noDimensiones,valor,linea,columna,archivo,hash
                     vari.hash++;
@@ -827,7 +868,7 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                     $$=new s_declaracionG($1,$2,lista,
                     @3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }
-                | MODSCAMPO TIPO er_id MYDIM coma LDEC
+                | MODSCAMPO TIPO er_id MYDIM coma LDEC ptocoma
                 {
                     //id,noDimensiones,valor,linea,columna,archivo,hash
                     vari.hash++;
@@ -844,13 +885,13 @@ DECLAGLOBAL     : TIPO er_id para parc llava L llavc
                     @3.first_line,@3.first_column,vari.archivo,vari.hash);
                 }
                 //LinkedList
-                | ll menor TIPO mayor er_id
+                | ll menor TIPO mayor er_id ptocoma
                 {
                     vari.hash++;
                     $$=new s_declararLinkedList(true,$3,$5,null,
                     @1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
-                | ll menor TIPO mayor er_id is INICIALIZA
+                | ll menor TIPO mayor er_id is INICIALIZA ptocoma
                 {
                     vari.hash++;
                     $$=new s_declararLinkedList(true,$3,$5,$7,
@@ -2431,7 +2472,7 @@ S_CON           : continue_
                     $$=new s_continue(@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
-S_RETORNO       : return_ COND
+S_RETORNO       : return_ INICIALIZA
                 {
                     vari.hash++;
                     $$=new s_retorno($2,@1.first_line,@1.first_column,vari.archivo,vari.hash);

@@ -15,6 +15,7 @@ class s_foreach{
         this.columna=columna;
         this.archivo=archivo;
         this.hash=hash;
+        this.vars=null;
     }
     comprobacion_global(ts,er)
     {
@@ -43,8 +44,29 @@ class s_foreach{
              "SEMANTICO");
              return;
          }
+         //el tipo del parametro sea permitido
+         //comprobar que el tipo sea valido
+        if(this.parametro.tipo.indice==tablaTipos.objeto)
+        {
+            //console.log(this.tipo);
+            if(!ts.ispermitido(this.parametro.tipo.nombre))
+            {
+                er.addError("No se encontro la clase "+this.parametro.tipo.nombre,this.linea,this.columna,this.archivo,
+                "SEMANTICO");
+                return ;
+            }
+        }
+        //console.log(this.declas);
+        if(this.parametro.tipo.indice==tablaTipos.vacio)
+        {
+            er.addError("void no es un tipo de variable permitida",
+                this.linea,this.columna,this.archivo,
+            "SEMANTICO");
+            return;
+        }
          //variable 1 tenga el mismlo tipo que los de la lista
-        
+         
+
          if(!tablaTipos.AsignValid(l.tipo.tipoArr,this.parametro.tipo))
          {
              er.addError("Tipos incompatibles(foreach):"+l.tipo.getName()+" y "+this.parametro.tipo.getName(),this.linea,this.columna,this.archivo,
@@ -52,6 +74,7 @@ class s_foreach{
              return;
          }
          //crear el ambito
+
          var minodo=new nodoDisplay("c");
          ts.displayBreaks.push(minodo);
          ts.displayContinue.push(minodo);
@@ -64,8 +87,14 @@ class s_foreach{
          var simb=new simbolo(this.parametro.tipo,null,iden,tablaTipos.rol_variable,posicion,
             ts.getAmbito(false),this.parametro.noDimensiones,visibilidad,modificador
             );
+        if(this.parametro.tipo.indice==tablaTipos.objeto)
+        {
+            simb.vars=ts.getpermitido(this.parametro.tipo.nombre);
+            this.vars=simb.vars;
+        }
             ts.AgregarSimbolo(simb,false,this.parametro.linea,this.parametro.columna,this.parametro.archivo);
-         //ejecutar sentencias
+        
+            //ejecutar sentencias
          for(var i=0;i<this.sentencias.length;i++)
          {
              this.sentencias[i].comprobacion(ts,er);
@@ -126,6 +155,7 @@ class s_foreach{
         var simb=new simbolo(this.parametro.tipo,null,iden,tablaTipos.rol_variable,posicion,
         ts.getAmbito(false),this.parametro.noDimensiones,visibilidad,modificador
             );
+        simb.vars=this.vars;
         ts.AgregarSimbolo(simb,false,this.parametro.linea,this.parametro.columna,this.parametro.archivo);
         ts.AumentarPos(false);
         traductor.imprimir(pos+"="+i+"+"+miap+";");

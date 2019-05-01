@@ -55,6 +55,9 @@ class s_arreglo_hojas{
         traductor.imprimir(tx+"=h;");
         traductor.imprimir("heap[h]="+this.valores.length+";");
         traductor.imprimir("h=h+1;");
+        var t=valores.getTemporal();
+        traductor.imprimir(t+"=h;");
+        traductor.imprimir("h=h+"+this.valores.length+";");
         for(var x=0;x<this.valores.length;x++)
         {
             var v=this.valores[x].traducir(ts,traductor);
@@ -62,8 +65,9 @@ class s_arreglo_hojas{
             {
                 etiquetaToTemp(v);
             }
-            traductor.imprimir("heap[h]="+v.aux+";");
-            traductor.imprimir("h=h+1;");
+            var j=valores.getTemporal();
+            traductor.imprimir(j+"="+t+"+"+x+";");
+            traductor.imprimir("heap["+j+"]="+v.aux+";");
         }
 
         return tx;

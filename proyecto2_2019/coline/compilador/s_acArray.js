@@ -5,6 +5,7 @@ const nodoTipo=require("../../mng_ts/nodoTipo.js");
 const valores = require("../values_manager.js");
 var simbolo = require("../../mng_ts/simbolo.js");
 const identificador=require("../../mng_ts/identificador.js");
+const s_acVariable=require("./s_acVariable");
 class s_acArray{
     constructor(id,linea,columna,archivo,hash) 
     {
@@ -16,7 +17,8 @@ class s_acArray{
         this.hash=hash;
         this.IsExp=false;
         this.elsimb=null;
-        this.c=null;
+        //this.c=null;
+        this.acva=new s_acVariable(id,linea,columna,archivo,hash);
     }
     comprobacion_global(ts,er)
     {
@@ -34,15 +36,15 @@ class s_acArray{
     {
         var respuesta=new simbolo(tablaTipos.tipo_error);
         //compruebo que exista el id
-        var iden=new identificador(this.id,null);
-        var simb=new simbolo(null,null,iden,tablaTipos.rol_variable);
         
-        var r=ts.BuscarSimbolo(simb,this.linea,this.columna,this.archivo);
-        if(r==null)
+        var r=this.acva.comprobacion(ts,er);
+        if(r.tipo.indice==tablaTipos.error)
         {
             return respuesta;
         }
-        
+        /*console.log("-----");
+       console.log(r);
+       console.log("-----");*/
         //compruebo que todo sea entero
         for(var x=0;x<this.dimensiones.length;x++)
         {
@@ -76,8 +78,9 @@ class s_acArray{
             nuevo.dimen=nuevasdim;
             this.elsimb=new simbolo(nuevo);           
         }
-        this.c=r;
-        //console.log(this.elsimb.tipo);
+        //this.c=r;
+        this.elsimb.vars=r.vars;
+        //console.log(this.elsimb);
         return this.elsimb;
     }
     traducir(ts,traductor)
@@ -85,11 +88,14 @@ class s_acArray{
         //obtener la posicion del arreglo
         var iden=new identificador(this.id,null);
         var simb=new simbolo(null,null,iden,tablaTipos.rol_variable);
+        /*
         this.c=ts.BuscarSimbolo(simb,this.linea,this.columna,this.archivo);
         var t1=valores.getTemporal();var t2=valores.getTemporal();
         traductor.imprimir(t1+"=p+"+this.c.posicion+";//pos arr");
         traductor.imprimir(t2+"=stack["+t1+"];//referencia al heap");
-        var ant=t2;
+        */
+       var r=this.acva.traducir(ts,traductor)
+        var ant=r.aux;
         var re="";
         for(var x=0;x<this.dimensiones.length;x++)
         {
@@ -107,6 +113,7 @@ class s_acArray{
         this.elsimb.aux=ant;
         this.elsimb.referencia=re;
         this.elsimb.modificaStack=false;
+       //console.log(r);
         return this.elsimb;
     }
 

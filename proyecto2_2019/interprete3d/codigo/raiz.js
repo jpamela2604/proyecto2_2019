@@ -17,8 +17,9 @@ class raiz{
     }
     ejecutar(exec,er)
     {    
-        exec.sp=exec.getMetodo("metojjpsmain_");
-        exec.stacksp.push(this.globales.length);        
+        exec.sp=0;
+        //exec.sp=exec.getMetodo("main");
+        //exec.stacksp.push(this.globales.length);        
         
         while(exec.sp<this.globales.length)
         {

@@ -31,7 +31,16 @@ class nuevoArreglo{
     {
         var respuesta=new simbolo(tablaTipos.tipo_error);
         //comprobar que sea un tipo permitido
-
+        if(this.tipo.indice==tablaTipos.objeto)
+        {
+            if(!ts.ispermitido(this.tipo.nombre))
+            {
+                er.addError("No se encontro la clase "+this.tipo.nombre,this.linea,this.columna,this.archivo,
+                "SEMANTICO");
+                return respuesta;
+            }
+        }
+       
         //comprobar que todo lo de las dimensiones sea de tipo entero
         for(var x=0;x<this.dimensiones.length;x++)
         {

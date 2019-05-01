@@ -33,6 +33,7 @@ class s_arregloV{
         {
            // console.log(tipo);
             var nuevo=new nodoTipo(tablaTipos.arreglo,"",tipo);
+            
             nuevo.dimen=tipo.dimension;
             nuevo.tam=new Array();
             for(var x=0;x<tipo.tam.length;x++)
@@ -44,6 +45,14 @@ class s_arregloV{
             nuevo.tipoArr=tipo.tipo;
            // console.log(nuevo);
            this.elsimb=new simbolo(nuevo);
+            //console.log(tipo);
+           //console.log(tipo.indice+"="+tablaTipos.objeto);
+           if(tipo.tipo.indice==tablaTipos.objeto)
+           {
+            
+                this.elsimb.vars=ts.getpermitido(tipo.tipo.nombre);
+                
+            }
             return this.elsimb;
         }
 

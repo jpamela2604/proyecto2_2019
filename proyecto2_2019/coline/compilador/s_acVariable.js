@@ -31,12 +31,13 @@ class s_acVariable{
     comprobacion(ts,er)
     {
         var respuesta=new simbolo(tablaTipos.tipo_error);
-        //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador)
+        //tipo,aux,id,rol,p osicion,ambito,dimensiones,visibilidad,modificador)
         var iden=new identificador(this.id,null);
         var simb=new simbolo(null,null,iden,tablaTipos.rol_variable);
         var r=ts.BuscarSimbolo(simb,this.linea,this.columna,this.archivo);
         if(r!=null)
         {
+            
             return r;
         }
 
@@ -49,17 +50,42 @@ class s_acVariable{
         var simb=new simbolo(null,null,iden,tablaTipos.rol_variable);
         var r=ts.BuscarSimbolo(simb,this.linea,this.columna,this.archivo);
         //console.log(r);
+        //console.log(r);
         var tx=r.posicion;
-        if(!(r.IsGlobal()))
+        var tw="";
+        var bandera=true;
+        if((r.IsGlobal())) 
+        {       
+            var tp=valores.getTemporal();var ty=valores.getTemporal();tx=valores.getTemporal();
+            if(ts.head==null)
+            {
+                traductor.imprimir(tp+"=p+1;//posicion del this");
+                traductor.imprimir(ty+"=stack["+tp+"];//obtengo posicion del this");
+            }else
+            {
+                ty=ts.head.aux;
+            }
+            traductor.imprimir(tx+"="+ty+"+"+r.posicion+";//ref");
+            bandera=false;
+        }else
         {
-            var tx=valores.getTemporal();
-            traductor.imprimir(tx+"=p+"+r.posicion+";");
+            tx=valores.getTemporal();
+            traductor.imprimir(tx+"=p+"+r.posicion+";//ref");
         }
-        var tw=valores.getTemporal();
-        traductor.imprimir(tw+"=stack["+tx+"];");
+            tw=valores.getTemporal();
+            if(bandera)
+            {
+                traductor.imprimir(tw+"=stack["+tx+"];//valor");
+            }else
+            {
+                traductor.imprimir(tw+"=heap["+tx+"];//valor");
+            }
+            
         
         var retorno=new simbolo(r.tipo,tw);
         retorno.referencia=tx;
+        retorno.vars=r.vars;
+        retorno.modificaStack=bandera;
         return retorno
         
     }

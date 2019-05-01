@@ -21,24 +21,18 @@ class s_declaracionG{
     }
     traduccion_global(ts,traductor)
     {
-         traductor.comentario("DECLARACION");
+         traductor.comentario("DECLARACION GLOBAL");
             var visibilidad=0;
             var modificador=0;
             for(var i=0;i<this.declas.length;i++)
             {
-                var mide=this.declas[i];
-                var posicion=ts.getPosicion(true);
-                var iden=new identificador(mide.id,null);
-                var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
-                ts.getAmbito(true),mide.noDimensiones,visibilidad,modificador
-                                );
-                ts.AgregarSimbolo(simb,true,mide.linea,mide.columna,mide.archivo);
-                ts.AumentarPos(true);
-                //var tx=valores.getTemporal();
-                //traductor.imprimir(tx+"=p+"+posicion+";");
+                var mide=this.declas[i];     
+                var tx=valores.getTemporal();var ty=valores.getTemporal();
+                traductor.imprimir(ty+"=stack[p];");
+                traductor.imprimir(tx+"="+ty+"+"+mide.posicion+";");
                 if(mide.valor==null)
                 {
-                    traductor.imprimir("stack[p]="+this.getValorDefault(mide.id)+";");
+                    traductor.imprimir("heap["+tx+"]="+this.getValorDefault(mide.id)+";");
 
                 }else
                 {
@@ -47,9 +41,10 @@ class s_declaracionG{
                     {
                         tablaTipos.etiquetaToTemp(val,traductor);
                     }
-                    traductor.imprimir("stack[p]="+val.aux+";");
+                    traductor.imprimir("heap["+tx+"]="+val.aux+";");
                 }
-                traductor.imprimir("p=p+1;");
+                //traductor.imprimir("h=h+1;");
+                //console.log("variable: "+mide.id+" |posicion:"+mide.posicion);
             }
         
     }
@@ -114,6 +109,16 @@ class s_declaracionG{
 
     testthis(ts,er)
     {
+        if(this.tipo.indice==tablaTipos.objeto)
+        {
+            //console.log(this.tipo);
+            if(!ts.ispermitido(this.tipo.nombre))
+            {
+                er.addError("No se encontro la clase "+this.tipo.nombre,this.linea,this.columna,this.archivo,
+                "SEMANTICO");
+                return ;
+            }
+        }
         if(this.tipo.indice==tablaTipos.vacio)
         {
             er.addError("void no es un tipo de variable permitida",
@@ -133,12 +138,17 @@ class s_declaracionG{
             {
                 //si se puede declarar
                 //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador)
-                var posicion=0;//ts.getPosicion(this.IsGlobal);
+                var posicion=ts.getPosicion(true)+1;//ts.getPosicion(this.IsGlobal);
+
+                mide.posicion=posicion;
                 var iden=new identificador(mide.id,null);
                 var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
                 ts.getAmbito(true),mide.noDimensiones,visibilidad,modificador
                 );
                 ts.AgregarSimbolo(simb,true,mide.linea,mide.columna,mide.archivo);
+                
+                ts.AumentarPos(true);
+                
             }else
             {
                 var myval=mide.valor.comprobacion(ts,er);
@@ -155,12 +165,16 @@ class s_declaracionG{
                         
                         if(tablaTipos.AsignValid(mide.tipo,myval.tipo))
                         {
-                            var posicion=0;//ts.getPosicion(this.IsGlobal);
+                            var posicion=ts.getPosicion(true)+1;//ts.getPosicion(this.IsGlobal);
+                            mide.posicion=posicion;
                             var iden=new identificador(mide.id,null);
                             var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
-                            ts.getAmbito(true),mide.noDimensiones,visibilidad,modificador
+                            
+                                ts.getAmbito(true),mide.noDimensiones,visibilidad,modificador
                             );
+                            simb.vars=myval.vars;
                             ts.AgregarSimbolo(simb,true,mide.linea,mide.columna,mide.archivo);
+                            ts.AumentarPos(true);
                         }else
                         {
                             er.addError("Tipos incompatibles: declaracion "+mide.tipo.getName()+" = "+myval.tipo.getName(),this.linea,this.columna,this.archivo,
@@ -169,6 +183,9 @@ class s_declaracionG{
                     }
                 }
             }
+            //console.log("p "+ts.getPosicion(true));
+            //console.log("variable: "+mide.id+" |posicion:"+mide.posicion);
+            
         }
 
     }

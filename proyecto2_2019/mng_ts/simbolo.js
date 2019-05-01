@@ -15,6 +15,12 @@ class simbolo{
         this.modificador=modificador;
         this.referencia=null;
         this.modificaStack=true;
+        if(this.id!=undefined){
+        this.firma=this.getNombre();}
+        this.IsStatic=false;
+        this.IsFinal=false;
+        this.IsAbstract=false;
+        this.vars=null;
     }
     IsGlobal()
     {
@@ -26,7 +32,18 @@ class simbolo{
     }
     getNombre()
     {
-        var aux =this.rol==tablaTipos.rol_metodo?"metojjps":"";
+        var aux="";
+        if(this.rol==tablaTipos.rol_variable)
+        {
+            aux="v";
+        }
+        else if(this.rol==tablaTipos.rol_metodo)
+        {
+            aux="m";
+        }else if(this.rol==tablaTipos.rol_constructor)
+        {
+            aux="c";
+        }
         return aux+this.id.getNombre();
     }
 

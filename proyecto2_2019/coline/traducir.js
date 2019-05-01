@@ -5,6 +5,8 @@ class traducir{
     constructor()
     {
         this.init();
+        this.in=valores.getEtiqueta();
+        this.imprimir_L("goto "+this.in+";");
         this.salida=valores.getEtiqueta();
         this.getcmpstringequal();
         this.getpotencia();
@@ -468,7 +470,7 @@ class traducir{
         var tx=valores.getTemporal();var ty=valores.getTemporal();var tw=valores.getTemporal();
         var inicio=valores.getEtiqueta();var salida =valores.getEtiqueta(); /*var lv=valores.getEtiqueta();*/
         var lf=valores.getEtiqueta();var sif=valores.getEtiqueta();
-        this.save("void toUpper(){\n");
+        this.save("void toLower(){\n");
         this.save("        stack[p]=h;\n");
         this.save("        "+tx+"=p+1;\n");
         this.save("        "+ty+"=stack["+tx+"];\n");

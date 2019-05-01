@@ -15,7 +15,7 @@ class s_metodo{
         this.id=id;
         this.sentencias=sentencias;
         this.parametros=parametros;
-        this.modificadores=modificadores;
+        this.mods=modificadores;
         this.tipo=tipo;
         this.noDimensiones=noDimensiones;
         this.linea=linea; 
@@ -24,22 +24,171 @@ class s_metodo{
         this.hash=hash;
         this.iden=null;
         this.sim=null;
+        this.IsStatic=false;
+        this.visibilidad="publico";
+        this.IsFinal=false;
+        //this.IsAbstract=false;
     }
     comprobacion_global(ts,er)
-    {
-        var visibilidad=0;
-        var modificador=0;
-        this.iden =new identificador(this.id,this.parametros);
-         //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador)
-         var simb=new simbolo(this.tipo,null,this.iden,tablaTipos.rol_metodo,-1,
-            ts.getAmbito(true),this.noDimensiones,visibilidad,modificador
+    {   var auxil=null;
+        if(this.tipo.indice==tablaTipos.objeto)
+        {
+           // console.log(this.tipo);
+            if(!ts.ispermitido(this.tipo.nombre))
+            {
+                er.addError("No se encontro la clase "+this.tipo.nombre,this.linea,this.columna,this.archivo,
+                "SEMANTICO");
+                return ;
+            }else
+            {
+                auxil=ts.getpermitido(this.tipo.nombre);
+            }
+        }else if(this.tipo.indice==tablaTipos.arreglo)
+        {
+            if(this.tipo.tipoArr.indice==tablaTipos.objeto)
+            {
+                if(!ts.ispermitido(this.tipo.tipoArr.nombre))
+                {
+                    er.addError("No se encontro la clase "+this.tipo.tipoArr.nombre,this.linea,this.columna,this.archivo,
+                    "SEMANTICO");
+                    return ;
+                }else
+                {
+                    auxil=ts.getpermitido(this.tipo.tipoArr.nombre);
+                }
+            }
+        }
+
+        if(this.testMethod(ts,er))
+        {
+            this.iden =new identificador(this.id,this.parametros);
+            //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador)
+            var simb=new simbolo(this.tipo,null,this.iden,tablaTipos.rol_metodo,-1,
+            ts.getAmbito(true),this.noDimensiones,this.visibilidad,null
             );
-        ts.AgregarSimbolo(simb,true,this.linea,this.columna,this.archivo);
-        this.sim=simb;
+            simb.IsStatic=this.IsStatic;
+            simb.IsFinal=this.IsFinal;
+            simb.IsAbstract=this.isAbstract;
+            simb.vars=auxil;
+
+            this.sim=simb;
+            ts.AgregarSimbolo(simb,true,this.linea,this.columna,this.archivo);
+         
+        }
     }
     traduccion_global(ts,traductor)
     {
         
+    }
+    
+    comprobacion(ts,er)
+    {
+        
+        //guardar una pseudo etiqueta de salida
+        var minodo=new nodoDisplay("c",this.tipo);
+        //guardar en el display para encontrar el return etiqueta,tipo        
+        ts.displayRetornos.push(minodo);
+        //cambiar de ambito
+        ts.cambiarAmbito(true);
+        //declarar el return
+        var identif=new identificador("return",null);
+        var posicion=ts.getPosicion(false);
+        var simb=new simbolo(this.tipo,null,identif,tablaTipos.rol_variable,posicion,
+        ts.getAmbito(false),this.noDimensiones,"publico");
+        ts.AgregarSimbolo(simb,false,this.linea,this.columna,this.archivo);
+        ts.AumentarPos(false);
+        //declarar el this
+        var ti=tablaTipos.getTipoObjeto(ts.claseActual.nombre);
+        identif=new identificador("this",null);
+        posicion=ts.getPosicion(false);
+        simb=new simbolo(ti,null,identif,tablaTipos.rol_variable,posicion,
+            ts.getAmbito(false),0,"publico");
+            ts.AgregarSimbolo(simb,false,this.linea,this.columna,this.archivo);
+            ts.AumentarPos(false);
+        simb.vars=ts.getpermitido(ts.claseActual.nombre);
+        //declarar los parametros        
+        for(var y=0;y<this.parametros.length;y++)
+        {
+            var mide=this.parametros[y];
+            var posicion=ts.getPosicion(false);
+            var iden=new identificador(mide.nombre,null);
+            //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador
+            var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
+            ts.getAmbito(false),mide.noDimensiones,"publico");
+            ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
+            ts.AumentarPos(false);
+        }
+
+        
+        //ejecutar sentencias
+        for(var j=0;j<this.sentencias.length;j++)
+        {
+            this.sentencias[j].comprobacion(ts,er);
+        }
+        //regresar de ambito
+        ts.regresarAmbito(true);
+        //sacar la etiqueta de salida        
+        //comprobar que si necesitaba un retorno si venga
+        if(!(ts.displayRetornos.pop().vino)&&this.tipo.indice!=tablaTipos.vacio)
+        {
+            er.addError("Falta return",this.linea,this.columna,this.archivo,
+            "SEMANTICO");
+        }
+
+    }
+    traducir(ts,traductor)
+    {
+       
+        if(!this.isAbstract)
+        {
+            valores.iniciarLista();
+            traductor.imprimirHead("void "+this.sim.firma.substring(1,this.sim.firma.length-1)+"(){");            
+            //cambiar ambito
+            ts.cambiarAmbito(true);
+            //declarar el retorno
+            var iden=new identificador("return",null);
+            var posicion=ts.getPosicion(false);
+            var simb=new simbolo(this.tipo,null,iden,tablaTipos.rol_variable,posicion,
+            ts.getAmbito(false),this.noDimensiones,this.visibilidad);
+            ts.AgregarSimbolo(simb,false,this.linea,this.columna,this.archivo);
+            ts.AumentarPos(false);
+            //declarar el this
+            var ti=tablaTipos.getTipoObjeto(ts.claseActual.nombre);
+            var identif=new identificador("this",null);
+            posicion=ts.getPosicion(false);
+            var simb=new simbolo(ti,null,identif,tablaTipos.rol_variable,posicion,
+                ts.getAmbito(false),0,"publico");
+                ts.AgregarSimbolo(simb,false,this.linea,this.columna,this.archivo);
+                ts.AumentarPos(false);
+            simb.vars=ts.getpermitido(ts.claseActual.nombre);
+            //declarar los parametros
+            for(var y=0;y<this.parametros.length;y++)
+            {
+                var mide=this.parametros[y];
+                var posicion=ts.getPosicion(false);
+                var iden=new identificador(mide.nombre,null);
+                //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador
+                var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
+                ts.getAmbito(false),mide.noDimensiones,"publico");
+                ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
+                ts.AumentarPos(false);
+            }
+            //generar la etiqueta de salida
+            var salida=valores.getEtiqueta();
+            //guardarla en el display
+            var minodo2=new nodoDisplay(salida);
+            ts.displayRetornos.push(minodo2);
+            //console.log(this.sentencias);
+            for(var x=0;x<this.sentencias.length;x++)
+            {
+                this.sentencias[x].traducir(ts,traductor);
+            }
+            //regresar ambito
+            ts.regresarAmbito(true);
+            //escribir la etiqueta de salida
+            traductor.imprimir_L(ts.displayRetornos.pop().etiqueta+":");
+            traductor.imprimirHead("}");
+        }
     }
     getTree()
     {
@@ -81,104 +230,53 @@ class s_metodo{
         raiz.agregarHijo(sent);
         return raiz;
     }
-    comprobacion(ts,er)
-    {
-        
-        //guardar una pseudo etiqueta de salida
-        var minodo=new nodoDisplay("c",this.tipo);
-        //guardar en el display para encontrar el return etiqueta,tipo        
-        ts.displayRetornos.push(minodo);
-        //cambiar de ambito
-        ts.cambiarAmbito(true);
-        var visibilidad=0;
-        var modificador=0;
-        //declarar el return
-        var identif=new identificador("return",null);
-        var posicion=ts.getPosicion(false);
-        var simb=new simbolo(this.tipo,null,identif,tablaTipos.rol_variable,posicion,
-        ts.getAmbito(false),this.noDimensiones,visibilidad,modificador
-                                );
-        ts.AgregarSimbolo(simb,false,this.linea,this.columna,this.archivo);
-        ts.AumentarPos(false);
-        //declarar los parametros        
-        for(var y=0;y<this.parametros.length;y++)
+    testMethod(ts,er)
+    {   var n1=0;var n2=0;var n3=0; var n4=0;
+        for(var x=0;x<this.mods.length;x++)
         {
-            var mide=this.parametros[y];
-            var posicion=ts.getPosicion(false);
-            var iden=new identificador(mide.nombre,null);
-            //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador
-            var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
-            ts.getAmbito(false),mide.noDimensiones,visibilidad,modificador
-                                );
-            ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
-            ts.AumentarPos(false);
+            if(this.mods[x]==tablaTipos.estatico)
+            {
+                this.IsStatic=true;  n1++;
+            }else if(this.mods[x]==tablaTipos.abstracto)
+            {
+                this.IsAbstract=true; n4++;
+                
+            }else if(this.mods[x]==tablaTipos.ffinal)
+            {
+                this.IsFinal=true; n3++;
+            }else if(this.mods[x]==tablaTipos.publico)
+            {
+                this.visibilidad="public";  n2++;
+            }else if(this.mods[x]==tablaTipos.protegido)
+            {
+                this.visibilidad="protected";  n2++;
+            }else if(this.mods[x]==tablaTipos.privado)
+            {
+                this.visibilidad="private";  n2++;
+            }
         }
-
-        
-        //ejecutar sentencias
-        for(var j=0;j<this.sentencias.length;j++)
+        if(n1>1)
         {
-            this.sentencias[j].comprobacion(ts,er);
-        }
-        //regresar de ambito
-        ts.regresarAmbito(true);
-        //sacar la etiqueta de salida        
-        //comprobar que si necesitaba un retorno si venga
-        if(!(ts.displayRetornos.pop().vino)&&this.tipo.indice!=tablaTipos.vacio)
+            er.addError("(method)Modificador static repetido",this.linea,this.columna,this.archivo,
+            "SEMANTICO");
+        }else if(n2>1)
         {
-            er.addError("Falta return",this.linea,this.columna,this.archivo,
+            er.addError("(method)Modificador de visibilidad repetido",this.linea,this.columna,this.archivo,
+            "SEMANTICO");
+        }else if(n3>1)
+        {
+            er.addError("(method)Modificador final repetido",this.linea,this.columna,this.archivo,
+            "SEMANTICO");
+        }else if(n4>1)
+        {
+            er.addError("(method)Modificador abstract repetido",this.linea,this.columna,this.archivo,
             "SEMANTICO");
         }
-
-    }
-    traducir(ts,traductor)
-    {
-       
-        if(!this.isAbstract)
+        else
         {
-            valores.iniciarLista();
-            traductor.imprimirHead("void "+this.sim.getNombre()+"(){");            
-            //cambiar ambito
-            ts.cambiarAmbito(true);
-            //declarar el retorno
-            var visibilidad=0;
-            var modificador=0;
-            var iden=new identificador("return",null);
-            var posicion=ts.getPosicion(this.IsGlobal);
-            var simb=new simbolo(this.tipo,null,iden,tablaTipos.rol_variable,posicion,
-            ts.getAmbito(false),this.noDimensiones,visibilidad,modificador
-                                );
-            ts.AgregarSimbolo(simb,false,this.linea,this.columna,this.archivo);
-            ts.AumentarPos(false);
-            //declarar los parametros
-            for(var y=0;y<this.parametros.length;y++)
-            {
-                var mide=this.parametros[y];
-                var posicion=ts.getPosicion(false);
-                var iden=new identificador(mide.nombre,null);
-                //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador
-                var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
-                ts.getAmbito(false),mide.noDimensiones,visibilidad,modificador
-                                    );
-                ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
-                ts.AumentarPos(false);
-            }
-            //generar la etiqueta de salida
-            var salida=valores.getEtiqueta();
-            //guardarla en el display
-            var minodo2=new nodoDisplay(salida);
-            ts.displayRetornos.push(minodo2);
-            //console.log(this.sentencias);
-            for(var x=0;x<this.sentencias.length;x++)
-            {
-                this.sentencias[x].traducir(ts,traductor);
-            }
-            //regresar ambito
-            ts.regresarAmbito(true);
-            //escribir la etiqueta de salida
-            traductor.imprimir_L(ts.displayRetornos.pop().etiqueta+":");
-            traductor.imprimirHead("}");
+            return true;
         }
+        return false;
     }
 }
 

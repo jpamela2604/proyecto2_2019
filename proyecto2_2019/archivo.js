@@ -41,6 +41,8 @@ if(err.size()==0)
 {
     raiz.traduccion_global(tabla,trad);
     raiz.traducir(tabla,trad);   
+    trad.imprimir(trad.in+":");
+    trad.imprimir("call main();")
     trad.imprimir(trad.salida+":");
     //trad.imprimir("call metojjpsmain_();");
 }

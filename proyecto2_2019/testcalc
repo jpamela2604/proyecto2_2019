@@ -1,28 +1,54 @@
 class miclas
 {
+	int d=555;
+	String mc="xxxx";
+	
 	void main()
 	{
-		/*
-		int arr[][][]={{{100,200,300,400},{500,600,700,800}},{{900,1000,1100,1200},{1300,1400,1500,1600}},{{1700,1800,1900,2000},{2100,2200,2300,2400}}};
-		
-		for(int i:arr)
+		miclas vart=new miclas(111,"BBBB");
+		miclas hh[][]=vart.testarro();
+		println("---");
+		//println(hh[1][1].d);
+		for(miclas v:hh)
 		{
-			println(i);
+			println(v.mc);
 		}
-		println("-----");
-		int arr2[][][]={{{10,20,30,40},{50,60}},{{90,100,110},{130,140,150,160}},{{170},{210,220,230,240,250}}};	
-		for(int i:arr2)
-		{
-			println(i);
-		}
-		*/
-		String a="pamela";
-		hola(a);
-	}
-
-	void hola(String a)
+	} 
+	public void m1(int p[])
 	{
-
+		println("hola "+p[2]);
 	}
-
+	public miclas testarro()[][]
+	{
+			//miclas p[][]=
+		return {{new miclas(1026,"inicio"),new miclas(1005,"p"),new miclas(1010,"a"),new miclas(1015,"m")},{new miclas(1020,"palacios"),new miclas(1025,"sales")}};
+	}
+	public int as2()[][]
+	{
+		return {{21,22,23,24},{31,32,33,34,35}};
+	}
+	public miclas regreso()
+	{
+		return this;
+	}
+	
+	public miclas(int dd,String c)
+	{
+		//int d=8;
+		this.d=dd;
+		//ar[3]=ar[3]+dd;
+		mc=c;
+		//println(d);
+	}
+	
+	public void test()
+	{
+		println(d);
+		//println(ar[3]);
+		//test2();
+	}
+	public void test2()
+	{
+		//println(mc);
+	}
 }

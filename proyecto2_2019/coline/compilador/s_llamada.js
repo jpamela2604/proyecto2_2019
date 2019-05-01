@@ -5,7 +5,7 @@ var simbolo = require("../../mng_ts/simbolo.js");
 const parametro = require("../../mng_ts/parametro.js");
 const valores = require("../values_manager.js");
 var identificador=require("../../mng_ts/identificador.js");
-const vari = require("../../var");
+const vari = require("../../var"); 
 class s_llamada{
     constructor(id,params,linea,columna,archivo,hash) 
     {
@@ -69,10 +69,12 @@ class s_llamada{
         this.iden=new identificador(this.id,misparams);
         var simb=new simbolo(null,null,this.iden,tablaTipos.rol_metodo);
         var r=ts.BuscarSimbolo(simb,this.linea,this.columna,this.archivo);
-       
+        
         if(r!=null)
         {
             this.sim=r;
+            this.sim.vars=r.vars;
+           
             return r;
         }
         return respuesta;
@@ -101,18 +103,39 @@ class s_llamada{
         //cambio simulado
         var tsim="";
         var tactual=ts.getTamActual()-1;
-        if(this.params.length>0)
+
+        ts.posicion++;
+        tsim=valores.getTemporal();
+        traductor.imprimir(tsim+"=p+"+tactual+";//cambio simulado");
+        // envio el this o el apuntador q se necesita
+        ts.posicion++;
+        var w=valores.getTemporal();
+        traductor.imprimir(w+"="+tsim+"+"+(1)+";");
+        var a="";
+        if(ts.head==null)
         {
-            ts.posicion++;
-            tsim=valores.getTemporal();
-            traductor.imprimir(tsim+"=p+"+tactual+";//cambio simulado");
+            //obtengo el this
+            var aux=ts.head;
+            ts.head=null;
+            var idena=new identificador("this",null);
+            var simb=new simbolo(null,null,idena,tablaTipos.rol_variable);
+            var ret=ts.BuscarSimbolo(simb,this.linea,this.columna,this.archivo);
+            var tp=valores.getTemporal();var ty=valores.getTemporal();
+            traductor.imprimir(tp+"=p+"+ret.posicion+";//posicion del this");
+            traductor.imprimir(ty+"=stack["+tp+"];//obtengo posicion del this");
+            ts.head=aux;
+            a=ty;
+        }else
+        {
+            a=ts.head.aux;
         }
+        traductor.imprimir("stack["+w+"]="+a+";")
         //paso de parametros
         for(var i=0;i<this.params.length;i++)
         {
             ts.posicion++;
             var tw=valores.getTemporal();
-            traductor.imprimir(tw+"="+tsim+"+"+(i+1)+";");
+            traductor.imprimir(tw+"="+tsim+"+"+(i+2)+";");
             var valor=this.params[i].traducir(ts,traductor);
             if(valor.tipo.indice==tablaTipos.booleano)
             {
@@ -126,7 +149,7 @@ class s_llamada{
         //cambio real
         traductor.imprimir("p=p+"+tactual+";//cambio real");
         //llamada
-        traductor.imprimir("call "+this.sim.getNombre()+"();")
+        traductor.imprimir("call "+this.sim.firma.substring(1,this.sim.firma.length-1)+"();")
         var aux=null;
         if(this.sim.tipo!=tablaTipos.vacio)
         {            
@@ -135,7 +158,10 @@ class s_llamada{
             var tback=valores.getTemporal();
             var idena=new identificador("return",null);
             var simb=new simbolo(null,null,idena,tablaTipos.rol_variable);
+            var he=ts.head;
+            ts.head=null;
             var ret=ts.BuscarSimbolo(simb,this.linea,this.columna,this.archivo);
+            ts.head=he;
             traductor.comentarioSimple("valor retorno");
             traductor.imprimir(taux+"=p+"+ret.posicion+";");
             traductor.imprimir(tback+"=stack["+taux+"];");
@@ -152,7 +178,10 @@ class s_llamada{
             ts.posicion--;
             contador++;
         }
-        return  new simbolo(this.sim.tipo,aux);
+        var mmm=new simbolo(this.sim.tipo,aux);
+        mmm.vars=this.sim.vars;
+        
+        return  mmm;
     }
 }
 

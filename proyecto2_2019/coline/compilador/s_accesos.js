@@ -28,12 +28,20 @@ class s_accesos{
     }
     comprobacion(ts,er)
     {
-        
+        var aux=ts.head;
+        ts.head=null;
         var respuesta=new simbolo(tablaTipos.tipo_error);
         for(var i=0;i<this.accesos.length;i++)
         {
             respuesta=this.accesos[i].comprobacion(ts,er);
+            if(respuesta.tipo.indice==tablaTipos.error)
+            {
+                break;
+            }
+            ts.head=respuesta;
+         
         }
+        ts.head=aux;
         return respuesta;
     }
     traducir(ts,traductor)
@@ -41,14 +49,15 @@ class s_accesos{
         //console.log("pasa");
         var respuesta=null;
         //traductor.comentario("accesos");
-
+        var aux=ts.head;
+        ts.head=null;
         for(var i=0;i<this.accesos.length;i++)
         {
             this.accesos[i].IsExp=this.IsExp;
             respuesta=this.accesos[i].traducir(ts,traductor);
-            
+            ts.head=respuesta;
         }
-
+        ts.head=aux;
         return respuesta;
     }
 }

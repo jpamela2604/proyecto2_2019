@@ -45,12 +45,15 @@ class s_asignacion{
     }
     traducir(ts,traductor)
     {
+        traductor.comentario("acceso");
         var a=this.accesos.traducir(ts,traductor);
+        traductor.comentario("valor");
         var b=this.valor.traducir(ts,traductor);
         if(b.tipo.indice==tablaTipos.booleano)
         {
             tablaTipos.etiquetaToTemp(b,traductor);
         }
+        traductor.comentario("asignacion");
         if(a.modificaStack==true)
         {
             traductor.imprimir("stack["+a.referencia+"]="+b.aux+";");

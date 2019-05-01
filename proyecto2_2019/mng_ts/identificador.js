@@ -11,7 +11,7 @@ class identificador{
         {            
             for(var x=0;x<this.parametros.length;x++)
             {
-                myname=myname+"_"+this.parametros[0].tipo.nombre;
+                myname=myname+"_"+this.parametros[x].tipo.nombre;
             }
             myname=myname+"_";
         }

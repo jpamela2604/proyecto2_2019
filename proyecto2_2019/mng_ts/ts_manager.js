@@ -1,5 +1,12 @@
  const Stack=require("../pila.js");
  const Hashtable=require("../hashtable.js");
+ const clase=require("./clase.js");
+ const simbolo=require("./simbolo.js");
+ const tablaTipos= require("../coline/tablaTipos.js");
+ const identificador=require("./identificador.js");
+ const parametro=require("./parametro.js");
+ const vari=require("../var.js");
+ const nodoTipo=require("./nodoTipo");
  class ts_manager{
     constructor(er)
     {
@@ -15,8 +22,52 @@
         this.contadorGlobales=0;
         this.tamActual=0;
         this.auxiliar=new Stack();
+        this.tiposPermitidos=null;        
+        this.tipoClase="super";
+        this.claseActual=null;
+        this.head=null;
     }
+    
+    BuscarSimbolo(simb,linea,columna,archivo)
+    {
+        if(this.head==null)
+        {
+            return this.BuscarSim(simb,linea,columna,archivo);
+        }else
+        {
+            /*console.log(this.head);
+            console.log("----");*/
+            var g=this.head.vars.globales;
+            if(!g.hasItem(simb.getNombre()))
+            {
+                this.er.addError("No se encontro "+simb.getRol()+" "+simb.getPseudoNombre(),linea,columna,archivo,
+                "SEMANTICO");
+                return null;
+            }else
+            {
+                
+                return g.getItem(simb.getNombre());
 
+            }            
+        }
+    }
+    getpermitido(nombre)
+    {
+        if(this.tiposPermitidos.hasItem(nombre))
+        {
+            return this.tiposPermitidos.getItem(nombre);
+        }
+        return null;
+    }
+    ispermitido(nombre)
+    {
+        if(this.tiposPermitidos.hasItem(nombre))
+        {
+            return true;
+        }
+        return false;
+    }
+    
     getTamActual()
     {
         return this.posicion+1;
@@ -24,14 +75,14 @@
 
     getPosicion(IsGlobal)
     {
-        var p=IsGlobal?0:this.posicion;
+        var p=IsGlobal?this.contadorGlobales:this.posicion;
         return p;
     }
     getAmbito(IsGlobal)
     {
         return IsGlobal?"GLOBAL":"LOCAL";
     }
-
+    
     AgregarSimbolo(simb,IsGlobal,linea,columna,archivo,IsTrad)
     {
         if(IsGlobal)
@@ -74,13 +125,15 @@
             this.posicion++;
         }
     }
-    BuscarSimbolo(simb,linea,columna,archivo)
+    
+    BuscarSim(simb,linea,columna,archivo)
     {   
-        
+        //console.log(simb.getNombre());
+       //console.log(this.globales);
         if(this.ambitoActual.hasItem(simb.getNombre()))
         {
-            
-            return this.ambitoActual.getItem(simb.getNombre());
+            respuesta=this.ambitoActual.getItem(simb.getNombre());           
+            return respuesta;
         }
         var respuesta=null;
         var a=new Stack();
@@ -92,6 +145,7 @@
             if(recorre.hasItem(simb.getNombre()))
             {
                 respuesta=recorre.getItem(simb.getNombre());
+               
                 break;
             }
         }

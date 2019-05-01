@@ -14,6 +14,7 @@ class s_decla{
         this.archivo=archivo;
         this.hash=hash;
         this.tipo=null;
+        this.posicion=-1;
     }
     setTipo(tipo)
     {
