@@ -2769,7 +2769,7 @@ break;
 case 430:
 
                     vari.hash++;
-                    this.$=new o_valorPuntual(tablaTipos.tipo_nulo,null,_$[$0].first_line,_$[$0].first_column,vari.archivo,vari.hash);
+                    this.$=new o_valorPuntual(tablaTipos.tipo_nulo,tablaTipos.valor_nulo,_$[$0].first_line,_$[$0].first_column,vari.archivo,vari.hash);
                 
 break;
 case 434:

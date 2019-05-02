@@ -37,6 +37,7 @@ err.adding();
 raiz.comprobacion_global(tabla,err);
 raiz.comprobacion(tabla,err);
 err.imprimir();
+
 if(err.size()==0)
 {
     raiz.traduccion_global(tabla,trad);
@@ -46,6 +47,7 @@ if(err.size()==0)
     trad.imprimir(trad.salida+":");
     //trad.imprimir("call metojjpsmain_();");
 }
+
 
 //trad.save();
 //console.log(lista[0].getTree());

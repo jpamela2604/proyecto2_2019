@@ -4,7 +4,9 @@ const tablaTipos= require("../coline/tablaTipos.js");
 class traducir{
     constructor()
     {
-        this.init();
+        this.l=valores.getTemporal();
+        this.c=valores.getTemporal();
+        this.init();        
         this.in=valores.getEtiqueta();
         this.imprimir_L("goto "+this.in+";");
         this.salida=valores.getEtiqueta();

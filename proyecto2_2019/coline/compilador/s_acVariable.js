@@ -35,6 +35,7 @@ class s_acVariable{
         var iden=new identificador(this.id,null);
         var simb=new simbolo(null,null,iden,tablaTipos.rol_variable);
         var r=ts.BuscarSimbolo(simb,this.linea,this.columna,this.archivo);
+        //console.log(r);
         if(r!=null)
         {
             
@@ -49,8 +50,8 @@ class s_acVariable{
         var iden=new identificador(this.id,null);
         var simb=new simbolo(null,null,iden,tablaTipos.rol_variable);
         var r=ts.BuscarSimbolo(simb,this.linea,this.columna,this.archivo);
-        //console.log(r);
-        //console.log(r);
+        
+        
         var tx=r.posicion;
         var tw="";
         var bandera=true;
@@ -63,7 +64,14 @@ class s_acVariable{
                 traductor.imprimir(ty+"=stack["+tp+"];//obtengo posicion del this");
             }else
             {
-                ty=ts.head.aux;
+                ty=ts.head.aux;var tp=valores.getTemporal();
+                traductor.imprimir(traductor.l+"="+this.linea+";");
+                traductor.imprimir(traductor.c+"="+this.columna+";");
+                /*traductor.imprimir(tp+"=heap["+ty+"];");
+                traductor.imprimir("if("+tp+"=="+tablaTipos.valor_nulo+") goto "+"nullex"+";");*/
+               // traductor.imprimir(tp+"=heap["+ty+"];");
+                traductor.imprimir("if("+ty +"=="+tablaTipos.valor_nulo+") goto "+"nullex"+";");
+
             }
             traductor.imprimir(tx+"="+ty+"+"+r.posicion+";//ref");
             bandera=false;

@@ -27,7 +27,7 @@ class identificador{
             var aux="";
             for(var x=0;x<this.parametros.length;x++)
             {
-                myname=myname+aux+this.parametros[0].tipo.nombre;
+                myname=myname+aux+this.parametros[x].tipo.nombre;
                 aux=",";
             }
             myname=myname+")";

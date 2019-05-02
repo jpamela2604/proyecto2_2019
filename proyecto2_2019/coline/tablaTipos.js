@@ -24,6 +24,7 @@ const tipo_nulo = new nodoTipo(nulo,"null");
 const all=51;
 const igual_booleano=52;
 const igual_cadena=53;
+const igual_dif=54;
 const fin_cadena=557886;
 const valor_nulo=557886;
 const caracter_nulo=00;
@@ -74,58 +75,81 @@ function getTipoObjeto(nombre)
 
 const suma=
 [
-    [error,error,error,error,cadena,error2],
-    [error,entero,doble,entero,cadena,error2],
-    [error,doble,doble,doble,cadena,error2],
-    [error,entero,doble,entero,cadena,error2],
-    [cadena,cadena,cadena,cadena,cadena,error2],
-    [error2,error2,error2,error2,error2,error2]
+    /*0 */[error,error,error,error,cadena,error2,error,error,error,error],
+    /*1 */[error,entero,doble,entero,cadena,error2,error,error,error,error],
+    /*2 */[error,doble,doble,doble,cadena,error2,error,error,error,error],
+    /*3 */[error,entero,doble,entero,cadena,error2,error,error,error,error],
+    /*4 */[cadena,cadena,cadena,cadena,cadena,error2,error,error,error,error],
+    /*5 */[error2,error2,error2,error2,error2,error2,error2,error2,error2,error2],
+    /*6 */[error,error,error,error,error,error2,error,error,error,error],
+    /*7 */[error,error,error,error,error,error2,error,error,error,error],
+    /*8 */[error,error,error,error,error,error2,error,error,error,error],
+    /*9 */[error,error,error,error,error,error2,error,error,error,error],
+    /*10*/[error,error,error,error,error,error2,error,error,error,error]
 ];
 //resta,multiplicacion,modulo,division tienen la misma tabla
 const valores=
 [
-    [error,error,error,error,error,error2],
-    [error,entero,doble,entero,error,error2],
-    [error,doble,doble,doble,error,error2],
-    [error,entero,doble,entero,error,error2],
-    [error,error,error,error,error,error2],
-    [error2,error2,error2,error2,error2,error2]
+          [error,error,error,error,error,error2,error,error,error,error],
+          [error,entero,doble,entero,error,error2,error,error,error,error],
+          [error,doble,doble,doble,error,error2,error,error,error,error],
+          [error,entero,doble,entero,error,error2,error,error,error,error],
+          [error,error,error,error,error,error2,error,error,error,error],
+    /*5 */[error2,error2,error2,error2,error2,error2,error2,error2,error2,error2],
+    /*6 */[error,error,error,error,error,error2,error,error,error,error],
+    /*7 */[error,error,error,error,error,error2,error,error,error,error],
+    /*8 */[error,error,error,error,error,error2,error,error,error,error],
+    /*9 */[error,error,error,error,error,error2,error,error,error,error],
+    /*10*/[error,error,error,error,error,error2,error,error,error,error]
 ];
 
 const potencia=
 [
-    [error,error,error,error,error,error2],
-    [error,doble,doble,doble,error,error2],
-    [error,doble,doble,doble,error,error2],
-    [error,doble,doble,doble,error,error2],
-    [error,error,error,error,error,error2],
-    [error2,error2,error2,error2,error2,error2]
+        [error,error,error,error,error,error2,error,error,error,error],
+        [error,doble,doble,doble,error,error2,error,error,error,error],
+        [error,doble,doble,doble,error,error2,error,error,error,error],
+        [error,doble,doble,doble,error,error2,error,error,error,error],
+        [error,error,error,error,error,error2,error,error,error,error],
+/*5 */  [error2,error2,error2,error2,error2,error2,error2,error2,error2,error2],
+ /*6 */[error,error,error,error,error,error2,error,error,error,error],
+    /*7 */[error,error,error,error,error,error2,error,error,error,error],
+    /*8 */[error,error,error,error,error,error2,error,error,error,error],
+    /*9 */[error,error,error,error,error,error2,error,error,error,error],
+    /*10*/[error,error,error,error,error,error2,error,error,error,error]
 ];
 
 const relacional=
 [
-    [igual_booleano,error,error,error,error,error2],
-    [error,all,all,all,error,error2],
-    [error,all,all,all,error,error2],
-    [error,all,all,all,error,error2],
-    [error,error,error,error,igual_cadena,error2],
-    [error2,error2,error2,error2,error2,error2]
+            [igual_booleano,error,error,error,error,error2,error,error,error,error],
+            [error,all,all,all,error,error2,error,error,error,error],
+            [error,all,all,all,error,error2,error,error,error,error],
+            [error,all,all,all,error,error2,error,error,error,error],
+            [error,error,error,error,igual_cadena,error2,error,error,igual_dif,error],
+    /*5 */  [error2,error2,error2,error2,error2,error2,error2,error2,error2,error2],
+    /*6 */[error,error,error,error,error,error2,error,error,error,error],
+    /*7 */[error,error,error,error,error,error2,error,igual_dif,igual_dif,error],
+    /*8 */[error,error,error,error,igual_dif,error2,error,igual_dif,igual_dif,igual_dif],
+      /*9 */[error,error,error,error,error,error2,error,error,igual_dif,igual_dif],
 ];
 
 const casteo=
 [
-    [allow,error,error,error,error,error2],
-    [error,allow,error,allow,error,error2],
-    [error,allow,allow,allow,error,error2],
-    [error,error,error,allow,error,error2],
-    [error,error,error,error,allow,error2],
-    [error2,error2,error2,error2,error2,error2]
+            [allow,error,error,error,error,error2],
+            [error,allow,error,allow,error,error2],
+            [error,allow,allow,allow,error,error2],
+            [error,error,error,allow,error,error2],
+            [error,error,error,error,allow,error2],
+    /*5 */  [error2,error2,error2,error2,error2,error2]
 ];
 
 function AsignValid(tipo1,tipo2)
 {
     var bandera=true;
-    if(tipo1.indice==tipo2.indice&&tipo1.indice==arreglo)
+    if((tipo1.indice==cadena||tipo1.indice==objeto||tipo1.indice==arreglo)&&tipo2.indice==nulo)
+    {
+        return true;
+    }
+    else if(tipo1.indice==tipo2.indice&&tipo1.indice==arreglo)
     {
         return AsignValid(tipo1.tipoArr,tipo2.tipoArr)&&tipo1.dimen==tipo2.dimen;
     }
@@ -193,6 +217,7 @@ module.exports.tipo_nulo=tipo_nulo;
 module.exports.all=all;
 module.exports.igual_booleano=igual_booleano;
 module.exports.igual_cadena=igual_cadena;
+module.exports.igual_dif=igual_dif;
 module.exports.relacional=relacional;
 module.exports.fin_cadena=fin_cadena;
 module.exports.valor_nulo=valor_nulo;

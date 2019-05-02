@@ -83,7 +83,7 @@ class nuevoArreglo{
         traductor.imprimir(tp3+"="+tsim+"+3;");
         traductor.imprimir("stack["+tp3+"]="+this.dimensiones.length+";");
         traductor.imprimir(tp4+"="+tsim+"+4;");
-        traductor.imprimir("stack["+tp4+"]="+this.getValorDefault()+";");
+        traductor.imprimir("stack["+tp4+"]="+this.getValorDefault(traductor)+";");
 
         traductor.imprimir("p=p+"+ts.getTamActual()+";");
         traductor.imprimir("call initArray();");
@@ -94,7 +94,7 @@ class nuevoArreglo{
 
     }
 
-    getValorDefault()
+    getValorDefault(traductor)
     {
         if(this.tipo.indice==tablaTipos.entero)
         {
@@ -110,6 +110,11 @@ class nuevoArreglo{
             return 0;
         }else
         {
+             /*var tx=valores.getTemporal();
+            traductor.imprimir(tx+"=h;");
+            traductor.imprimir("heap[h]="+tablaTipos.valor_nulo+";");
+            traductor.imprimir("h=h+1;");
+            return tx;*/
             return tablaTipos.valor_nulo;
         }
 

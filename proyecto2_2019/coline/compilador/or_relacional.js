@@ -42,19 +42,19 @@ class or_relacional{
         if(ope==tablaTipos.all)
         {
             respuesta = new simbolo(tablaTipos.tipo_booleano); 
-        }else if(ope==tablaTipos.igual)
+        }else if(ope==tablaTipos.igual_booleano||ope==tablaTipos.igual_cadena||ope==tablaTipos.igual_dif)
         {
             if(this.oprel=="=="||this.oprel=="!=")
             {
                 respuesta = new simbolo(tablaTipos.tipo_booleano); 
             }else
             {
-                er.addError("Tipos incompatibles: "+o1.tipo.getName()+oprel+o2.tipo.getName(),this.linea,this.columna,this.archivo,
+                er.addError("Tipos incompatibles: "+o1.tipo.getName()+this.oprel+o2.tipo.getName(),this.linea,this.columna,this.archivo,
             "SEMANTICO");
             }              
         }else if(ope==tablaTipos.error)
         {
-            er.addError("Tipos incompatibles: "+o1.tipo.nombre+oprel+o2.tipo.nombre,this.linea,this.columna,this.archivo,
+            er.addError("Tipos incompatibles: "+o1.tipo.nombre+this.oprel+o2.tipo.nombre,this.linea,this.columna,this.archivo,
             "SEMANTICO");
         }
         return respuesta;
@@ -65,7 +65,7 @@ class or_relacional{
         var o2=this.op2.traducir(ts,traductor);
         var ope=tablaTipos.relacional[o1.tipo.indice][o2.tipo.indice];
        
-        if(ope==tablaTipos.all)
+        if(ope==tablaTipos.all||ope==tablaTipos.igual_dif)
         {
             
             var temporal=new etiqueta();
@@ -74,7 +74,8 @@ class or_relacional{
             traductor.imprimir("if ("+o1.aux+this.oprel+o2.aux+")  goto "+temporal.verdadero[0]+";");
             traductor.imprimir("goto "+temporal.falso[0]+";");
             return  new simbolo(tablaTipos.tipo_booleano,temporal);   
-        }else if(ope==tablaTipos.igual_booleano)
+        }
+        else if(ope==tablaTipos.igual_booleano)
         {
             var temporal=new etiqueta();
             temporal.verdadero.push(valores.getEtiqueta());

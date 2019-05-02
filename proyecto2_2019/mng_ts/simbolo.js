@@ -59,6 +59,9 @@ class simbolo{
         }else if(this.rol==tablaTipos.rol_variable)
         {
             return "variable";
+        }else if(this.rol==tablaTipos.rol_constructor)
+        {
+            return "constructor";
         }
     }
     

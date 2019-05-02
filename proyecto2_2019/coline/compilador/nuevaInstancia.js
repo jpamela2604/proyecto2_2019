@@ -66,8 +66,14 @@ class nuevaInstancia{
         }
         this.iden=new identificador(this.id,misparams);
         var simb=new simbolo(null,null,this.iden,tablaTipos.rol_constructor);
+       // console.log(simb.getNombre());
+        var u = ts.head;
+        ts.head=new simbolo();
+        ts.head.vars=ts.getpermitido(this.id);
+        
         var r=ts.BuscarSimbolo(simb,this.linea,this.columna,this.archivo);
        
+        ts.head=u;
         if(r!=null)
         {
             this.no=simb.getNombre();

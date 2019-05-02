@@ -14,6 +14,7 @@ class s_declaracionL{
         this.columna=columna;
         this.archivo=archivo; 
         this.hash=hash;
+        this.v=null;
         //console.log(tipo);
     }
     comprobacion_global(ts,er)
@@ -65,7 +66,7 @@ class s_declaracionL{
                 var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
                 ts.getAmbito(false),mide.noDimensiones,visibilidad,modificador
                                 );
-               
+                simb.vars=this.v;
                 ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
                 ts.AumentarPos(false);
                 
@@ -73,12 +74,12 @@ class s_declaracionL{
                 traductor.imprimir(tx+"=p+"+posicion+";");
                 if(mide.valor==null)
                 {
-                    traductor.imprimir("stack["+tx+"]="+this.getValorDefault(mide.tipo)+";");
+                    traductor.imprimir("stack["+tx+"]="+this.getValorDefault(mide.tipo,traductor)+";");
 
                 }else
                 {
                     var val=mide.valor. traducir(ts,traductor);
-                    simb.vars=val.vars;
+                   
                     if(val.tipo.indice==tablaTipos.booleano)
                     {
                         tablaTipos.etiquetaToTemp(val,traductor);
@@ -89,7 +90,7 @@ class s_declaracionL{
         
     }
 
-    getValorDefault(tipo)
+    getValorDefault(tipo,traductor)
     {
         if(tipo.indice==tablaTipos.entero)
         {
@@ -105,6 +106,11 @@ class s_declaracionL{
             return 0;
         }else
         {
+             /*var tx=valores.getTemporal();
+            traductor.imprimir(tx+"=h;");
+            traductor.imprimir("heap[h]="+tablaTipos.valor_nulo+";");
+            traductor.imprimir("h=h+1;");
+            return tx;*/
             return tablaTipos.valor_nulo;
         }
 
@@ -112,6 +118,7 @@ class s_declaracionL{
 
     testthis(ts,er)
     {
+        var miv=null;
         //comprobar que el tipo sea valido
         if(this.tipo.indice==tablaTipos.objeto)
         {
@@ -121,7 +128,13 @@ class s_declaracionL{
                 er.addError("No se encontro la clase "+this.tipo.nombre,this.linea,this.columna,this.archivo,
                 "SEMANTICO");
                 return ;
+            }else
+            {
+                miv=ts.getpermitido(this.tipo.nombre);
             }
+        }else if(this.tipo.indice==tablaTipos.cadena)
+        {
+            miv=ts.getpermitido(this.tipo.nombre);
         }
         //console.log(this.declas);
         if(this.tipo.indice==tablaTipos.vacio)
@@ -148,6 +161,7 @@ class s_declaracionL{
                 var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
                 ts.getAmbito(false),mide.noDimensiones,visibilidad,modificador
                 );
+                simb.vars=miv;
                 ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
             }else
             {
@@ -169,7 +183,7 @@ class s_declaracionL{
                             var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
                             ts.getAmbito(false),mide.noDimensiones,visibilidad,modificador
                             );
-                            simb.vars=myval.vars;
+                            simb.vars=miv;
                             ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
 
                         }else
@@ -182,7 +196,7 @@ class s_declaracionL{
                 }
             }
         }
-
+        this.v=miv;
     }
 }
 

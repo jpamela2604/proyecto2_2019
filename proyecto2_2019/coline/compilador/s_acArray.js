@@ -86,8 +86,8 @@ class s_acArray{
     traducir(ts,traductor)
     {
         //obtener la posicion del arreglo
-        var iden=new identificador(this.id,null);
-        var simb=new simbolo(null,null,iden,tablaTipos.rol_variable);
+        //var iden=new identificador(this.id,null);
+        //var simb=new simbolo(null,null,iden,tablaTipos.rol_variable);
         /*
         this.c=ts.BuscarSimbolo(simb,this.linea,this.columna,this.archivo);
         var t1=valores.getTemporal();var t2=valores.getTemporal();
@@ -97,6 +97,13 @@ class s_acArray{
        var r=this.acva.traducir(ts,traductor)
         var ant=r.aux;
         var re="";
+        var tp=valores.getTemporal();
+        traductor.imprimir(traductor.l+"="+this.linea+";");
+        traductor.imprimir(traductor.c+"="+this.columna+";");
+        /*traductor.imprimir(tp+"=heap["+ant+"];");
+        traductor.imprimir("if("+tp+"=="+tablaTipos.valor_nulo+") goto "+"nullex"+";");*/
+        //traductor.imprimir(tp+"=heap["+ant+"];");
+        traductor.imprimir("if("+ant+"=="+tablaTipos.valor_nulo+") goto "+"nullex"+";");
         for(var x=0;x<this.dimensiones.length;x++)
         {
             var t3=valores.getTemporal();var t4=valores.getTemporal();var t5=valores.getTemporal();

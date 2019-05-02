@@ -4205,7 +4205,7 @@ PRIM            : er_cadena
                 |nulo
                 {
                     vari.hash++;
-                    $$=new o_valorPuntual(tablaTipos.tipo_nulo,null,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                    $$=new o_valorPuntual(tablaTipos.tipo_nulo,tablaTipos.valor_nulo,@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;
 LAC             :LAC punto AC

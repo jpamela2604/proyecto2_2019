@@ -133,6 +133,23 @@ class oa_suma{
             traductor.imprimir("heap[h]="+tablaTipos.fin_cadena+";");
             traductor.imprimir("h=h+1;");
             sim.aux=tw;
+        }else if(sim.tipo.indice==tablaTipos.cadena)
+        {
+            var e=valores.getEtiqueta();
+            traductor.imprimir("if("+sim.aux+"!="+tablaTipos.valor_nulo+") goto " +e+";");
+            traductor.imprimir(sim.aux+"=h;");
+            traductor.imprimir("heap[h]=110;");
+            traductor.imprimir("h=h+1;");
+            traductor.imprimir("heap[h]=117;");
+            traductor.imprimir("h=h+1;");
+            traductor.imprimir("heap[h]=108;");
+            traductor.imprimir("h=h+1;");
+            traductor.imprimir("heap[h]=108;");
+            traductor.imprimir("h=h+1;");
+            traductor.imprimir("heap[h]="+tablaTipos.fin_cadena+";");
+            traductor.imprimir("h=h+1;");
+            traductor.imprimir_L(e+":");
+            //sim.aux=tw;
         }
     }
 }

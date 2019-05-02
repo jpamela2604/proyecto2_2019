@@ -2,53 +2,45 @@ class miclas
 {
 	int d=555;
 	String mc="xxxx";
-	
+	int a[];
 	void main()
 	{
-		miclas vart=new miclas(111,"BBBB");
-		miclas hh[][]=vart.testarro();
-		println("---");
-		//println(hh[1][1].d);
-		for(miclas v:hh)
+		String o="pamLAS palacIOS";
+		char das[]=o.toCharArray();
+		for(char pr:das)
 		{
-			println(v.mc);
+			println(pr);
 		}
-	} 
-	public void m1(int p[])
-	{
-		println("hola "+p[2]);
-	}
-	public miclas testarro()[][]
-	{
-			//miclas p[][]=
-		return {{new miclas(1026,"inicio"),new miclas(1005,"p"),new miclas(1010,"a"),new miclas(1015,"m")},{new miclas(1020,"palacios"),new miclas(1025,"sales")}};
-	}
-	public int as2()[][]
-	{
-		return {{21,22,23,24},{31,32,33,34,35}};
-	}
-	public miclas regreso()
-	{
-		return this;
+
 	}
 	
 	public miclas(int dd,String c)
 	{
-		//int d=8;
 		this.d=dd;
-		//ar[3]=ar[3]+dd;
 		mc=c;
-		//println(d);
 	}
+	public int a()
+	{
+		return d*5;
+	}
+}
+
+class otra
+{
+	int var;
+	String c;
+	miclas m;
 	
-	public void test()
+	public otra(int var,String c)
 	{
-		println(d);
-		//println(ar[3]);
-		//test2();
+		this.var=var;
+		this.c=c;
+		this.m=new miclas(3696,"miss");
 	}
-	public void test2()
+	public void funciona()
 	{
-		//println(mc);
+		println(var+" "+c);
+		println(this.m.mc+this.m.d);
+		println(this.m.a[0]);
 	}
 }

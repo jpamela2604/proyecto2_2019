@@ -127,7 +127,13 @@ class s_llamada{
             a=ty;
         }else
         {
-            a=ts.head.aux;
+            a=ts.head.aux;var tp=valores.getTemporal();
+            traductor.imprimir(traductor.l+"="+this.linea+";");
+            traductor.imprimir(traductor.c+"="+this.columna+";");
+            /*traductor.imprimir(tp+"=heap["+a+"];");
+            traductor.imprimir("if("+tp+"=="+tablaTipos.valor_nulo+") goto "+"nullex"+";");*/
+            //traductor.imprimir(tp+"=heap["+a+"];");
+            traductor.imprimir("if("+a+"=="+tablaTipos.valor_nulo+") goto "+"nullex"+";");
         }
         traductor.imprimir("stack["+w+"]="+a+";")
         //paso de parametros

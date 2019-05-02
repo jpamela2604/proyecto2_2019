@@ -153,28 +153,28 @@ class archivo{
             nuevoT.dimen=1;
             //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador)
             var simb=new simbolo(nuevoT,null,iden,tablaTipos.rol_metodo,-1,ts.getAmbito(true),0,visibilidad,modificador );
-            simb.firma="toCharArray";
+            simb.firma="_toCharArray_";
             cadena.globales.setItem(simb.getNombre(),simb);            
         // length() entero
             parametros=new Array();   
             var iden =new identificador("length",parametros);
             //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador)
             simb=new simbolo(tablaTipos.tipo_entero,null,iden,tablaTipos.rol_metodo,-1,ts.getAmbito(true),0,visibilidad,modificador );
-            simb.firma="stringSize";
+            simb.firma="_stringSize_";
             cadena.globales.setItem(simb.getNombre(),simb);            
         //toUpperCase() cadena
             parametros=new Array();   
             var iden =new identificador("toUpperCase",parametros);
             //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador)
             simb=new simbolo(tablaTipos.tipo_cadena,null,iden,tablaTipos.rol_metodo,-1,ts.getAmbito(true),0,visibilidad,modificador );
-            simb.firma="toUpper";
+            simb.firma="_toUpper_";
             cadena.globales.setItem(simb.getNombre(),simb);            
         //toLowerCase() cadena
             parametros=new Array();   
             var iden =new identificador("toLowerCase",parametros);
             //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador)
             simb=new simbolo(tablaTipos.tipo_cadena,null,iden,tablaTipos.rol_metodo,-1,ts.getAmbito(true),0,visibilidad,modificador );
-            simb.firma="toLower";
+            simb.firma="_toLower_";
             cadena.globales.setItem(simb.getNombre(),simb);
         tiposPermitidos.setItem(cadena.nombre,cadena);
     }
@@ -190,7 +190,7 @@ class archivo{
              //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador)
              var simb=new simbolo(tablaTipos.tipo_entero,null,iden,tablaTipos.rol_metodo,-1,ts.getAmbito(true),0,visibilidad,modificador );
              arreglo.globales.setItem(simb.getNombre(),simb);
-             simb.firma="getSize";
+             simb.firma="_getSize_";
         tiposPermitidos.setItem(arreglo.nombre,arreglo);
     }
 }

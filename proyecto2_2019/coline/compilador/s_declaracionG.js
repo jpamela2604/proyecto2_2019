@@ -32,7 +32,7 @@ class s_declaracionG{
                 traductor.imprimir(tx+"="+ty+"+"+mide.posicion+";");
                 if(mide.valor==null)
                 {
-                    traductor.imprimir("heap["+tx+"]="+this.getValorDefault(mide.id)+";");
+                    traductor.imprimir("heap["+tx+"]="+this.getValorDefault(mide.tipo,traductor)+";");
 
                 }else
                 {
@@ -86,7 +86,7 @@ class s_declaracionG{
         
     }
 
-    getValorDefault(tipo)
+    getValorDefault(tipo,traductor)
     {
         if(tipo.indice==tablaTipos.entero)
         {
@@ -102,6 +102,11 @@ class s_declaracionG{
             return 0;
         }else
         {
+            /*var tx=valores.getTemporal();
+            traductor.imprimir(tx+"=h;");
+            traductor.imprimir("heap[h]="+tablaTipos.valor_nulo+";");
+            traductor.imprimir("h=h+1;");
+            return tx;*/
             return tablaTipos.valor_nulo;
         }
 
@@ -109,6 +114,7 @@ class s_declaracionG{
 
     testthis(ts,er)
     {
+        var miv=null;
         if(this.tipo.indice==tablaTipos.objeto)
         {
             //console.log(this.tipo);
@@ -117,7 +123,13 @@ class s_declaracionG{
                 er.addError("No se encontro la clase "+this.tipo.nombre,this.linea,this.columna,this.archivo,
                 "SEMANTICO");
                 return ;
+            }else
+            {
+                miv=ts.getpermitido(this.tipo.nombre);
             }
+        }else if(this.tipo.indice==tablaTipos.cadena)
+        {
+            miv=ts.getpermitido(this.tipo.nombre);
         }
         if(this.tipo.indice==tablaTipos.vacio)
         {
@@ -130,6 +142,7 @@ class s_declaracionG{
         for(var i=0;i<this.declas.length;i++)
         {
             this.declas[i].setTipo(this.tipo);
+
             var mide=this.declas[i];
             var visibilidad=0;
             var modificador=0;
@@ -145,6 +158,7 @@ class s_declaracionG{
                 var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
                 ts.getAmbito(true),mide.noDimensiones,visibilidad,modificador
                 );
+                simb.vars=miv;
                 ts.AgregarSimbolo(simb,true,mide.linea,mide.columna,mide.archivo);
                 
                 ts.AumentarPos(true);
@@ -172,7 +186,7 @@ class s_declaracionG{
                             
                                 ts.getAmbito(true),mide.noDimensiones,visibilidad,modificador
                             );
-                            simb.vars=myval.vars;
+                            simb.vars=miv;
                             ts.AgregarSimbolo(simb,true,mide.linea,mide.columna,mide.archivo);
                             ts.AumentarPos(true);
                         }else

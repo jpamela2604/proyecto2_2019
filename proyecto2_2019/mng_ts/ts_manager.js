@@ -35,8 +35,8 @@
             return this.BuscarSim(simb,linea,columna,archivo);
         }else
         {
-            /*console.log(this.head);
-            console.log("----");*/
+           // console.log(this.head);
+           // console.log("----");
             var g=this.head.vars.globales;
             if(!g.hasItem(simb.getNombre()))
             {

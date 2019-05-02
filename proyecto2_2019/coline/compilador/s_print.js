@@ -96,6 +96,9 @@ class s_print{
             traductor.imprimir("print(\"%c\","+va.aux+");");
         }else if(va.tipo.indice==tablaTipos.cadena)
         {
+            var e=valores.getEtiqueta();var s=valores.getEtiqueta();
+            //traductor.imprimir("print(\"%e\","+va.aux+");");
+            traductor.imprimir("if("+va.aux+"=="+tablaTipos.valor_nulo+") goto " +e+";");
             //cambio de ambito simulado
             var t1=valores.getTemporal();
             traductor.imprimir(t1+"=p+"+ts.getTamActual()+";");
@@ -106,6 +109,13 @@ class s_print{
             traductor.imprimir("p=p+"+ts.getTamActual()+";");
             traductor.imprimir("call print_olcp2jjps();");
             traductor.imprimir("p=p-"+ts.getTamActual()+";");
+            traductor.imprimir("goto "+s+";");
+            traductor.imprimir_L(e+":");
+            traductor.imprimir("print(\"%c\",110);");
+            traductor.imprimir("print(\"%c\",117);");
+            traductor.imprimir("print(\"%c\",108);");
+            traductor.imprimir("print(\"%c\",108);");
+            traductor.imprimir_L(s+":");
 
         }else if(va.tipo.indice==tablaTipos.nulo)
         {
