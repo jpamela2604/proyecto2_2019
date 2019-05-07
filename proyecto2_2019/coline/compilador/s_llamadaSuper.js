@@ -1,4 +1,3 @@
-
 var nodoArbol =require("../nodoArbol.js");
 const tablaTipos= require("../tablaTipos.js");
 var simbolo = require("../../mng_ts/simbolo.js");
@@ -6,10 +5,9 @@ const parametro = require("../../mng_ts/parametro.js");
 const valores = require("../values_manager.js");
 var identificador=require("../../mng_ts/identificador.js");
 const vari = require("../../var"); 
-class s_llamada{
-    constructor(id,params,linea,columna,archivo,hash) 
+class s_llamadaSuper{
+    constructor(params,linea,columna,archivo,hash) 
     {
-        this.id=id;
         this.params=params;
         this.linea=linea; 
         this.columna=columna;
@@ -30,7 +28,7 @@ class s_llamada{
     {
         var raiz =new nodoArbol("LLAMADA",this.hash);
         vari.hash++;
-        var myid=new nodoArbol(this.id,vari.hash);
+        var myid=new nodoArbol("super",vari.hash);
         raiz.agregarHijo(myid);
         vari.hash++;
         var mypar=new nodoArbol("PARAMETROS",vari.hash);
@@ -44,11 +42,20 @@ class s_llamada{
     }
     comprobacion(ts,er)
     {
-        
         var respuesta=new simbolo(tablaTipos.tipo_error);
+
+        //si no estoy dentro de un constructor no puedo hacer uso de esto
+        if(ts.metodoActual==null||!(ts.metodoActual.rol==tablaTipos.rol_constructor)||tablaTipos.vieneSuper!=0)
+        {
+            er.addError("La llamada al super debe estar ser la primera sentencia de un constructor",this.linea,this.columna,this.archivo,
+                "SEMANTICO");
+            return respuesta;
+        }
+
+
+        //console.log(ts.ta)
         //buscar que si exista el metodo
         var misparams=new Array();
-        
         for(var i=0;i<this.params.length;i++)
         {
             var ti=this.params[i].comprobacion(ts,er);
@@ -66,24 +73,21 @@ class s_llamada{
                 misparams.push(new parametro(ti.tipo));
             }
         }
-        this.iden=new identificador(this.id,misparams);
-        var simb=new simbolo(null,null,this.iden,tablaTipos.rol_metodo);
+        this.iden=new identificador(ts.claseActual.padre.nombre,misparams);
+        var simb=new simbolo(null,null,this.iden,tablaTipos.rol_constructor);
         var r=ts.BuscarSimbolo(simb,this.linea,this.columna,this.archivo);
-        
         if(r!=null)
         {
+            tablaTipos.banderaSuper=true;
             this.sim=r;
             this.sim.vars=r.vars;
             this.sim.firma=r.firma;
             return r;
         }
         return respuesta;
-
     }
     traducir(ts,traductor)
     {
-        traductor.comentario("SENTENCIA LLAMADA ");
-       
         // guardo los temporales en la pila;
         var lista=new Array();        
         var listanueva=valores.getLista();
@@ -112,7 +116,6 @@ class s_llamada{
         var w=valores.getTemporal();
         traductor.imprimir(w+"="+tsim+"+"+(1)+";");
         var a="";
-        var po=-1;
         if(ts.head==null)
         {
             //obtengo el this
@@ -135,12 +138,7 @@ class s_llamada{
             traductor.imprimir("if("+tp+"=="+tablaTipos.valor_nulo+") goto "+"nullex"+";");*/
             //traductor.imprimir(tp+"=heap["+a+"];");
             traductor.imprimir("if("+a+"=="+tablaTipos.valor_nulo+") goto "+"nullex"+";");
-            if(ts.head.tipo.indice==tablaTipos.arreglo)
-            {
-                po=ts.head.tipo.dimen;
-            }
         }
-        
         traductor.imprimir("stack["+w+"]="+a+";")
         //paso de parametros
         for(var i=0;i<this.params.length;i++)
@@ -157,14 +155,7 @@ class s_llamada{
             traductor.imprimir("stack["+tw+"]="+valor.aux+";")
             //ts.posicion=ts.posicion-i-1;
         }
-        var mifir=this.sim.firma.substring(1,this.sim.firma.length-1);
-        //console.log(mifir+po);
-        if(mifir=="getSize"&&po>0)
-        {
-            var w2=valores.getTemporal();
-            traductor.imprimir(w2+"="+tsim+"+"+(2)+";");
-            traductor.imprimir("stack["+w2+"]="+po+";")
-        }
+        
         //cambio real
         traductor.imprimir("p=p+"+tactual+";//cambio real");
         //llamada
@@ -204,4 +195,4 @@ class s_llamada{
     }
 }
 
-module.exports = s_llamada;
+module.exports = s_llamadaSuper;

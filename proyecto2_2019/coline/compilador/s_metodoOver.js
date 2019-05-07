@@ -1,14 +1,20 @@
 
-var nodoArbol =require("../nodoArbol.js");
+var identificador=require("../../mng_ts/identificador.js");
+const simbolo=require("../../mng_ts/simbolo");
+const tablaTipos= require("../tablaTipos.js");
+const valores = require("../values_manager.js");
+const nodoDisplay=require("../nodoDisplay.js");
+const vari = require("../../var");
+const nodoArbol =require("../nodoArbol.js");
 class s_metodoOver{
     constructor(modificadores,tipo,id,parametros,noDimensiones,sentencias,
         linea,columna,archivo,hash) 
     {
-        this.isAbstract=isAbstract;
+        this.isAbstract=false;
         this.id=id;
         this.sentencias=sentencias;
         this.parametros=parametros;
-        this.modificadores=modificadores;
+        this.mods=modificadores;
         this.tipo=tipo;
         this.noDimensiones=noDimensiones;
         this.linea=linea; 
@@ -20,15 +26,84 @@ class s_metodoOver{
     }
     comprobacion_global(ts,er)
     {
-        var visibilidad=0;
-        var modificador=0;
-        this.iden =new identificador(this.id,this.parametros);
-         //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador)
-         var simb=new simbolo(this.tipo,null,this.iden,tablaTipos.rol_metodo,-1,
-            ts.getAmbito(true),this.noDimensiones,visibilidad,modificador
+        var auxil=null;
+        if(this.tipo.indice==tablaTipos.objeto)
+        {
+           // console.log(this.tipo);
+            if(!ts.ispermitido(this.tipo.nombre))
+            {
+                er.addError("No se encontro la clase "+this.tipo.nombre,this.linea,this.columna,this.archivo,
+                "SEMANTICO");
+                return ;
+            }else
+            {
+                auxil=ts.getpermitido(this.tipo.nombre);
+            }
+        }else if(this.tipo.indice==tablaTipos.arreglo)
+        {
+            if(this.tipo.tipoArr.indice==tablaTipos.objeto)
+            {
+                if(!ts.ispermitido(this.tipo.tipoArr.nombre))
+                {
+                    er.addError("No se encontro la clase "+this.tipo.tipoArr.nombre,this.linea,this.columna,this.archivo,
+                    "SEMANTICO");
+                    return ;
+                }else
+                {
+                    auxil=ts.getpermitido(this.tipo.tipoArr.nombre);
+                }
+            }
+        }
+        
+
+        if(this.testMethod(ts,er))
+        {
+            this.iden =new identificador(this.id,this.parametros);
+            //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador,pert
+            var simb=new simbolo(this.tipo,null,this.iden,tablaTipos.rol_metodo,-1,
+            ts.getAmbito(true),this.noDimensiones,this.visibilidad,null,ts.claseActual.nombre
             );
-        ts.AgregarSimbolo(simb,true,this.linea,this.columna,this.archivo);
-        this.sim=simb;
+            simb.IsStatic=this.IsStatic;
+            simb.IsFinal=this.IsFinal;
+            simb.IsAbstract=this.isAbstract;
+            simb.vars=auxil;
+            //simb.pert=ts.claseActual.nombre;            
+            this.sim=simb;
+            //buscar el metodo en lo super
+            var r=ts.super;
+            var aux=null;
+           
+            for(var x=r.size();x>0;x--)
+            {              
+                
+                var g=r.get(x-1);              
+                if(g.hasItem(simb.getNombre()))
+                {
+                    aux= g.getItem(simb.getNombre());
+                }
+            }  
+            //si si existe preguntar si ambos son estaticos
+            var bandera=true;
+            if(aux==null)
+            {
+                er.addError("No hay metodo que sobreescribir ",this.linea,this.columna,this.archivo,
+            "SEMANTICO");
+            bandera=false;
+            }else if(aux.IsStatic)
+            {
+                er.addError("No se puede sobreescribir un metodo estatico ",this.linea,this.columna,this.archivo,
+            "SEMANTICO");
+            }else if(!(aux.visibilidad=="public"||aux.visibilidad=="protected"))
+            {
+                er.addError("La visibilidad de la clase superior no permite sobreescribir el metodo",this.linea,this.columna,this.archivo,
+            "SEMANTICO");
+            }
+
+            //comprobar y/o agregar a la tabla de globales actual
+            if(bandera)
+            {ts.AgregarSimbolo(simb,true,this.linea,this.columna,this.archivo);}
+         
+        }
     }
     traduccion_global(ts,traductor)
     {
@@ -76,23 +151,29 @@ class s_metodoOver{
     }
     comprobacion(ts,er)
     {
-        
+        ts.metodoActual=this.sim;
         //guardar una pseudo etiqueta de salida
         var minodo=new nodoDisplay("c",this.tipo);
         //guardar en el display para encontrar el return etiqueta,tipo        
         ts.displayRetornos.push(minodo);
         //cambiar de ambito
         ts.cambiarAmbito(true);
-        var visibilidad=0;
-        var modificador=0;
         //declarar el return
         var identif=new identificador("return",null);
         var posicion=ts.getPosicion(false);
         var simb=new simbolo(this.tipo,null,identif,tablaTipos.rol_variable,posicion,
-        ts.getAmbito(false),this.noDimensiones,visibilidad,modificador
-                                );
+        ts.getAmbito(false),this.noDimensiones,"publico");
         ts.AgregarSimbolo(simb,false,this.linea,this.columna,this.archivo);
         ts.AumentarPos(false);
+        //declarar el this
+        var ti=tablaTipos.getTipoObjeto(ts.claseActual.nombre);
+        identif=new identificador("this",null);
+        posicion=ts.getPosicion(false);
+        simb=new simbolo(ti,null,identif,tablaTipos.rol_variable,posicion,
+            ts.getAmbito(false),0,"publico");
+            ts.AgregarSimbolo(simb,false,this.linea,this.columna,this.archivo);
+            ts.AumentarPos(false);
+        simb.vars=ts.getpermitido(ts.claseActual.nombre);
         //declarar los parametros        
         for(var y=0;y<this.parametros.length;y++)
         {
@@ -101,8 +182,7 @@ class s_metodoOver{
             var iden=new identificador(mide.nombre,null);
             //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador
             var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
-            ts.getAmbito(false),mide.noDimensiones,visibilidad,modificador
-                                );
+            ts.getAmbito(false),mide.noDimensiones,"publico");
             ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
             ts.AumentarPos(false);
         }
@@ -129,19 +209,26 @@ class s_metodoOver{
        
         if(!this.isAbstract)
         {
-            traductor.imprimirHead("void "+this.sim.getNombre()+"(){");            
+            valores.iniciarLista();
+            traductor.imprimirHead("void "+this.sim.firma.substring(1,this.sim.firma.length-1)+"(){");            
             //cambiar ambito
             ts.cambiarAmbito(true);
             //declarar el retorno
-            var visibilidad=0;
-            var modificador=0;
             var iden=new identificador("return",null);
-            var posicion=ts.getPosicion(this.IsGlobal);
+            var posicion=ts.getPosicion(false);
             var simb=new simbolo(this.tipo,null,iden,tablaTipos.rol_variable,posicion,
-            ts.getAmbito(false),this.noDimensiones,visibilidad,modificador
-                                );
+            ts.getAmbito(false),this.noDimensiones,this.visibilidad);
             ts.AgregarSimbolo(simb,false,this.linea,this.columna,this.archivo);
             ts.AumentarPos(false);
+            //declarar el this
+            var ti=tablaTipos.getTipoObjeto(ts.claseActual.nombre);
+            var identif=new identificador("this",null);
+            posicion=ts.getPosicion(false);
+            var simb=new simbolo(ti,null,identif,tablaTipos.rol_variable,posicion,
+                ts.getAmbito(false),0,"publico");
+                ts.AgregarSimbolo(simb,false,this.linea,this.columna,this.archivo);
+                ts.AumentarPos(false);
+            simb.vars=ts.getpermitido(ts.claseActual.nombre);
             //declarar los parametros
             for(var y=0;y<this.parametros.length;y++)
             {
@@ -150,8 +237,7 @@ class s_metodoOver{
                 var iden=new identificador(mide.nombre,null);
                 //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador
                 var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
-                ts.getAmbito(false),mide.noDimensiones,visibilidad,modificador
-                                    );
+                ts.getAmbito(false),mide.noDimensiones,"publico");
                 ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
                 ts.AumentarPos(false);
             }
@@ -171,6 +257,54 @@ class s_metodoOver{
             traductor.imprimir_L(ts.displayRetornos.pop().etiqueta+":");
             traductor.imprimirHead("}");
         }
+    }
+    testMethod(ts,er)
+    {   var n1=0;var n2=0;var n3=0; var n4=0;
+        for(var x=0;x<this.mods.length;x++)
+        {
+            if(this.mods[x]==tablaTipos.estatico)
+            {
+                this.IsStatic=true;  n1++;
+            }else if(this.mods[x]==tablaTipos.abstracto)
+            {
+                this.IsAbstract=true; n4++;
+                
+            }else if(this.mods[x]==tablaTipos.ffinal)
+            {
+                this.IsFinal=true; n3++;
+            }else if(this.mods[x]==tablaTipos.publico)
+            {
+                this.visibilidad="public";  n2++;
+            }else if(this.mods[x]==tablaTipos.protegido)
+            {
+                this.visibilidad="protected";  n2++;
+            }else if(this.mods[x]==tablaTipos.privado)
+            {
+                this.visibilidad="private";  n2++;
+            }
+        }
+        if(n1>1)
+        {
+            er.addError("(method override)Modificador static repetido",this.linea,this.columna,this.archivo,
+            "SEMANTICO");
+        }else if(n2>1)
+        {
+            er.addError("(method override)Modificador de visibilidad repetido",this.linea,this.columna,this.archivo,
+            "SEMANTICO");
+        }else if(n3>1)
+        {
+            er.addError("(method override)Modificador final repetido",this.linea,this.columna,this.archivo,
+            "SEMANTICO");
+        }else if(n4>1)
+        {
+            er.addError("(method override)Modificador abstract repetido",this.linea,this.columna,this.archivo,
+            "SEMANTICO");
+        }
+        else
+        {
+            return true;
+        }
+        return false;
     }
 }
 

@@ -23,6 +23,8 @@ class s_metodoConstructor{
         this.IsFinal=false;
         this.IsAbstract=false;
         this.tipo=tablaTipos.tipo_vacio;
+        this.llamaDefault=true;
+        this.calli=null;
     }
     //no puede ser estatico
     comprobacion_global(ts,er)
@@ -60,6 +62,7 @@ class s_metodoConstructor{
     
     comprobacion(ts,er)
     {
+        ts.metodoActual=this.sim;
         //guardar una pseudo etiqueta de salida
         var minodo=new nodoDisplay("c",tablaTipos.tipo_vacio);
         //guardar en el display para encontrar el return etiqueta,tipo        
@@ -95,11 +98,22 @@ class s_metodoConstructor{
             ts.AumentarPos(false);
         }
 
-        
+        tablaTipos.banderaSuper=false;
         //ejecutar sentencias
         for(var j=0;j<this.sentencias.length;j++)
         {
+            
+            tablaTipos.vieneSuper=j;
             this.sentencias[j].comprobacion(ts,er);
+        }
+        if(tablaTipos.banderaSuper==false)
+        {
+                
+                this.llamaDefault=true;
+                this.iden=new identificador(ts.claseActual.padre.nombre,new Array());
+                var simb=new simbolo(null,null,this.iden,tablaTipos.rol_constructor);
+                this.calli=ts.BuscarSimbolo(simb,this.linea,this.columna,this.archivo);
+                
         }
         //regresar de ambito
         ts.regresarAmbito(true);
@@ -147,6 +161,24 @@ class s_metodoConstructor{
             var minodo2=new nodoDisplay(salida);
             ts.displayRetornos.push(minodo2);
             //console.log(this.sentencias);
+            if(this.llamaDefault&&this.calli!=null)
+            {
+                traductor.comentario("llamo al constructor default");
+                //llamar al super 
+                var t1=valores.getTemporal();
+                var t0=valores.getTemporal();
+                var t2=valores.getTemporal();
+                var t3=valores.getTemporal();
+                var t=ts.getTamActual();
+                traductor.imprimir(t1+"=p+"+t+";");
+                traductor.imprimir(t0+"="+t1+"+1;");
+                traductor.imprimir(t2+"=p+1;");
+                traductor.imprimir(t3+"=stack["+t2+"];");
+                traductor.imprimir("stack["+t0+"]="+t3+";");
+                traductor.imprimir("p=p+"+t+";");
+                traductor.imprimir("call "+this.calli.firma.substring(1,this.calli.firma.length-1)+"();")
+                traductor.imprimir("p=p-"+t+";");
+            }
             for(var x=0;x<this.sentencias.length;x++)
             {
                 this.sentencias[x].traducir(ts,traductor);

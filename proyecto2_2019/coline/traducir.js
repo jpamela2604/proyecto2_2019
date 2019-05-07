@@ -29,6 +29,7 @@ class traducir{
         this.getSizeArray();
         this.getforEach();
         this.gettoCharArray();
+        this.getObject();
         this.save("var p=0;\nvar h=0;\n");
         
     }
@@ -69,6 +70,13 @@ class traducir{
         var c="/*########    "+cadena+"    ########*/"+"\n";
         this.save(c);
         //console.log(c);
+    }
+    getObject()
+    {
+        this.save("void Object_def(){\n");
+        this.save("}\n");
+        this.save("void Object(){\n");
+        this.save("}\n");
     }
     getforEach()
     {

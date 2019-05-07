@@ -155,6 +155,8 @@ cmulti						"/*" [^*]* "*/"
         const nodoTipo=require("../../mng_ts/nodoTipo.js");
         const s_metodo=require("../compilador/s_metodo.js");
         const s_llamada=require("../compilador/s_llamada.js");
+        const s_llamadaSuper=require("../compilador/s_llamadaSuper.js");
+        const s_llamadaThis=require("../compilador/s_llamadaThis.js");
         const s_acArray=require("../compilador/s_acArray.js");
         
         const s_arreglo_lvals=require("../compilador/s_arreglo_lvals.js");
@@ -2120,6 +2122,7 @@ PARAMS          :PARAMS coma PARAM
                     $$.push($1); 
                 }
                 ;
+
 PARAM           :TIPO er_id MYDIM
                 {
                     vari.hash++;
@@ -4292,5 +4295,25 @@ LLAMADA         :er_id para parc
                 {
                     vari.hash++;
                     $$=new s_llamada($1,$3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                |this_ para LCOND parc
+                {
+                    vari.hash++;
+                    $$=new s_llamadaThis($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                |this_ para parc
+                {
+                    vari.hash++;
+                    $$=new s_llamadaThis(new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | super_ para LCOND parc
+                {
+                    vari.hash++;
+                    $$=new s_llamadaSuper($3,@1.first_line,@1.first_column,vari.archivo,vari.hash);
+                }
+                | super_ para parc 
+                {
+                    vari.hash++;
+                    $$=new s_llamadaSuper(new Array(),@1.first_line,@1.first_column,vari.archivo,vari.hash);
                 }
                 ;

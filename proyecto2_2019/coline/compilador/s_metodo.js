@@ -58,21 +58,46 @@ class s_metodo{
                 }
             }
         }
+        
 
         if(this.testMethod(ts,er))
         {
             this.iden =new identificador(this.id,this.parametros);
-            //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador)
+            //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador,pert
             var simb=new simbolo(this.tipo,null,this.iden,tablaTipos.rol_metodo,-1,
-            ts.getAmbito(true),this.noDimensiones,this.visibilidad,null
+            ts.getAmbito(true),this.noDimensiones,this.visibilidad,null,ts.claseActual.nombre
             );
             simb.IsStatic=this.IsStatic;
             simb.IsFinal=this.IsFinal;
             simb.IsAbstract=this.isAbstract;
             simb.vars=auxil;
-
+            //simb.pert=ts.claseActual.nombre;            
             this.sim=simb;
-            ts.AgregarSimbolo(simb,true,this.linea,this.columna,this.archivo);
+            //buscar el metodo en lo super
+            var r=ts.super;
+            var aux=null;
+           
+            for(var x=r.size();x>0;x--)
+            {              
+                
+                var g=r.get(x-1);              
+                if(g.hasItem(simb.getNombre()))
+                {
+                    aux= g.getItem(simb.getNombre());
+                }
+            }  
+            //si si existe preguntar si ambos son estaticos
+            var bandera=true;
+            if(!(aux==null||(aux.IsStatic&&simb.IsStatic)))
+            {
+                er.addError("Falta anotacion override ",this.linea,this.columna,this.archivo,
+            "SEMANTICO");
+            bandera=false;
+            }
+
+            //comprobar y/o agregar a la tabla de globales actual
+            if(bandera)
+            {ts.AgregarSimbolo(simb,true,this.linea,this.columna,this.archivo);}
          
         }
     }
@@ -83,7 +108,7 @@ class s_metodo{
     
     comprobacion(ts,er)
     {
-        
+        ts.metodoActual=this.sim;
         //guardar una pseudo etiqueta de salida
         var minodo=new nodoDisplay("c",this.tipo);
         //guardar en el display para encontrar el return etiqueta,tipo        
@@ -115,6 +140,7 @@ class s_metodo{
             //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador
             var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
             ts.getAmbito(false),mide.noDimensiones,"publico");
+            simb.vars=this.getVars(mide.tipo,ts);
             ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
             ts.AumentarPos(false);
         }
@@ -170,6 +196,7 @@ class s_metodo{
                 //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador
                 var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
                 ts.getAmbito(false),mide.noDimensiones,"publico");
+                simb.vars=this.getVars(mide.tipo,ts);
                 ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
                 ts.AumentarPos(false);
             }
@@ -277,6 +304,31 @@ class s_metodo{
             return true;
         }
         return false;
+    }
+    getVars(tipo,ts)
+    {
+        var miv=null;
+        if(tipo.indice==tablaTipos.objeto)
+        {
+            //console.log(this.tipo);
+            if(!ts.ispermitido(tipo.nombre))
+            {
+                er.addError("No se encontro la clase "+tipo.nombre,this.linea,this.columna,this.archivo,
+                "SEMANTICO");
+                return ;
+            }else
+            {
+                miv=ts.getpermitido(tipo.nombre);
+            }
+        }else if(tipo.indice==tablaTipos.cadena)
+        {
+            miv=ts.getpermitido(tipo.nombre);
+        }else if(tipo.indice==tablaTipos.arreglo)
+        {
+            miv=ts.getpermitido("Arreglo CAAS");
+        }
+
+        return miv;
     }
 }
 

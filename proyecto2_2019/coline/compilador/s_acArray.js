@@ -79,9 +79,34 @@ class s_acArray{
             this.elsimb=new simbolo(nuevo);           
         }
         //this.c=r;
-        this.elsimb.vars=r.vars;
+        this.elsimb.vars=this.getVars(this.elsimb.tipo,ts);
         //console.log(this.elsimb);
         return this.elsimb;
+    }
+    getVars(tipo,ts)
+    {
+        var miv=null;
+        if(tipo.indice==tablaTipos.objeto)
+        {
+            //console.log(this.tipo);
+            if(!ts.ispermitido(tipo.nombre))
+            {
+                er.addError("No se encontro la clase "+tipo.nombre,this.linea,this.columna,this.archivo,
+                "SEMANTICO");
+                return ;
+            }else
+            {
+                miv=ts.getpermitido(tipo.nombre);
+            }
+        }else if(tipo.indice==tablaTipos.cadena)
+        {
+            miv=ts.getpermitido(tipo.nombre);
+        }else if(tipo.indice==tablaTipos.arreglo)
+        {
+            miv=ts.getpermitido("Arreglo CAAS");
+        }
+
+        return miv;
     }
     traducir(ts,traductor)
     {

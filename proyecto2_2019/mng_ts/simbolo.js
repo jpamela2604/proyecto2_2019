@@ -2,7 +2,7 @@
 const identificador=require("./identificador.js");
 const tablaTipos=require("../coline/tablaTipos.js");
 class simbolo{
-    constructor(tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador)
+    constructor(tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador,pert)
     {        
         this.tipo=tipo;
         this.aux=aux;//valor
@@ -14,9 +14,14 @@ class simbolo{
         this.visibilidad=visibilidad;
         this.modificador=modificador;
         this.referencia=null;
-        this.modificaStack=true;
+        this.modificaStack=true;        
+        this.pert=pert;
         if(this.id!=undefined){
         this.firma=this.getNombre();}
+        if(this.rol==tablaTipos.rol_metodo&&this.id!=undefined)
+        {
+            this.firma=this.firma+this.pert+"_";
+        }
         this.IsStatic=false;
         this.IsFinal=false;
         this.IsAbstract=false;

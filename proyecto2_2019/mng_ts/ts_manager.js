@@ -1,12 +1,14 @@
  const Stack=require("../pila.js");
  const Hashtable=require("../hashtable.js");
  const clase=require("./clase.js");
+ /*
  const simbolo=require("./simbolo.js");
  const tablaTipos= require("../coline/tablaTipos.js");
  const identificador=require("./identificador.js");
  const parametro=require("./parametro.js");
  const vari=require("../var.js");
  const nodoTipo=require("./nodoTipo");
+ */
  class ts_manager{
     constructor(er)
     {
@@ -19,36 +21,57 @@
         this.globales=new Hashtable();        
         this.posiciones=new Stack();
         this.posicion=0;
-        this.contadorGlobales=0;
+        this.contadorGlobales=0; 
         this.tamActual=0;
         this.auxiliar=new Stack();
         this.tiposPermitidos=null;        
         this.tipoClase="super";
         this.claseActual=null;
         this.head=null;
+        this.super=new Stack();
+        this.metodoActual=null;
+    }
+
+    setC(clase)
+    {
+        this.claseActual=clase;
+        this.globales=clase.globales;
+        this.tiposPermitidos=clase.tipos;
+        this.super=clase.super;
+        this.tabla=clase.getPila();        
+        this.ambitoActual=new Hashtable();  
     }
     
     BuscarSimbolo(simb,linea,columna,archivo)
     {
+       
         if(this.head==null)
         {
+            
             return this.BuscarSim(simb,linea,columna,archivo);
         }else
         {
-           // console.log(this.head);
-           // console.log("----");
-            var g=this.head.vars.globales;
-            if(!g.hasItem(simb.getNombre()))
+           
+            if(this.head.vars instanceof clase)
             {
-                this.er.addError("No se encontro "+simb.getRol()+" "+simb.getPseudoNombre(),linea,columna,archivo,
-                "SEMANTICO");
-                return null;
+                var r=this.head.vars.getPila()  
             }else
             {
-                
-                return g.getItem(simb.getNombre());
+                var r=this.head.vars;
+            }
 
-            }            
+            for(var x=r.size();x>0;x--)
+            {              
+                
+                var g=r.get(x-1);              
+                if(g.hasItem(simb.getNombre()))
+                {
+                    return g.getItem(simb.getNombre());
+                }
+            }  
+            this.er.addError("No se encontro "+simb.getRol()+" "+simb.getPseudoNombre(),linea,columna,archivo,
+                "SEMANTICO");
+                return null;       
         }
     }
     getpermitido(nombre)
@@ -83,7 +106,7 @@
         return IsGlobal?"GLOBAL":"LOCAL";
     }
     
-    AgregarSimbolo(simb,IsGlobal,linea,columna,archivo,IsTrad)
+    AgregarSimbolo(simb,IsGlobal,linea,columna,archivo)
     {
         if(IsGlobal)
         {
@@ -168,9 +191,12 @@
             this.tabla.push(this.ambitoActual);
             this.auxiliar.push(this.tabla);
             this.tabla=new Stack();
+            for(var x=0;x<this.super.size();x++)
+            {
+                this.tabla.push(this.super.get(x));
+            }
             this.tabla.push(this.globales);
-            this.ambitoActual=new Hashtable();
-            
+            this.ambitoActual=new Hashtable();            
             
 
         }else

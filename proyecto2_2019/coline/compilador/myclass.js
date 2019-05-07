@@ -6,6 +6,7 @@ const clase=require("../../mng_ts/clase");
 const tablaTipos= require("../tablaTipos.js");
 const s_declaracionG=require("./s_declaracionG.js");
 var identificador=require("../../mng_ts/identificador.js");
+const valores = require("../values_manager.js");
 class myclass{
     constructor(mods,id,extiende,sentencias,linea,columna,archivo,hash) 
     {
@@ -39,16 +40,19 @@ class myclass{
     }
     agregarExtend(ts,er)
     {
-        ts.claseActual=this.clase;
+        /*ts.claseActual=this.clase;
         ts.globales=this.clase.globales;
-        this.ambitoActual=this.clase.globales;
-        ts.tiposPermitidos=this.clase.tipos;
+        ts.tiposPermitidos=this.clase.tipos;*/
+        ts.setC(this.clase);
+        
+        
         
         if(this.extiende==null)
         {
             var padre=ts.getpermitido("Object");
             padre.hijos.push(this.clase);
             this.clase.padre=padre;
+            this.clase.super=padre.getPila();
         }else
         {
             var padre=ts.getpermitido(this.extiende);
@@ -57,16 +61,28 @@ class myclass{
                 er.addError("No se encontro la clase "+this.extiende+", que se desea extender",this.linea,this.columna,this.archivo,
                         "SEMANTICO");
                 this.clase=null;
+                return;
             }
             if (padre.IsAbstract)
             {
                 er.addError("No se puede extender la clase "+this.extiende+", porque es final",this.linea,this.columna,this.archivo,
                 "SEMANTICO");
                 this.clase=null;
+                return;
             }else
             {
+                /* comprobar que el padre no sea igual al hijo */
+                if(this.clase.nombre==padre.nombre)
+                {
+                    er.addError("No se puede extender la clase "+this.extiende+", porque genera herencia ciclica",this.linea,this.columna,this.archivo,
+                "SEMANTICO");
+                this.clase=null;
+                return;
+                }
+               
                 padre.hijos.push(this.clase);
                 this.clase.padre=padre;
+                this.clase.super=padre.getPila();
                 return;
             }
 
@@ -81,9 +97,12 @@ class myclass{
         }else
         {
             //colocar la de globales y la de tipos
-            ts.claseActual=this.clase;
+            /*ts.claseActual=this.clase;
             ts.globales=this.clase.globales;
-            ts.tiposPermitidos=this.clase.tipos;
+            ts.tiposPermitidos=this.clase.tipos;*/
+            ts.setC(this.clase);
+            
+            ts.contadorGlobales=this.clase.padre.tam;
             //guardar sus metodos, constructores y main
             for(var x=0;x<this.sentencias.length;x++)
             {
@@ -108,6 +127,16 @@ class myclass{
             //console.log(this.clase.globales);
             //guardas las variables globales   
             
+            //declarar el this
+            var ti=tablaTipos.getTipoObjeto(ts.claseActual.nombre);
+            var identif=new identificador("this",null);
+            var posicion=0;
+            simb=new simbolo(ti,null,identif,tablaTipos.rol_variable,posicion,
+                ts.getAmbito(true),0,"publico");
+                ts.AgregarSimbolo(simb,true,this.linea,this.columna,this.archivo);
+                //ts.AumentarPos(false);
+            simb.vars=ts.getpermitido(ts.claseActual.nombre);
+
             for(var x=0;x<this.sentencias.length;x++)
             {
                 var a=this.sentencias[x];
@@ -117,17 +146,31 @@ class myclass{
                 }
             }
             this.clase.tam=ts.contadorGlobales;
-            ts.contadorGlobales=0;
+           // ts.contadorGlobales=0;
         }
     }
     traduccion_global(ts,traductor)
     {
-        ts.claseActual=this.clase;
+        /*ts.claseActual=this.clase;
         ts.globales=this.clase.globales;
-        ts.tiposPermitidos=this.clase.tipos;
+        ts.tiposPermitidos=this.clase.tipos;*/
+        ts.setC(this.clase);
 
-        traductor.imprimirHead("void "+this.id+"_def"+"(){");
-        traductor.imprimir("h=h+"+ts.contadorGlobales+";");
+        traductor.imprimirHead("void "+this.id+"_def"+"(){"); 
+        //traductor.imprimir("h=h+"+ts.contadorGlobales+";");
+        
+        if(this.clase.padre.nombre!="Object")
+        {
+            var psim=valores.getTemporal(); var p2=valores.getTemporal();
+
+            traductor.imprimir(psim+"=p+1;");
+            traductor.imprimir(p2+"=stack[p];");
+            traductor.imprimir("stack["+psim+"]="+p2+";");
+            traductor.imprimir("p=p+1;");
+            traductor.imprimir("call "+this.clase.padre.nombre+"_def();");
+            traductor.imprimir("p=p-1;");
+            
+        }
         for(var x=0;x<this.sentencias.length;x++)
         {
             this.sentencias[x].traduccion_global(ts,traductor);
@@ -164,9 +207,10 @@ class myclass{
     }
     comprobacion(ts,er)
     {
-        ts.claseActual=this.clase;
+        /*ts.claseActual=this.clase;
         ts.globales=this.clase.globales;
-        ts.tiposPermitidos=this.clase.tipos;
+        ts.tiposPermitidos=this.clase.tipos;*/
+        ts.setC(this.clase);
         for(var x=0;x<this.sentencias.length;x++)
         {
             this.sentencias[x].comprobacion(ts,er);
@@ -174,9 +218,10 @@ class myclass{
     }
     traducir(ts,traductor)
     {
-        ts.claseActual=this.clase;
+        /*ts.claseActual=this.clase;
         ts.globales=this.clase.globales;
-        ts.tiposPermitidos=this.clase.tipos;
+        ts.tiposPermitidos=this.clase.tipos;*/
+        ts.setC(this.clase);
         //si no tiene ningun constructor agregar el constructor vacio;
         if(this.AgregoVacio)
         {

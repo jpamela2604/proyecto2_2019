@@ -11,7 +11,8 @@ class identificador{
         {            
             for(var x=0;x<this.parametros.length;x++)
             {
-                myname=myname+"_"+this.parametros[x].tipo.nombre;
+                //myname=myname+"_"+this.parametros[x].tipo.nombre;
+                myname=myname+"_"+(this.parametros[x].tipo.nombre==""?"ArrayCAAS":this.parametros[x].tipo.nombre);
             }
             myname=myname+"_";
         }
@@ -27,7 +28,8 @@ class identificador{
             var aux="";
             for(var x=0;x<this.parametros.length;x++)
             {
-                myname=myname+aux+this.parametros[x].tipo.nombre;
+                //myname=myname+aux+this.parametros[x].tipo.nombre;
+                myname=myname+"_"+(this.parametros[x].tipo.nombre==""?"ArrayCAAS":this.parametros[x].tipo.nombre);
                 aux=",";
             }
             myname=myname+")";

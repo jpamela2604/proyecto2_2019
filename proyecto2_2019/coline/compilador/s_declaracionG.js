@@ -21,15 +21,16 @@ class s_declaracionG{
     }
     traduccion_global(ts,traductor)
     {
-         traductor.comentario("DECLARACION GLOBAL");
+         
             var visibilidad=0;
             var modificador=0;
             for(var i=0;i<this.declas.length;i++)
-            {
+            {                
                 var mide=this.declas[i];     
+                traductor.comentario("DECLARACION GLOBAL "+mide.id);
                 var tx=valores.getTemporal();var ty=valores.getTemporal();
                 traductor.imprimir(ty+"=stack[p];");
-                traductor.imprimir(tx+"="+ty+"+"+mide.posicion+";");
+                traductor.imprimir(tx+"="+ty+"+"+mide.posicion+";//+pos");
                 if(mide.valor==null)
                 {
                     traductor.imprimir("heap["+tx+"]="+this.getValorDefault(mide.tipo,traductor)+";");
@@ -111,26 +112,34 @@ class s_declaracionG{
         }
 
     }
-
-    testthis(ts,er)
+    getVars(tipo,ts)
     {
         var miv=null;
-        if(this.tipo.indice==tablaTipos.objeto)
+        if(tipo.indice==tablaTipos.objeto)
         {
             //console.log(this.tipo);
-            if(!ts.ispermitido(this.tipo.nombre))
+            if(!ts.ispermitido(tipo.nombre))
             {
-                er.addError("No se encontro la clase "+this.tipo.nombre,this.linea,this.columna,this.archivo,
+                er.addError("No se encontro la clase "+tipo.nombre,this.linea,this.columna,this.archivo,
                 "SEMANTICO");
                 return ;
             }else
             {
-                miv=ts.getpermitido(this.tipo.nombre);
+                miv=ts.getpermitido(tipo.nombre);
             }
-        }else if(this.tipo.indice==tablaTipos.cadena)
+        }else if(tipo.indice==tablaTipos.cadena)
         {
-            miv=ts.getpermitido(this.tipo.nombre);
+            miv=ts.getpermitido(tipo.nombre);
+        }else if(tipo.indice==tablaTipos.arreglo)
+        {
+            miv=ts.getpermitido("Arreglo CAAS");
         }
+
+        return miv;
+    }
+    testthis(ts,er)
+    {        
+
         if(this.tipo.indice==tablaTipos.vacio)
         {
             er.addError("void no es un tipo de variable permitida",
@@ -158,7 +167,7 @@ class s_declaracionG{
                 var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
                 ts.getAmbito(true),mide.noDimensiones,visibilidad,modificador
                 );
-                simb.vars=miv;
+                simb.vars=this.getVars(mide.tipo,ts);
                 ts.AgregarSimbolo(simb,true,mide.linea,mide.columna,mide.archivo);
                 
                 ts.AumentarPos(true);
@@ -186,7 +195,7 @@ class s_declaracionG{
                             
                                 ts.getAmbito(true),mide.noDimensiones,visibilidad,modificador
                             );
-                            simb.vars=miv;
+                            simb.vars=this.getVars(mide.tipo,ts);
                             ts.AgregarSimbolo(simb,true,mide.linea,mide.columna,mide.archivo);
                             ts.AumentarPos(true);
                         }else

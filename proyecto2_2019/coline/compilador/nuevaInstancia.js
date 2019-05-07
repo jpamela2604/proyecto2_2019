@@ -94,15 +94,18 @@ class nuevaInstancia{
         var tactual=ts.getTamActual()-1;
         var tx=valores.getTemporal();
         this.s.aux=tx;
+        traductor.comentario("nueva instancia "+this.id);
         traductor.imprimir(tx+"=h;");
         traductor.imprimir("heap["+tx+"]="+tx+";")
-        traductor.imprimir("h=h+"+(this.s.vars.tam+1)+";");
+        traductor.imprimir("h=h+"+(this.s.vars.tam+1)+";"+"//tamano de la clase ");
         var tsim1=valores.getTemporal();
+
+        //llamar a la definicion actual
         traductor.imprimir(tsim1+"=p+"+tactual+";//cambio simulado");
         traductor.imprimir("stack["+tsim1+"]="+tx+";");
         traductor.imprimir("p=p+"+tactual+";//cambio real");
         traductor.imprimir("call "+this.id+"_def();");
-        traductor.imprimir("$$_clean_scope("+tsim1+","+tactual+");");
+       // traductor.imprimir("$$_clean_scope("+tsim1+","+tactual+");");
         traductor.imprimir("p=p-"+tactual+";//cambio real");
 
        

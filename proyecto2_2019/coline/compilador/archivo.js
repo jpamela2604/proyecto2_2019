@@ -112,6 +112,13 @@ class archivo{
         var obje=new clase("Object",null,"public","super");
         var visibilidad="publico";
         var modificador=0;        
+        //agregar el constructor
+        var parametros=new Array();   
+            var iden =new identificador("Object",parametros);
+            //tipo,aux,id,rol,posicion,ambito,dimensiones,visibilidad,modificador)
+            var simb=new simbolo(tablaTipos.tipo_vacio,null,iden,tablaTipos.rol_constructor,-1,ts.getAmbito(true),0,visibilidad,modificador );
+            obje.globales.setItem(simb.getNombre(),simb);
+
         //agregar el getclass()   
             var parametros=new Array();   
             var iden =new identificador("getclass",parametros);
@@ -176,6 +183,7 @@ class archivo{
             simb=new simbolo(tablaTipos.tipo_cadena,null,iden,tablaTipos.rol_metodo,-1,ts.getAmbito(true),0,visibilidad,modificador );
             simb.firma="_toLower_";
             cadena.globales.setItem(simb.getNombre(),simb);
+        cadena.super=obje.getPila();        
         tiposPermitidos.setItem(cadena.nombre,cadena);
     }
     agregarClaseArray(obje,tiposPermitidos,ts)
@@ -191,6 +199,7 @@ class archivo{
              var simb=new simbolo(tablaTipos.tipo_entero,null,iden,tablaTipos.rol_metodo,-1,ts.getAmbito(true),0,visibilidad,modificador );
              arreglo.globales.setItem(simb.getNombre(),simb);
              simb.firma="_getSize_";
+             arreglo.super=obje.getPila();
         tiposPermitidos.setItem(arreglo.nombre,arreglo);
     }
 }

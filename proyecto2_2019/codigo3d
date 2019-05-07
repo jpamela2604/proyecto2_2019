@@ -1022,465 +1022,320 @@ void toCharArray(){
         goto L107;
     L108:
 }
+void Object_def(){
+}
+void Object(){
+}
 var p=0;
 var h=0;
-void miclas_def(){
-       h=h+0;
-/*########    DECLARACION GLOBAL    ########*/
+void temporal_def(){
+}
+void temporal(){
+}
+void a_def(){
+/*########    DECLARACION GLOBAL a    ########*/
        t392=stack[p];
-       t391=t392+1;
-       heap[t391]=555;
-/*########    DECLARACION GLOBAL    ########*/
+       t391=t392+1;//+pos
+       heap[t391]=5;
+}
+void b_def(){
+       t393=p+1;
        t394=stack[p];
-       t393=t394+2;
-       t395=h;
-       heap[h]=120;
-       h=h+1;
-       heap[h]=120;
-       h=h+1;
-       heap[h]=120;
-       h=h+1;
-       heap[h]=120;
-       h=h+1;
-       heap[h]=557886;
-       h=h+1;
-       heap[t393]=t395;
-/*########    DECLARACION GLOBAL    ########*/
-       t397=stack[p];
-       t396=t397+3;
-       heap[t396]=557886;
-}
-void otra_def(){
-       h=h+0;
-/*########    DECLARACION GLOBAL    ########*/
-       t399=stack[p];
-       t398=t399+1;
-       heap[t398]=0;
-/*########    DECLARACION GLOBAL    ########*/
-       t401=stack[p];
-       t400=t401+2;
-       heap[t400]=557886;
-/*########    DECLARACION GLOBAL    ########*/
-       t403=stack[p];
-       t402=t403+3;
-       heap[t402]=557886;
-}
-void main(){
-/*########    DECLARACION    ########*/
-       t404=p+2;
-       t405=h;
-       heap[h]=112;
-       h=h+1;
-       heap[h]=97;
-       h=h+1;
-       heap[h]=109;
-       h=h+1;
-       heap[h]=76;
-       h=h+1;
-       heap[h]=65;
-       h=h+1;
-       heap[h]=83;
-       h=h+1;
-       heap[h]=32;
-       h=h+1;
-       heap[h]=112;
-       h=h+1;
-       heap[h]=97;
-       h=h+1;
-       heap[h]=108;
-       h=h+1;
-       heap[h]=97;
-       h=h+1;
-       heap[h]=99;
-       h=h+1;
-       heap[h]=73;
-       h=h+1;
-       heap[h]=79;
-       h=h+1;
-       heap[h]=83;
-       h=h+1;
-       heap[h]=557886;
-       h=h+1;
-       stack[t404]=t405;
-/*########    DECLARACION    ########*/
-       t406=p+3;
-       t407=p+2;//ref
-       t408=stack[t407];//valor
-/*########    SENTENCIA LLAMADA    ########*/
-       t409=p+4;
-       stack[t409]=t404;//guardo temporal
-       t409=p+5;
-       stack[t409]=t405;//guardo temporal
-       t409=p+6;
-       stack[t409]=t406;//guardo temporal
-       t409=p+7;
-       stack[t409]=t407;//guardo temporal
-       t409=p+8;
-       stack[t409]=t408;//guardo temporal
-       t410=p+9;//cambio simulado
-       t411=t410+1;
-       t1=9;
+       stack[t393]=t394;
+       p=p+1;
+       call a_def();
+       p=p-1;
+/*########    DECLARACION GLOBAL b    ########*/
+       t396=stack[p];
+       t395=t396+2;//+pos
+       heap[t395]=6;
+/*########    DECLARACION GLOBAL a    ########*/
+       t398=stack[p];
+       t397=t398+3;//+pos
+       t399=p+0;//posicion del this
+       t400=stack[t399];//obtengo posicion del this
+       t1=44;
+       t2=16;
+       if(t400==557886) goto nullex;
+       t403=t400+1;//ref
+       t405=heap[t403];//valor
+       t406=78+t405;
+       heap[t397]=t406;
+/*########    DECLARACION GLOBAL h    ########*/
+       t408=stack[p];
+       t407=t408+4;//+pos
+       t409=p+0;//posicion del this
+       t410=stack[t409];//obtengo posicion del this
+       t1=45;
        t2=15;
-       if(t408==557886) goto nullex;
-       stack[t411]=t408;
-       p=p+9;//cambio real
-       call toCharArray();
-//valor retorno
-       t413=p+0;
-       t414=stack[t413];
-       p=p-9;//cambio real
-       t409=p+4;
-       t404=stack[t409];//saco temporal
-       t409=p+5;
-       t405=stack[t409];//saco temporal
-       t409=p+6;
-       t406=stack[t409];//saco temporal
-       t409=p+7;
-       t407=stack[t409];//saco temporal
-       t409=p+8;
-       t408=stack[t409];//saco temporal
-       stack[t406]=t414;
-/*########    SENTENCIA FOREACH    ########*/
-       t415=p+3;//ref
-       t416=stack[t415];//valor
-       t422=p+7;
-       t423=t422+1;
-       stack[t423]=t416;
-       t424=t422+2;
-       stack[t424]=1;
-       p=p+7;
-       call  getSize();
+       if(t410==557886) goto nullex;
+       t413=t410+2;//ref
+       t415=heap[t413];//valor
+       t416=10+t415;
+       heap[t407]=t416;
+}
+void c_def(){
+       t417=p+1;
        t418=stack[p];
-       p=p-7;
-       t417=h;
-       t422=p+7;
-       t423=t422+1;
-       stack[t423]=t416;
-       t424=t422+2;
-       stack[t424]=1;
-       p=p+7;
-       call  getForEach();
-       p=p-7;
-       t425=0;
-   L111: //etiqueta de inicio de ciclo
-       if (t425>=t418) goto L110;
-       t419=t425+t417;
-       t420=heap[t419];
-       t421=p+6;
-       stack[t421]=t420;
-//sentencias
-/*########    SENTENCIA println    ########*/
-       t426=p+6;//ref
-       t427=stack[t426];//valor
-       print("%c",t427);
-       print("%c",10);
-   L112:
-       t425=t425+1;
-       goto L111;
-   L110:
+       stack[t417]=t418;
+       p=p+1;
+       call b_def();
+       p=p-1;
+/*########    DECLARACION GLOBAL c    ########*/
+       t420=stack[p];
+       t419=t420+5;//+pos
+       heap[t419]=7;
+/*########    DECLARACION GLOBAL ra    ########*/
+       t422=stack[p];
+       t421=t422+6;//+pos
+       t423=h;
+       heap[h]=11;
+       h=h+1;
+       heap[h]=5;
+       h=h+1;
+       t424=p+1;
+       t425=t424+1;
+       stack[t425]=0;
+       t426=t424+2;
+       stack[t426]=t423;
+       t427=t424+3;
+       stack[t427]=2;
+       t428=t424+4;
+       stack[t428]=0;
+       p=p+1;
+       call initArray();
+       t429=stack[p];
+       p=p-1;
+       heap[t421]=t429;
+/*########    DECLARACION GLOBAL rb    ########*/
+       t431=stack[p];
+       t430=t431+7;//+pos
+       heap[t430]=6312;
+}
+void c(){
+}
+void d_def(){
+}
+void d(){
+}
+void main_temporal(){
+/*########    DECLARACION u    ########*/
+       t432=p+2;//+pos
+/*########    nueva instancia d    ########*/
+       t433=h;
+       heap[t433]=t433;
+       h=h+1;//tamano de la clase 
+       t434=p+3;//cambio simulado
+       stack[t434]=t433;
+       p=p+3;//cambio real
+       call d_def();
+       p=p-3;//cambio real
+       t435=p+3;//cambio simulado
+       t436=t435+1;
+       stack[t436]=t433;
+       p=p+3;//cambio real
+       call d();
+       $$_clean_scope(t435,3);
+       p=p-3;//cambio real
+       stack[t432]=t433;
    L109:
 }
-void miclas_int_String(){
-/*########    acceso    ########*/
-       t428=p+1;//posicion del this
-       t429=stack[t428];//obtengo posicion del this
-       t1=19;
-       t2=7;
-       if(t429==557886) goto nullex;
-       t432=t429+1;//ref
-       t434=heap[t432];//valor
-/*########    valor    ########*/
-       t435=p+2;//ref
-       t436=stack[t435];//valor
-/*########    asignacion    ########*/
-       heap[t432]=t436;
-/*########    acceso    ########*/
-       t437=p+1;//posicion del this
-       t438=stack[t437];//obtengo posicion del this
-       t439=t438+2;//ref
-       t440=heap[t439];//valor
-/*########    valor    ########*/
-       t441=p+3;//ref
-       t442=stack[t441];//valor
-/*########    asignacion    ########*/
-       heap[t439]=t442;
-   L113:
+void a_temporal(){
+   L110:
 }
 void a(){
-/*########    sentencia return    ########*/
-       t443=p+0;
-       t444=p+1;//posicion del this
-       t445=stack[t444];//obtengo posicion del this
-       t446=t445+1;//ref
-       t447=heap[t446];//valor
-       t448=t447*5;
-       stack[t443]=t448;
-       goto L114;
-   L114:
+/*########    llamo al constructor default    ########*/
+       t437=p+3;
+       t438=t437+1;
+       t439=p+1;
+       t440=stack[t439];
+       stack[t438]=t440;
+       p=p+3;
+       call Object();
+       p=p-3;
+/*########    acceso    ########*/
+       t441=p+1;//posicion del this
+       t442=stack[t441];//obtengo posicion del this
+       t443=t442+1;//ref
+       t444=heap[t443];//valor
+/*########    valor    ########*/
+/*########    asignacion    ########*/
+       heap[t443]=100000;
+   L111:
 }
-void otra_int_String(){
+void a_int(){
+/*########    llamo al constructor default    ########*/
+       t445=p+4;
+       t446=t445+1;
+       t447=p+1;
+       t448=stack[t447];
+       stack[t446]=t448;
+       p=p+4;
+       call Object();
+       p=p-4;
 /*########    acceso    ########*/
        t449=p+1;//posicion del this
        t450=stack[t449];//obtengo posicion del this
-       t1=36;
-       t2=7;
-       if(t450==557886) goto nullex;
-       t453=t450+1;//ref
-       t455=heap[t453];//valor
+       t451=t450+1;//ref
+       t452=heap[t451];//valor
 /*########    valor    ########*/
-       t456=p+2;//ref
+/*########    asignacion    ########*/
+       heap[t451]=200000;
+   L112:
+}
+void id_int_int_a(){
+/*########    sentencia return    ########*/
+       t453=p+0;
+       t454=p+2;//ref
+       t455=stack[t454];//valor
+       t456=p+3;//ref
        t457=stack[t456];//valor
-/*########    asignacion    ########*/
-       heap[t453]=t457;
+       t458=t455+t457;
+       t459=t458*3;
+       stack[t453]=t459;
+       goto L113;
+   L113:
+}
+void b(){
+/*########    llamo al constructor default    ########*/
+       t460=p+3;
+       t461=t460+1;
+       t462=p+1;
+       t463=stack[t462];
+       stack[t461]=t463;
+       p=p+3;
+       call a();
+       p=p-3;
 /*########    acceso    ########*/
-       t458=p+1;//posicion del this
-       t459=stack[t458];//obtengo posicion del this
-       t1=37;
-       t2=7;
-       if(t459==557886) goto nullex;
-       t462=t459+2;//ref
-       t464=heap[t462];//valor
+       t464=p+1;//posicion del this
+       t465=stack[t464];//obtengo posicion del this
+       t466=t465+2;//ref
+       t467=heap[t466];//valor
 /*########    valor    ########*/
-       t465=p+3;//ref
-       t466=stack[t465];//valor
 /*########    asignacion    ########*/
-       heap[t462]=t466;
-/*########    acceso    ########*/
-       t467=p+1;//posicion del this
-       t468=stack[t467];//obtengo posicion del this
-       t1=38;
-       t2=7;
-       if(t468==557886) goto nullex;
-       t471=t468+3;//ref
-       t473=heap[t471];//valor
-/*########    valor    ########*/
-       t474=h;
-       heap[t474]=t474;
-       h=h+4;
-       t475=p+4;//cambio simulado
-       stack[t475]=t474;
-       p=p+4;//cambio real
-       call miclas_def();
-       $$_clean_scope(t475,4);
-       p=p-4;//cambio real
-       t476=p+4;//cambio simulado
-       t477=t476+1;
-       stack[t477]=t474;
-       t478=t476+2;
-       stack[t478]=3696;
-       t479=t476+3;
-       t480=h;
-       heap[h]=109;
-       h=h+1;
-       heap[h]=105;
-       h=h+1;
-       heap[h]=115;
-       h=h+1;
-       heap[h]=115;
-       h=h+1;
-       heap[h]=557886;
-       h=h+1;
-       stack[t479]=t480;
-       p=p+4;//cambio real
-       call miclas_int_String();
-       $$_clean_scope(t476,4);
-       p=p-4;//cambio real
-/*########    asignacion    ########*/
-       heap[t471]=t474;
+       heap[t466]=56;
+   L114:
+}
+void b_int(){
+/*########    llamo al constructor default    ########*/
+       t468=p+4;
+       t469=t468+1;
+       t470=p+1;
+       t471=stack[t470];
+       stack[t469]=t471;
+       p=p+4;
+       call a();
+       p=p-4;
+/*########    SENTENCIA println    ########*/
+       t472=p+1;//posicion del this
+       t473=stack[t472];//obtengo posicion del this
+       t1=53;
+       t2=16;
+       if(t473==557886) goto nullex;
+       t476=t473+1;//ref
+       t478=heap[t476];//valor
+       print("%e",t478);
+       print("%c",10);
    L115:
 }
-void funciona(){
-/*########    SENTENCIA println    ########*/
-       t481=p+1;//posicion del this
-       t482=stack[t481];//obtengo posicion del this
-       t483=t482+1;//ref
-       t484=heap[t483];//valor
-       t485=p+3;
-       t486=t485+1;
-       stack[t486]=t484;
-       t487=t485+2;
-       stack[t487]=0;
-       p=p+3;
-       call ftoa();
-       t488=stack[p];
-       p=p-3;
-       t489=h;
-       heap[h]=32;
-       h=h+1;
-       heap[h]=557886;
-       h=h+1;
-       if(t489!=557886) goto L117;
-       t489=h;
-       heap[h]=110;
-       h=h+1;
-       heap[h]=117;
-       h=h+1;
-       heap[h]=108;
-       h=h+1;
-       heap[h]=108;
-       h=h+1;
-       heap[h]=557886;
-       h=h+1;
-   L117:
-       t490=p+3;
-       t491=t490+1;
-       stack[t491]=t488;//apuntador o1 heap
-       t492=t490+2;
-       stack[t492]=t489;//apuntador o2 heap
-       p=p+3;
-       call concat_olcp2jjps();
-       t493=stack[p];
-       p=p-3;
-       if(t493!=557886) goto L118;
-       t493=h;
-       heap[h]=110;
-       h=h+1;
-       heap[h]=117;
-       h=h+1;
-       heap[h]=108;
-       h=h+1;
-       heap[h]=108;
-       h=h+1;
-       heap[h]=557886;
-       h=h+1;
-   L118:
-       t494=p+1;//posicion del this
-       t495=stack[t494];//obtengo posicion del this
-       t496=t495+2;//ref
-       t497=heap[t496];//valor
-       if(t497!=557886) goto L119;
-       t497=h;
-       heap[h]=110;
-       h=h+1;
-       heap[h]=117;
-       h=h+1;
-       heap[h]=108;
-       h=h+1;
-       heap[h]=108;
-       h=h+1;
-       heap[h]=557886;
-       h=h+1;
-   L119:
-       t498=p+3;
-       t499=t498+1;
-       stack[t499]=t493;//apuntador o1 heap
-       t500=t498+2;
-       stack[t500]=t497;//apuntador o2 heap
-       p=p+3;
-       call concat_olcp2jjps();
-       t501=stack[p];
-       p=p-3;
-       if(t501==557886) goto L120;
-       t502=p+3;
-       t503=t502+1;
-       stack[t503]=t501;
-       p=p+3;
-       call print_olcp2jjps();
-       p=p-3;
-       goto L121;
-   L120:
-       print("%c",110);
-       print("%c",117);
-       print("%c",108);
-       print("%c",108);
-   L121:
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-       t504=p+1;//posicion del this
-       t505=stack[t504];//obtengo posicion del this
-       t1=43;
-       t2=15;
-       if(t505==557886) goto nullex;
-       t508=t505+3;//ref
-       t510=heap[t508];//valor
-       t1=43;
-       t2=17;
-       if(t510==557886) goto nullex;
-       t513=t510+2;//ref
-       t515=heap[t513];//valor
-       if(t515!=557886) goto L122;
-       t515=h;
-       heap[h]=110;
-       h=h+1;
-       heap[h]=117;
-       h=h+1;
-       heap[h]=108;
-       h=h+1;
-       heap[h]=108;
-       h=h+1;
-       heap[h]=557886;
-       h=h+1;
-   L122:
-       t516=p+1;//posicion del this
-       t517=stack[t516];//obtengo posicion del this
-       t1=43;
-       t2=25;
-       if(t517==557886) goto nullex;
-       t520=t517+3;//ref
-       t522=heap[t520];//valor
-       t1=43;
-       t2=27;
-       if(t522==557886) goto nullex;
-       t525=t522+1;//ref
-       t527=heap[t525];//valor
-       t528=p+3;
-       t529=t528+1;
-       stack[t529]=t527;
-       t530=t528+2;
-       stack[t530]=0;
-       p=p+3;
-       call ftoa();
-       t531=stack[p];
-       p=p-3;
-       t532=p+3;
-       t533=t532+1;
-       stack[t533]=t515;//apuntador o1 heap
-       t534=t532+2;
-       stack[t534]=t531;//apuntador o2 heap
-       p=p+3;
-       call concat_olcp2jjps();
-       t535=stack[p];
-       p=p-3;
-       if(t535==557886) goto L123;
-       t536=p+3;
-       t537=t536+1;
-       stack[t537]=t535;
-       p=p+3;
-       call print_olcp2jjps();
-       p=p-3;
-       goto L124;
-   L123:
-       print("%c",110);
-       print("%c",117);
-       print("%c",108);
-       print("%c",108);
-   L124:
-       print("%c",10);
-/*########    SENTENCIA println    ########*/
-       t538=p+1;//posicion del this
-       t539=stack[t538];//obtengo posicion del this
-       t1=44;
-       t2=15;
-       if(t539==557886) goto nullex;
-       t542=t539+3;//ref
-       t544=heap[t542];//valor
-       t1=44;
-       t2=17;
-       if(t544==557886) goto nullex;
-       t547=t544+3;//ref
-       t549=heap[t547];//valor
-       t1=44;
-       t2=17;
-       if(t549==557886) goto nullex;
-       t551=heap[t549];
-       if (0>=t551) goto L2;
-       t552=1+0;
-       t553=t549+t552;
-       t554=heap[t553];
-       print("%e",t554);
-       print("%c",10);
+void p_b(){
    L116:
 }
+void id_int_int_b(){
+/*########    sentencia return    ########*/
+       t479=p+0;
+       t480=p+2;//ref
+       t481=stack[t480];//valor
+       t482=p+3;//ref
+       t483=stack[t482];//valor
+       t484=t481+t483;
+       t485=t484*2;
+       stack[t479]=t485;
+       goto L117;
+   L117:
+}
+void par_ArrayCAAS_c(){
+/*########    SENTENCIA println    ########*/
+       t486=p+2;//ref
+       t487=stack[t486];//valor
+       t1=70;
+       t2=10;
+       if(t487==557886) goto nullex;
+       t489=heap[t487];
+       if (2>=t489) goto L2;
+       t490=1+2;
+       t491=t487+t490;
+       t492=heap[t491];
+       print("%e",t492);
+       print("%c",10);
+/*########    SENTENCIA println    ########*/
+       t493=p+2;//ref
+       t494=stack[t493];//valor
+/*########    SENTENCIA LLAMADA     ########*/
+       t495=p+3;
+       stack[t495]=t486;//guardo temporal
+       t495=p+4;
+       stack[t495]=t487;//guardo temporal
+       t495=p+5;
+       stack[t495]=t488;//guardo temporal
+       t495=p+6;
+       stack[t495]=t489;//guardo temporal
+       t495=p+7;
+       stack[t495]=t490;//guardo temporal
+       t495=p+8;
+       stack[t495]=t491;//guardo temporal
+       t495=p+9;
+       stack[t495]=t492;//guardo temporal
+       t495=p+10;
+       stack[t495]=t493;//guardo temporal
+       t495=p+11;
+       stack[t495]=t494;//guardo temporal
+       t496=p+12;//cambio simulado
+       t497=t496+1;
+       t1=71;
+       t2=12;
+       if(t494==557886) goto nullex;
+       stack[t497]=t494;
+       t499=t496+2;
+       stack[t499]=1;
+       p=p+12;//cambio real
+       call getSize();
+//valor retorno
+       t500=p+0;
+       t501=stack[t500];
+       p=p-12;//cambio real
+       t495=p+3;
+       t486=stack[t495];//saco temporal
+       t495=p+4;
+       t487=stack[t495];//saco temporal
+       t495=p+5;
+       t488=stack[t495];//saco temporal
+       t495=p+6;
+       t489=stack[t495];//saco temporal
+       t495=p+7;
+       t490=stack[t495];//saco temporal
+       t495=p+8;
+       t491=stack[t495];//saco temporal
+       t495=p+9;
+       t492=stack[t495];//saco temporal
+       t495=p+10;
+       t493=stack[t495];//saco temporal
+       t495=p+11;
+       t494=stack[t495];//saco temporal
+       print("%e",t501);
+       print("%c",10);
+   L118:
+}
+void mw_d(){
+/*########    sentencia return    ########*/
+       t502=p+0;
+       stack[t502]=557886;
+       goto L119;
+   L119:
+}
        L1:
-       call main();
+       call main_temporal();
+       goto L2;
+       nullex:
+       print("%e",557886);
        L2:

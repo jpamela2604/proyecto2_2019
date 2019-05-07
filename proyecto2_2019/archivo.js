@@ -35,15 +35,20 @@ var raiz = exec(bnf);
 err.adding();
 
 raiz.comprobacion_global(tabla,err);
-raiz.comprobacion(tabla,err);
 err.imprimir();
+
+if(err.size()==0)
+{
+    raiz.comprobacion(tabla,err);
+    err.imprimir();
+}
 
 if(err.size()==0)
 {
     raiz.traduccion_global(tabla,trad);
     raiz.traducir(tabla,trad);   
     trad.imprimir(trad.in+":");
-    trad.imprimir("call main();")
+    trad.imprimir("call main_temporal();")
     trad.imprimir(trad.salida+":");
     //trad.imprimir("call metojjpsmain_();");
 }

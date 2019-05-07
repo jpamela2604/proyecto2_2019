@@ -35,7 +35,8 @@ const privado=202;
 const estatico=203;
 const ffinal=204;
 const abstracto=205;
-
+const vieneSuper=-1;
+const banderaSuper=false;
 function getMod(m)
 {
     if(m==publico)
@@ -242,4 +243,6 @@ module.exports.etiquetaToTemp=etiquetaToTemp;
 module.exports.getMod=getMod;
 module.exports.nulo=nulo;
 module.exports.arreglo=arreglo;
+module.exports.vieneSuper=vieneSuper;
+module.exports.banderaSuper=banderaSuper;
 //console.log("a "+suma[3][5]);

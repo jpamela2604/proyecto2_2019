@@ -14,7 +14,6 @@ class s_declaracionL{
         this.columna=columna;
         this.archivo=archivo; 
         this.hash=hash;
-        this.v=null;
         //console.log(tipo);
     }
     comprobacion_global(ts,er)
@@ -53,25 +52,27 @@ class s_declaracionL{
         this.testthis(ts,er);
     }
     traducir(ts,traductor)
-    {
-        
-       traductor.comentario("DECLARACION");
+    {        
+      
             var visibilidad=0;
             var modificador=0;
             for(var i=0;i<this.declas.length;i++)
-            {                
+            { 
+                         
                 var mide=this.declas[i];
+                traductor.comentario("DECLARACION "+mide.id);     
                 var posicion=ts.getPosicion(false);
                 var iden=new identificador(mide.id,null);
                 var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
                 ts.getAmbito(false),mide.noDimensiones,visibilidad,modificador
                                 );
-                simb.vars=this.v;
+               
+                simb.vars=this.getVars(mide.tipo,ts);
                 ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
                 ts.AumentarPos(false);
                 
                 var tx=valores.getTemporal();
-                traductor.imprimir(tx+"=p+"+posicion+";");
+                traductor.imprimir(tx+"=p+"+posicion+";//+pos");
                 if(mide.valor==null)
                 {
                     traductor.imprimir("stack["+tx+"]="+this.getValorDefault(mide.tipo,traductor)+";");
@@ -118,24 +119,7 @@ class s_declaracionL{
 
     testthis(ts,er)
     {
-        var miv=null;
-        //comprobar que el tipo sea valido
-        if(this.tipo.indice==tablaTipos.objeto)
-        {
-            //console.log(this.tipo);
-            if(!ts.ispermitido(this.tipo.nombre))
-            {
-                er.addError("No se encontro la clase "+this.tipo.nombre,this.linea,this.columna,this.archivo,
-                "SEMANTICO");
-                return ;
-            }else
-            {
-                miv=ts.getpermitido(this.tipo.nombre);
-            }
-        }else if(this.tipo.indice==tablaTipos.cadena)
-        {
-            miv=ts.getpermitido(this.tipo.nombre);
-        }
+        
         //console.log(this.declas);
         if(this.tipo.indice==tablaTipos.vacio)
         {
@@ -161,7 +145,7 @@ class s_declaracionL{
                 var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
                 ts.getAmbito(false),mide.noDimensiones,visibilidad,modificador
                 );
-                simb.vars=miv;
+                simb.vars=this.getVars(mide.tipo,ts);
                 ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
             }else
             {
@@ -183,7 +167,7 @@ class s_declaracionL{
                             var simb=new simbolo(mide.tipo,null,iden,tablaTipos.rol_variable,posicion,
                             ts.getAmbito(false),mide.noDimensiones,visibilidad,modificador
                             );
-                            simb.vars=miv;
+                            simb.vars=this.getVars(mide.tipo,ts);
                             ts.AgregarSimbolo(simb,false,mide.linea,mide.columna,mide.archivo);
 
                         }else
@@ -196,7 +180,32 @@ class s_declaracionL{
                 }
             }
         }
-        this.v=miv;
+       
+    }
+    getVars(tipo,ts)
+    {
+        var miv=null;
+        if(tipo.indice==tablaTipos.objeto)
+        {
+            //console.log(this.tipo);
+            if(!ts.ispermitido(tipo.nombre))
+            {
+                er.addError("No se encontro la clase "+tipo.nombre,this.linea,this.columna,this.archivo,
+                "SEMANTICO");
+                return ;
+            }else
+            {
+                miv=ts.getpermitido(tipo.nombre);
+            }
+        }else if(tipo.indice==tablaTipos.cadena)
+        {
+            miv=ts.getpermitido(tipo.nombre);
+        }else if(tipo.indice==tablaTipos.arreglo)
+        {
+            miv=ts.getpermitido("Arreglo CAAS");
+        }
+
+        return miv;
     }
 }
 

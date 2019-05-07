@@ -44,21 +44,22 @@ class ejecucion{
     }
     imprimir(cad)
     {
-        
+       /* 
         this.cadena=this.cadena+cad;
         if(cad=="\n")
         {
             this.cadena=this.cadena+"<< ";
         }
-        //console.log(cad);
-       /*if(cad=="\n")
+        */
+       // console.log(cad);
+       if(cad=="\n")
        {
             console.log(this.cadena);
             this.cadena="";
        }else
        {
             this.cadena=this.cadena+cad;
-       }*/
+       }
         
         
     }
@@ -120,7 +121,7 @@ class ejecucion{
     }
     save(cad)
     {
-        fs.appendFileSync("debuggin.txt",cad);
+        //fs.appendFileSync("debuggin.txt",cad);
     }
 
 }

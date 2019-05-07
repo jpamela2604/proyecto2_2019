@@ -1,46 +1,80 @@
-class miclas
-{
-	int d=555;
-	String mc="xxxx";
-	int a[];
-	void main()
+class temporal {
+	public void main()
 	{
-		String o="pamLAS palacIOS";
-		char das[]=o.toCharArray();
-		for(char pr:das)
-		{
-			println(pr);
-		}
+		d u=new d();
+		//u.mw().id(5,6);
+		/*int a[][]=new int[10][5],b=1012;
+		b v2=new b(8);		
+		println("size "+a.length());
+		println("b "+b);
+		println(v2.h);
+		c v8=new c();
+		println("size v"+v8.ra.length());
+		println("b v"+v8.rb);
+		int sue[]={4,5,67,8};
+	 	v8.par(sue);
+		*/
 
 	}
-	
-	public miclas(int dd,String c)
+	public void a()
 	{
-		this.d=dd;
-		mc=c;
 	}
-	public int a()
+}
+class a
+{
+	int a=5;
+	public a()
 	{
-		return d*5;
+		a=100000;
+	}
+	public a(int c)
+	{
+		a=200000;
+		//println("aa");
+	}
+	public  int id(int aa,int ab)
+	{
+		return (aa+ab)*3;
 	}
 }
 
-class otra
+class b extends a
 {
-	int var;
-	String c;
-	miclas m;
-	
-	public otra(int var,String c)
+	int b=6;
+	int a=78+super.a;
+	int h=10+this.b;
+	public b()
 	{
-		this.var=var;
-		this.c=c;
-		this.m=new miclas(3696,"miss");
+		b=56;
 	}
-	public void funciona()
+	public b(int a)
 	{
-		println(var+" "+c);
-		println(this.m.mc+this.m.d);
-		println(this.m.a[0]);
+		//super(3);
+		println(super.a);
+	}
+	public void p()
+	{
+	}
+	@Override
+	public int id(int aa,int ab)
+	{
+		return (aa+ab)*2;
+	}
+}
+class c extends b
+{
+	int c=7;
+	int ra[][]=new int[11][5],rb=6312;
+	public void par(int a[])
+	{
+		println(a[2]);
+		println(a.length());
+	}
+}
+class d 
+{
+	public c mw()
+	{
+		return null;
 	}
 }
