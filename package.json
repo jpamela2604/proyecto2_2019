@@ -20,7 +20,7 @@
   },
   "homepage": "https://gitlab.com/jpamela.palacios2604/proyecto2_2019#readme",
   "dependencies": {
-    "aws-sdk": "^2.429.0",
+    "aws-sdk": "^2.814.0",
     "uuid": "^3.3.2"
   }
 }
